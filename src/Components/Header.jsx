@@ -140,14 +140,13 @@ const Header = () => {
      dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700"
   >
     <li>
-      <a
-        href="#"
+      <NavLink to="/"
         className="block py-2 px-3 rounded 
     hover:text-blue-500 text-white
    "
       >
         Home
-      </a>
+      </NavLink>
     </li>
     <li>
       <NavLink to='/allPolicies'

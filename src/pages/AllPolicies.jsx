@@ -19,14 +19,14 @@ const AllPolicies = () => {
 
     return (
         <div>
-           <h1>ALL Policy </h1>
+           <h1 className='font-bold text-center  shadow rounded-2xl p-4 text-4xl text-blue-900'>Check Out Our All Policy</h1>
 
- <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+ <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-12'>
            {allPolicies.map(policy=>(
 
 
  <NavLink to={`/allPolicies/${policy._id}`}>
-    <div className=" text-center max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <div data-aos='zoom-out-left' className="  text-center max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
       
         <img className="rounded-t-lg w-46 h-46 object-contain mx-auto" src={policy.image} alt="" />
   
