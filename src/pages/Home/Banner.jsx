@@ -94,7 +94,7 @@ const Banner = () => {
                 
     <div className='flex-1'  >
    <motion.img
-    src={img1}
+    src={img4}
     alt=""
     className="shadow-xl rounded-xl p-6 border-gray-500"
     initial={{ opacity: 0, y: 50 }}

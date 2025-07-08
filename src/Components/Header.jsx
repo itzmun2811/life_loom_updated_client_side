@@ -150,14 +150,14 @@ const Header = () => {
       </a>
     </li>
     <li>
-      <a
+      <NavLink to='/allPolicies'
         href="#"
         className="block py-2 px-3 rounded 
     hover:text-blue-500 text-white
    "
       >
    All Policy
-      </a>
+      </NavLink>
     </li>
     <li>
       <a

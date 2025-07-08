@@ -4,6 +4,8 @@ import MainLayOut from "../LayOut/MainLayOut";
 import Home from "../pages/Home/Home";
 import Login from "../Components/Login";
 import Register from "../Components/Register";
+import AllPolicies from "../pages/AllPolicies";
+import PolicyDetails from "../pages/PolicyDetails";
 
 export const router = createBrowserRouter([
   
@@ -19,7 +21,15 @@ export const router = createBrowserRouter([
     {
     path: "/login",
     element: <Login></Login>,
-  }
+  },
+    {
+    path: "/allPolicies",
+    element: <AllPolicies></AllPolicies>
+  },
+    {
+    path: "/allPolicies/:id",
+    element: <PolicyDetails></PolicyDetails>
+  },
   
   
   
