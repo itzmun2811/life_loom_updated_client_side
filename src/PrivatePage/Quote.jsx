@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useParams } from 'react-router';
 
 const Quote = () => {
+    const {policyName} =useParams();
+    console.log(policyName)
  const [estimatedPremium, setEstimatedPremium] = useState(null);
 
    const handleSubmit =(e)=>{
@@ -41,13 +43,14 @@ const Quote = () => {
    }
  return (
         <div>
-            quote
+         	<h1 data-aos='zoom-in' className='text-2xl text-center font-bold text-blue-950 mt-6 pt-6'>Get Estimated Quote</h1>
+         	<h1 className='text-xl font-bold text-center text-blue-950 mt-2 pt-2'>Policy Name:{policyName}</h1>
 
-<section className="p-6 dark:bg-gray-100 dark:text-gray-900">
+<section data-aos='flip-right' className="p-6 dark:bg-gray-100 dark:text-gray-900 my-6 py-6">
 	<form noValidate="" onSubmit={handleSubmit} className="container flex flex-col mx-auto space-y-12">
 		<fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-50">
 			<div className="space-y-2 col-span-full lg:col-span-1">
-			
+		
 {estimatedPremium && (
             <div className="bg-white p-4 rounded shadow-md text-gray-900 dark:text-gray-900 dark:bg-gray-200 mt-6">
               <h3 className="text-lg font-semibold mb-2">Estimated Premium</h3>
@@ -62,6 +65,7 @@ const Quote = () => {
 			</div>
 			<div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
 				<div className="col-span-full sm:col-span-3">
+                    
 					<label htmlFor="age" className="text-sm">Age</label>
 					<input name='age' required id="age" type="number"   placeholder="Age" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
 				</div>
@@ -123,7 +127,7 @@ const Quote = () => {
   </button>
 
   <NavLink
-    to="/application"
+    to="/application"  state={{ policyName: policyName }}
     className="text-white bg-gradient-to-r from-blue-700 to-blue-600 hover:bg-gradient-to-br
                focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800
                font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-block"

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import Payment from "../pages/Payment/Payment";
 import MainLayOut from "../LayOut/MainLayOut";
 import Home from "../pages/Home/Home";
@@ -6,8 +6,9 @@ import Login from "../Components/Login";
 import Register from "../Components/Register";
 import AllPolicies from "../pages/AllPolicies";
 import PolicyDetails from "../pages/PolicyDetails";
-import Quote from "../PrivatePage/Quote";
+
 import ApplicationForm from "../PrivatePage/ApplicationForm";
+import Quote from "../PrivatePage/Quote";
 
 export const router = createBrowserRouter([
   
@@ -32,9 +33,12 @@ export const router = createBrowserRouter([
     path: "/allPolicies/:id",
     element: <PolicyDetails></PolicyDetails>
   },
-  
+  {
+   path:'/quote',
+   element:<Navigate to='/quote/defaultPolicy'></Navigate>
+  },
  {
-    path: "/quote",
+    path: "/quote/:policyName",
     element: <Quote></Quote>
   },
  {
