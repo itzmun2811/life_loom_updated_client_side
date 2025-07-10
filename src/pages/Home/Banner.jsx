@@ -2,7 +2,7 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Mousewheel, Pagination } from 'swiper/modules';
+import { Autoplay, Mousewheel, Pagination } from 'swiper/modules';
 import { motion } from 'framer-motion';
 
 import img2 from '../../assets/father-daughter-putting-money-piggy-bank.jpg'
@@ -16,14 +16,13 @@ const Banner = () => {
         <div className='mx-auto m-6' >
        <Swiper
         direction={'vertical'}
-        onAutoplay={true}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
         slidesPerView={1}
         spaceBetween={30}
-        mousewheel={true}
         pagination={{
           clickable: true,
         }}
-        modules={[Mousewheel, Pagination]}
+        modules={[Autoplay,Pagination]}
         className="mySwiper"
           style={{ height: '100vh' }}
       >
