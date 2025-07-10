@@ -2,7 +2,6 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Select from 'react-select';
 import useAxiosSecure from '../hooks/useAxiosSecure';
-import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router';
 
 

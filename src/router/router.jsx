@@ -9,6 +9,8 @@ import PolicyDetails from "../pages/PolicyDetails";
 
 import ApplicationForm from "../PrivatePage/ApplicationForm";
 import Quote from "../PrivatePage/Quote";
+import Profile from "../pages/Profile/Profile";
+import FAQs from "../pages/FAQs";
 
 export const router = createBrowserRouter([
   
@@ -44,6 +46,21 @@ export const router = createBrowserRouter([
  {
     path: "/application",
     element: <ApplicationForm></ApplicationForm>
+  },
+  
+ {
+    path: "/profile",
+    element: <Profile></Profile>
+  },
+  
+ {
+    path: "/faq",
+    element: <FAQs></FAQs>
+  },
+  
+ {
+    path: "/profile",
+    element: <Profile></Profile>
   },
   
   

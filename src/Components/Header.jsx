@@ -42,7 +42,7 @@ const Header = () => {
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="w-8 h-8 rounded-full"
-                    src={user?.photoURL || '/default-user.png'}
+                    src={user?.photoURL }
                     alt="user"
                   />
                 </button>
@@ -169,14 +169,13 @@ const Header = () => {
       </a>
     </li>
     <li>
-      <a
-        href="#"
+      <NavLink to='/faq'
         className="block py-2 px-3 rounded 
     hover:text-blue-500 text-white
    "
       >
      FAQS
-      </a>
+      </NavLink>
     </li>
     <li>
       <a
