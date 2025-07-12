@@ -1,7 +1,7 @@
 import React, { use } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../context/AuthContext';
-import { Link, replace, useLocation, useNavigate } from 'react-router';
+import { Link,useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../shared/socialLogin/SocialLogin';
 import lifeimg from '../../src/assets/life.jpg'
 

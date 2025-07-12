@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { use } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Select from 'react-select';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import { useLocation } from 'react-router';
+import { AuthContext } from '../context/AuthContext';
+import Swal from 'sweetalert2';
 
 
 
 const ApplicationForm = () => {
     const {register,handleSubmit,control} =useForm();
+    const {user}=use(AuthContext);
     const axiosSecure=useAxiosSecure();
      const location = useLocation();
-    const policyName = location.state?.policyName || 'Unknown';
+    const  { policyDetails = {}, estimatedPremium = null } = location.state ;
+    console.log(policyDetails)
 
 const options = [
   { value: 'Diabetes', label: 'Diabetes' },
@@ -27,7 +31,12 @@ const onSubmit=async(data)=>{
   console.log(data)
   const newData={
     ...data,
+    name:policyDetails.title,
+    coverage:estimatedPremium.coverage,
+    duration:estimatedPremium.duration,
     status: 'pending',
+    mothlyPremium:estimatedPremium.mothly,
+    annualPremium:estimatedPremium.annual,
     created_at:new Date().toISOString(),
   }
 
@@ -37,6 +46,14 @@ console.log(newData)
   try{
       const res =await axiosSecure.post('/allApplication',newData);
       console.log(res.data)
+    
+Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Application submitted successfully",
+  showConfirmButton: false,
+  timer: 1500
+});
   }
   catch(error){
     console.log(error)
@@ -50,7 +67,7 @@ console.log(newData)
         <div>
          
         <h1 data-aos='zoom-in' className='text-2xl text-center font-bold text-blue-950 mt-6 pt-6'>Apply for Policy</h1>    
-        <h1 data-aos='zoom-out' className='text-xl text-center font-bold text-blue-950 mt-3 pt-3'>Policy Name :{policyName}</h1>    
+        <h1 data-aos='zoom-out' className='text-xl text-center font-bold text-blue-950 mt-3 pt-3'>Policy Name :{policyDetails.title}</h1>    
 
 <section data-aos='zoom-in-down' className="bg-white dark:bg-gray-900">
   <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
@@ -68,12 +85,12 @@ console.log(newData)
             htmlFor="name"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Name
+       Name
           </label>
           <input
             type="text"
            {...register('name',{required:true})}
-          
+            defaultValue={user?.displayName}
             id="name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             placeholder="Your Name"
@@ -89,6 +106,7 @@ console.log(newData)
           </label>
           <input
             type="email"
+            defaultValue={user?.email}
            {...register('email',{required:true})}
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"

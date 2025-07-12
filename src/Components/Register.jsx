@@ -5,10 +5,13 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../shared/socialLogin/SocialLogin';
 import axios from 'axios';
 import { useState } from 'react';
+import useAxios from '../hooks/useAxios';
+import Swal from 'sweetalert2';
 
 const Register = () => {
     const {createNewUser,updateUserProfile }=use(AuthContext);
     const [profilePicture,setProfilePicture]=useState('');
+    const axiosInstance= useAxios();
     const location = useLocation();
     const navigate = useNavigate();
     const from = location.state?.from?.pathname || '/';
@@ -20,16 +23,21 @@ const Register = () => {
    const onSubmit =data=>{
         console.log(data);
         createNewUser(data.email,data.password)
-        .then(res=>{
+        .then(async(res)=>{
             console.log(res.user);
 
             const userInfo ={
                 email:data.email,
-                role:'user',
+                role:'customer',
                 created_at:new Date().toISOString(),
                 last_log_in:new Date().toISOString()
             }
+           
+         const users = await axiosInstance.post('users',userInfo)
+        console.log('user created', users.data)
+         
 
+            
             const profileInfo={
                 displayName:data.name,
                 photoURL:profilePicture
@@ -39,6 +47,14 @@ const Register = () => {
        updateUserProfile(profileInfo)
        .then(()=>{
         console.log('profile updated')
+    
+    Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Successfully registered!!",
+  showConfirmButton: false,
+  timer: 1500
+    });
        })
        .catch((error)=>{
         console.log(error)

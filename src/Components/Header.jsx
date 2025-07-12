@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import Logo from '../shared/WebLogo/Logo';
 import { AuthContext } from '../context/AuthContext';
 import 'flowbite';
@@ -6,6 +6,7 @@ import { NavLink } from 'react-router';
 
 const Header = () => {
   const { user, logOut } = use(AuthContext);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogOut = () => {
     logOut()
@@ -27,65 +28,60 @@ const Header = () => {
           </a>
 
           {/* Right side user button or logout */}
-          <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <div className=" relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {user ? (
               <>
-                {/* Profile Image with Dropdown */}
-                <button
-                  type="button"
-                  className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  data-dropdown-toggle="user-dropdown"
-                  data-dropdown-placement="bottom"
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src={user?.photoURL }
-                    alt="user"
-                  />
-                </button>
+               <button
+  type="button"
+  onClick={() => setDropdownOpen(!dropdownOpen)}
+  className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+>
+  <span className="sr-only">Open user menu</span>
+  <img
+    className="w-8 h-8 rounded-full"
+    src={user?.photoURL || 'https://i.ibb.co/RSC4xRf/user.png'}
+    alt="User"
+  />
+</button>
 
-                {/* Dropdown */}
-                <div
-                  className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600"
-                  id="user-dropdown"
-                >
-                  <div className="px-4 py-3">
-                    <span className="block text-sm text-gray-900 dark:text-white">
-                      {user?.displayName || 'User'}
-                    </span>
-                    <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-                      {user?.email}
-                    </span>
-                  </div>
-                  <ul className="py-2" aria-labelledby="user-menu-button">
-                    <li>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600">
-                        Dashboard
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600">
-                        Settings
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600">
-                        Earnings
-                      </a>
-                    </li>
-                    <li>
-                      <button
-                        onClick={handleLogOut}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
-                      >
-                        Sign out
-                      </button>
-                    </li>
-                  </ul>
-                </div>
+{/* Dropdown */}
+{dropdownOpen && (
+  <div
+    className="absolute top-15 right-10 z-50 mt-2 w-48 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600"
+  >
+    <div className="px-4 py-3">
+      <span className="block text-sm text-gray-900 dark:text-white">
+        {user?.displayName}
+      </span>
+      <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
+        {user?.email}
+      </span>
+    </div>
+    <ul className="py-2">
+      <li>
+        <NavLink
+          to="/profile"
+          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+          onClick={() => setDropdownOpen(false)}
+        >
+          Profile
+        </NavLink>
+      </li>
+      <li>
+        <button
+          onClick={() => {
+            handleLogOut();
+            setDropdownOpen(false);
+          }}
+          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+        >
+          Sign out
+        </button>
+      </li>
+    </ul>
+  </div>
+)}
+
               </>
             ) : (
               <button
@@ -178,17 +174,14 @@ const Header = () => {
       </NavLink>
     </li>
     <li>
-      <a
-        href="#"
+      <NavLink to='/dashboard'
         className="block py-2 px-3 rounded 
     hover:text-blue-500 text-white
    "
       >
      Dashboard
-      </a>
+      </NavLink>
     </li>
-  
-   
    
     
    

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import { NavLink, useParams } from 'react-router';
+import React, { use, useState } from 'react';
+import { NavLink, useLocation } from 'react-router';
+import { AuthContext } from '../context/AuthContext';
 
 const Quote = () => {
-    const {policyName} =useParams();
-    console.log(policyName)
+
+    const {user} =use(AuthContext);
+    const location = useLocation();
+    const policyDetails = location.state || '';
+    console.log(policyDetails)
  const [estimatedPremium, setEstimatedPremium] = useState(null);
 
    const handleSubmit =(e)=>{
@@ -35,6 +39,7 @@ const Quote = () => {
       monthly: monthlyPremium.toFixed(2),
       annual: totalAnnualPremium.toFixed(2),
       duration: duration,
+      coverage:coverage
     });
 
 
@@ -44,7 +49,7 @@ const Quote = () => {
  return (
         <div>
          	<h1 data-aos='zoom-in' className='text-2xl text-center font-bold text-blue-950 mt-6 pt-6'>Get Estimated Quote</h1>
-         	<h1 className='text-xl font-bold text-center text-blue-950 mt-2 pt-2'>Policy Name:{policyName}</h1>
+         	<h1 className='text-xl font-bold text-center text-blue-950 mt-2 pt-2'>Policy Name:{policyDetails.title}</h1>
 
 <section data-aos='flip-right' className="p-6 dark:bg-gray-100 dark:text-gray-900 my-6 py-6">
 	<form noValidate="" onSubmit={handleSubmit} className="container flex flex-col mx-auto space-y-12">
@@ -127,7 +132,7 @@ const Quote = () => {
   </button>
 
   <NavLink
-    to="/application"  state={{ policyName: policyName }}
+    to="/application"  state={{ policyDetails,estimatedPremium}} 
     className="text-white bg-gradient-to-r from-blue-700 to-blue-600 hover:bg-gradient-to-br
                focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800
                font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-block"

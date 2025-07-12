@@ -8,9 +8,14 @@ import AllPolicies from "../pages/AllPolicies";
 import PolicyDetails from "../pages/PolicyDetails";
 
 import ApplicationForm from "../PrivatePage/ApplicationForm";
-import Quote from "../PrivatePage/Quote";
+
 import Profile from "../pages/Profile/Profile";
 import FAQs from "../pages/FAQs";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import Quote from "../PrivatePage/Quote"
+import DashBoard from "../pages/DashBoard/DashBoard";
+import MyPolicies from "../pages/DashBoard/CustomerDashboard/MyPolicies";
+import ReviewPage from "../pages/DashBoard/CustomerDashboard/ReviewPage";
 
 export const router = createBrowserRouter([
   
@@ -27,6 +32,11 @@ export const router = createBrowserRouter([
     path: "/login",
     element: <Login></Login>,
   },
+  {
+    path: "/register",
+    element: <Register></Register>,
+  },
+ 
     {
     path: "/allPolicies",
     element: <AllPolicies></AllPolicies>
@@ -35,17 +45,14 @@ export const router = createBrowserRouter([
     path: "/allPolicies/:id",
     element: <PolicyDetails></PolicyDetails>
   },
-  {
-   path:'/quote',
-   element:<Navigate to='/quote/defaultPolicy'></Navigate>
-  },
+
  {
-    path: "/quote/:policyName",
-    element: <Quote></Quote>
-  },
+  path:'/quote',
+  element:<PrivateRoute><Quote></Quote></PrivateRoute>
+ },
  {
     path: "/application",
-    element: <ApplicationForm></ApplicationForm>
+    element:<PrivateRoute><ApplicationForm></ApplicationForm></PrivateRoute>
   },
   
  {
@@ -57,10 +64,23 @@ export const router = createBrowserRouter([
     path: "/faq",
     element: <FAQs></FAQs>
   },
+ {
+    path: "/review",
+    element: <ReviewPage></ReviewPage>
+  },
   
  {
     path: "/profile",
     element: <Profile></Profile>
+  },
+ {
+    path: "/myPolicy",
+    element:<PrivateRoute><MyPolicies></MyPolicies></PrivateRoute>
+  },
+  
+ {
+    path: "/dashboard",
+    element:<DashBoard></DashBoard>
   },
   
   
@@ -72,9 +92,4 @@ export const router = createBrowserRouter([
     element: <Payment></Payment>,
   },
 
-  {
-    path: "/register",
-    element: <Register></Register>,
-  },
- 
 ]);

@@ -1,9 +1,11 @@
 import React, { use } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useLocation, useNavigate } from 'react-router';
+import useAxios from '../../hooks/useAxios';
 
 const SocialLogin = () => {
     const {googleSignIn}=use(AuthContext);
+    const axiosInstance =useAxios();
     const location =useLocation();
     const navigate= useNavigate();
     const from=location?.state?.from?.pathname || '/';
@@ -16,10 +18,13 @@ const SocialLogin = () => {
         
                const userInfo ={
                 email:user.email,
-                role:'user',
+                role:'customer',
                 created_at:new Date().toISOString(),
                 last_log_in:new Date().toISOString()
             }
+              
+            const response=await axiosInstance.post('/users',userInfo)
+            console.log(response.data)
 
 
 

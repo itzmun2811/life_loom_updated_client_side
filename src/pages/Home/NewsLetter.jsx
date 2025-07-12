@@ -30,9 +30,9 @@ const Newsletter = () => {
     <div data-aos='zoom-in-right' className="w-11/12 my-12 mx-auto p-6 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-white">
       <h2 className="text-xl font-semibold mb-4 text-center">Subscribe to Our Newsletter</h2>
 
-        <p className="text-green-500 text-center">Thank you for subscribing!</p>
+       
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form data-aos='fade-right' onSubmit={handleSubmit} className="space-y-4 shadow-2xl rounded-2xl">
           <input
             type="text"
             name="name"
@@ -49,7 +49,7 @@ const Newsletter = () => {
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            className=" mx-auto w-3/4 p-7 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
           >
             Subscribe
           </button>
