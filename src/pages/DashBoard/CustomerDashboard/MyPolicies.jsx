@@ -37,9 +37,7 @@ const MyPolicies = () => {
   
 
 console.log(myPolicies)
-   if(isLoading){
-   return <p>loading.....</p>
-   }
+   
 
     return (
         <div className='w-11/12 mx-auto my-12 py-8'>

@@ -3,6 +3,7 @@ import { NavLink } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
 import CustomerMenu from './DashBoardMenu/CustomerMenu';
 import MyPolicies from './CustomerDashboard/MyPolicies';
+import PaymentStatus from './CustomerDashboard/PaymentStatus';
 
 const DashBoard = () => {
     const {user}= use(AuthContext)
@@ -10,6 +11,7 @@ const DashBoard = () => {
   return (
     <div className='my-12'>
     <MyPolicies></MyPolicies>
+    <PaymentStatus></PaymentStatus>
      <h1 className='text-4xl text-blue-700 text-center'>My Dashboard</h1>
     {user?.role === "customer" && <CustomerMenu></CustomerMenu>}
     </div>

@@ -6,16 +6,14 @@ import Login from "../Components/Login";
 import Register from "../Components/Register";
 import AllPolicies from "../pages/AllPolicies";
 import PolicyDetails from "../pages/PolicyDetails";
-
 import ApplicationForm from "../PrivatePage/ApplicationForm";
-
 import Profile from "../pages/Profile/Profile";
 import FAQs from "../pages/FAQs";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import Quote from "../PrivatePage/Quote"
 import DashBoard from "../pages/DashBoard/DashBoard";
 import MyPolicies from "../pages/DashBoard/CustomerDashboard/MyPolicies";
-import ReviewPage from "../pages/DashBoard/CustomerDashboard/ReviewPage";
+import PaymentPage from "../pages/DashBoard/CustomerDashboard/PaymentPage";
 
 export const router = createBrowserRouter([
   
@@ -65,11 +63,10 @@ export const router = createBrowserRouter([
     element: <FAQs></FAQs>
   },
  {
-    path: "/review",
-    element: <ReviewPage></ReviewPage>
+    path: "/payment/:id",
+    element: <PaymentPage></PaymentPage>
   },
-  
- {
+  {
     path: "/profile",
     element: <Profile></Profile>
   },
