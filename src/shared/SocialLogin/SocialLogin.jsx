@@ -28,7 +28,7 @@ const SocialLogin = () => {
 
 
 
-            navigate(from,{replace : true})
+            navigate(from)
 
         })
         .catch((error)=>{

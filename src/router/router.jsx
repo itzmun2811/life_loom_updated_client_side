@@ -10,10 +10,19 @@ import ApplicationForm from "../PrivatePage/ApplicationForm";
 import Profile from "../pages/Profile/Profile";
 import FAQs from "../pages/FAQs";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
-import Quote from "../PrivatePage/Quote"
-import DashBoard from "../pages/DashBoard/DashBoard";
-import MyPolicies from "../pages/DashBoard/CustomerDashboard/MyPolicies";
+import Quote from "../PrivatePage/Quote";
+import MyPolicies from "../pages/DashBoard/CustomerDashboard/MyPolicies"
+
+import Dashboard from "../pages/DashBoard/AdminDashboard/Dashboard";
+import ManageAgents from "../pages/DashBoard/AdminDashboard/ManageAgents";
+import ManageUsers from "../pages/DashBoard/AdminDashboard/ManageUsers";
+import ManagePolicies from "../pages/DashBoard/AdminDashboard/ManagePolicies";
+import ManageApplication from "../pages/DashBoard/AdminDashboard/ManageApplication";
+import ManageTransactions from "../pages/DashBoard/AdminDashboard/ManageTransactions";
 import PaymentPage from "../pages/DashBoard/CustomerDashboard/PaymentPage";
+import PaymentStatus from "../pages/DashBoard/CustomerDashboard/PaymentStatus";
+import ClaimPayment from "../pages/DashBoard/CustomerDashboard/ClaimPayment";
+
 
 export const router = createBrowserRouter([
   
@@ -62,31 +71,68 @@ export const router = createBrowserRouter([
     path: "/faq",
     element: <FAQs></FAQs>
   },
- {
-    path: "/payment/:id",
-    element: <PaymentPage></PaymentPage>
-  },
+ 
   {
     path: "/profile",
     element: <Profile></Profile>
   },
- {
-    path: "/myPolicy",
-    element:<PrivateRoute><MyPolicies></MyPolicies></PrivateRoute>
-  },
+ 
+ 
   
- {
-    path: "/dashboard",
-    element:<DashBoard></DashBoard>
-  },
-  
-  
-  
-  ]
+ 
+ ]
   },
   {
     path: "/payment",
     element: <Payment></Payment>,
   },
+   {
+    path:'/dashboard',
+    element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+    children:[
+{
+    path: "manageAgent",
+    element:<ManageAgents></ManageAgents>
+  },
+  
+ {
+    path: "manageApplication",
+    element:<ManageApplication></ManageApplication>
+  },
+  
+ {
+    path: "manageUsers",
+    element:<ManageUsers></ManageUsers>
+  },
+ {
+    path: "managePolicy",
+    element:<ManagePolicies></ManagePolicies>
+  },
+  
+ {
+    path: "manageTransaction",
+    element:<ManageTransactions></ManageTransactions>
+  
+  },
+  // CUSTOMER
+  {
+    path: "myPolicy",
+    element:<MyPolicies></MyPolicies>
+  },
+  {
+    path: "payment/:id",
+    element: <PaymentPage></PaymentPage>
+  },
+  {
+    path: "paymentStatus",
+    element: <PaymentStatus></PaymentStatus>
+  },
+  {
+    path: "claimPayments",
+    element: <ClaimPayment></ClaimPayment>
+  },
+
+    ]
+  }
 
 ]);

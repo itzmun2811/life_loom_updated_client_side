@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { use } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router';
 import useAxios from '../hooks/useAxios';
 import { useQuery } from '@tanstack/react-query';
+import { AuthContext } from '../context/AuthContext';
 
 const PolicyDetails = () => {
     const {id} =useParams();
+    const{user}=use(AuthContext);
+     console.log(user?.role)
  const axiosInstance =useAxios();
  
 

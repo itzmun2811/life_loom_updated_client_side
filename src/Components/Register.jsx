@@ -55,13 +55,16 @@ const Register = () => {
   showConfirmButton: false,
   timer: 1500
     });
+
+      navigate(from, { replace: true });
+      
        })
        .catch((error)=>{
         console.log(error)
        })
-        // navigate
-       navigate(from, { replace: true });
-        })
+  
+     
+      })
         .catch((error)=>{
             console.log(error)
 

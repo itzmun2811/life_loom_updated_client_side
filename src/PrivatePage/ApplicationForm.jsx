@@ -31,6 +31,7 @@ const onSubmit=async(data)=>{
   console.log(data)
   const newData={
     ...data,
+    applicantName:user?.displayName,
     name:policyDetails.title,
     coverage:estimatedPremium.coverage,
     duration:estimatedPremium.duration,
