@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { use, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../context/AuthContext';
 import { Link,useLocation, useNavigate } from 'react-router';
@@ -6,7 +6,7 @@ import SocialLogin from '../shared/socialLogin/SocialLogin';
 import lifeimg from '../../src/assets/life.jpg'
 
 const Login = () => {
-    const {logInUser} =use(AuthContext);
+    const {logInUser} = useContext(AuthContext);
     const location =useLocation();
     const navigate=useNavigate();
     const from =location?.state?.from?.pathname || '/';

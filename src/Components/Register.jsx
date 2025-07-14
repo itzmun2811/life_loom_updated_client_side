@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../context/AuthContext';
 import { Link, useLocation, useNavigate } from 'react-router';
@@ -9,7 +9,7 @@ import useAxios from '../hooks/useAxios';
 import Swal from 'sweetalert2';
 
 const Register = () => {
-    const {createNewUser,updateUserProfile }=use(AuthContext);
+    const {createNewUser,updateUserProfile }=useContext(AuthContext);
     const [profilePicture,setProfilePicture]=useState('');
     const axiosInstance= useAxios();
     const location = useLocation();

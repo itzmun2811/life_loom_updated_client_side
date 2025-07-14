@@ -12,7 +12,7 @@ import FAQs from "../pages/FAQs";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import Quote from "../PrivatePage/Quote";
 import MyPolicies from "../pages/DashBoard/CustomerDashboard/MyPolicies"
-
+import BeAgentForm from "../pages/BeAgentForm"
 import Dashboard from "../pages/DashBoard/AdminDashboard/Dashboard";
 import ManageAgents from "../pages/DashBoard/AdminDashboard/ManageAgents";
 import ManageUsers from "../pages/DashBoard/AdminDashboard/ManageUsers";
@@ -75,6 +75,11 @@ export const router = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile></Profile>
+  },
+ 
+  {
+    path: "/beAgent",
+    element: <BeAgentForm></BeAgentForm>
   },
  
  

@@ -182,6 +182,15 @@ const Header = () => {
      Dashboard
       </NavLink>
     </li>
+    <li>
+      <NavLink to='/beAgent'
+        className="block py-2 px-3 rounded 
+    hover:text-blue-500 text-white
+   "
+      >
+     Be A agent
+      </NavLink>
+    </li>
    
     
    
