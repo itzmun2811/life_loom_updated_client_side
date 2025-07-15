@@ -22,6 +22,10 @@ import ManageTransactions from "../pages/DashBoard/AdminDashboard/ManageTransact
 import PaymentPage from "../pages/DashBoard/CustomerDashboard/PaymentPage";
 import PaymentStatus from "../pages/DashBoard/CustomerDashboard/PaymentStatus";
 import ClaimPayment from "../pages/DashBoard/CustomerDashboard/ClaimPayment";
+import Blogs from "../pages/Blogs";
+import ManageBlogs from "../pages/DashBoard/AgentDashboard/ManageBlogs";
+import BlogPost from "../pages/DashBoard/AgentDashboard/BlogPost";
+import AssignedCustomers from "../pages/DashBoard/AgentDashboard/AssignedCustomers";
 
 
 export const router = createBrowserRouter([
@@ -79,7 +83,12 @@ export const router = createBrowserRouter([
  
   {
     path: "/beAgent",
-    element: <BeAgentForm></BeAgentForm>
+    element: <PrivateRoute><BeAgentForm></BeAgentForm></PrivateRoute>
+  },
+ 
+  {
+    path: "/blogs",
+    element: <Blogs></Blogs>
   },
  
  
@@ -135,6 +144,17 @@ export const router = createBrowserRouter([
   {
     path: "claimPayments",
     element: <ClaimPayment></ClaimPayment>
+  },
+  // AGENT
+   {
+    path: "manageBlogs",
+    element: <ManageBlogs></ManageBlogs>
+  }, {
+    path: "blogPost",
+    element: <BlogPost></BlogPost>
+  }, {
+    path: "assignCustomer",
+    element: <AssignedCustomers></AssignedCustomers>
   },
 
     ]

@@ -12,6 +12,7 @@ const BeAgentForm = () => {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data) => {
+    console.log(data)
     try {
       const agentRequests = {
         ...data,

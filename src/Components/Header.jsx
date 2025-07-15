@@ -155,14 +155,14 @@ const Header = () => {
       </NavLink>
     </li>
     <li>
-      <a
-        href="#"
+      <NavLink
+        to='/blogs'
         className="block py-2 px-3 rounded 
     hover:text-blue-500 text-white
    "
       >
-      Agents
-      </a>
+      Blogs
+      </NavLink>
     </li>
     <li>
       <NavLink to='/faq'
