@@ -2,6 +2,7 @@ import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useRole from '../../../hooks/useRole';
 import { useQuery } from '@tanstack/react-query';
+import Swal from 'sweetalert2';
 
 
 
@@ -19,15 +20,54 @@ const ManageUsers = () => {
   });
   console.log(allUsers)
 
-//   const handlePromote = async (id) => {
-//     await axiosSecure.patch(`/users/promote/${id}`);
-//     refetch();
-//   };
+  const handlePromote = async (id) => {
+   const confirm = await Swal.fire({
+    title: 'Are you sure?',
+    text: "This user will be promoted to Agent.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, promote!',
+  });
 
-//   const handleDemote = async (id) => {
-//     await axiosSecure.patch(`/users/demote/${id}`);
-//     refetch();
-//   };
+  if (confirm.isConfirmed) {
+    
+      const res = await axiosSecure.patch(`/users/promote/${id}`);
+      if (res.data.modifiedCount > 0) {
+        Swal.fire('Success!', 'User has been promoted to Agent.', 'success');
+        refetch();
+      } else {
+        Swal.fire('Oops!', 'Promotion did not complete.', 'info');
+      }
+    } 
+  
+  };
+  const handleDemote = async (id) => {
+   const confirm = await Swal.fire({
+    title: 'Are you sure?',
+    text: "This user will be promoted to Customer Again.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, demote!',
+  });
+
+  if (confirm.isConfirmed) {
+    
+      const res = await axiosSecure.patch(`/users/demote/${id}`);
+      if (res.data.modifiedCount > 0) {
+        Swal.fire('Oops!', 'User has been demoted to Customer');
+        refetch();
+      } else {
+        Swal.fire('Oops!', 'Promotion did not complete.', 'info');
+      }
+    } 
+  
+  };
+
+ 
 
   return (
     <div className="p-6">
@@ -53,12 +93,12 @@ const ManageUsers = () => {
                 <td className="p-2 border">{user.email}</td>
                 <td className="p-2 border capitalize">{user.role}</td>
                 <td className="p-2 border">
-                  {user.created_At}
+                  {user.created_at}
                 </td>
                 <td className="p-2 border space-x-2">
                   {user.role === 'customer' && (
                     <button
-                    //   onClick={() => handlePromote(user._id)}
+                      onClick={() => handlePromote(user._id)}
                       className="px-2 py-1 bg-green-600 text-white rounded"
                     >
                       Promote to Agent
@@ -66,7 +106,7 @@ const ManageUsers = () => {
                   )}
                   {user.role === 'agent' && (
                     <button
-                    //   onClick={() => handleDemote(user._id)}
+                      onClick={() => handleDemote(user._id)}
                       className="px-2 py-1 bg-yellow-600 text-white rounded"
                     >
                       Demote to Customer

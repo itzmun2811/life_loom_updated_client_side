@@ -19,7 +19,7 @@ const Dashboard = () => {
         <>
     <Header></Header>
         
-        <div className="flex h-screen w-full max-w-[1600px]
+        <div className="flex my-12  h-screen w-full max-w-[1600px]
          mx-auto overflow-hidden">
           
         

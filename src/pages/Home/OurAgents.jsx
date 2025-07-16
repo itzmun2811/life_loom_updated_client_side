@@ -21,7 +21,7 @@ const OurAgents = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-16">
-      <h2 className="text-4xl font-bold text-center mb-12 text-violet-700" data-aos="fade-down">
+      <h2 className="text-4xl font-bold text-center mb-12 text-blue-800" data-aos="fade-down">
         Meet Our Agents
       </h2>
 
@@ -48,7 +48,7 @@ const OurAgents = () => {
                 <p className="text-sm text-gray-600">🎓 Experience: {agent.experience} years</p>
                 <p className="text-sm text-gray-600">💼 Specialties: {agent.specialties}</p>
 
-                <button className="mt-4 w-full bg-violet-600 text-white py-2 px-4 rounded-lg hover:bg-violet-700 transition">
+                <button className="mt-4 w-full bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-violet-700 transition">
                   Read More
                 </button>
               </div>

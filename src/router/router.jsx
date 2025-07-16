@@ -26,6 +26,7 @@ import Blogs from "../pages/Blogs";
 import ManageBlogs from "../pages/DashBoard/AgentDashboard/ManageBlogs";
 import BlogPost from "../pages/DashBoard/AgentDashboard/BlogPost";
 import AssignedCustomers from "../pages/DashBoard/AgentDashboard/AssignedCustomers";
+import BlogDetails from "../pages/BlogDetails";
 
 
 export const router = createBrowserRouter([
@@ -89,6 +90,10 @@ export const router = createBrowserRouter([
   {
     path: "/blogs",
     element: <Blogs></Blogs>
+  },
+  {
+    path: "/blogs/:id",
+    element: <BlogDetails></BlogDetails>
   },
  
  

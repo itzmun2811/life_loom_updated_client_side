@@ -1,128 +1,140 @@
-import React, { use } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useRole from '../../../hooks/useRole';
 
-const ManageApplication = () => {
-    const {role}=useRole();
-    const axiosSecure=useAxiosSecure();
-    const {data:allApplications=[],isLoading,refetch}=useQuery({
-    queryKey:['allApplications',role],
-   enabled:!!role ,
-    queryFn:async()=>{
-        if (role === 'admin') {
-                const res = await axiosSecure(`/allApplication?role=${role}`);
-                return res.data;
-            }
-  
+  const ManageApplication = () => {
+  const { role } = useRole();
+  const axiosSecure = useAxiosSecure();
+  const [agentSelections, setAgentSelections] = useState({});
+
+  const { data: allApplications = [], refetch } = useQuery({
+    queryKey: ['allApplications', role],
+    enabled: !!role,
+    queryFn: async () => {
+      if (role === 'admin') {
+        const res = await axiosSecure(`/allApplication?role=${role}`);
+        return res.data;
+      }
+    },
+  });
+
+  const { data: allAgents = [] } = useQuery({
+    queryKey: ['agents', role],
+    enabled: !!role,
+    queryFn: async () => {
+      if (role === 'admin') {
+        const res = await axiosSecure(`/agents?role=${role}`);
+        return res.data;
+      }
+    },
+  });
+
+  const handleAssign = async (applicationId) => {
+    const selectedAgent = agentSelections[applicationId];
+    if (!selectedAgent) {
+      alert('Please select an agent.');
+      return;
     }
-})
-console.log(allApplications)
 
-const handleAssignAgent=()=>{
+ 
+      const res=await axiosSecure.patch(`/assign-agent/${applicationId}`, {
+        agentId: selectedAgent,
+      });
+      console.log(res.data)
+      refetch();
 
-}
+  };
 
-
-    return (
-        <div>
-            Manage Application
-    <div className="container p-2 mx-auto sm:p-4 dark:text-gray-800">
-	<h2 className="mb-4 text-2xl font-semibold leading-tight">Contacts</h2>
-	<div className="overflow-x-auto">
-		<table className="min-w-full table-auto border p-6 text-xs text-left whitespace-nowrap">
-			
-			
-				<thead className="bg-gray-200 text-gray-700">
-                        <tr>
-                            <th className="p-3">Applicant</th>
-                            <th className="p-3">Email</th>
-                            <th className="p-3">Policy</th>
-                            <th className="p-3">Date</th>
-                            <th className="p-3">Status</th>
-                            <th className="p-3">Agent</th>
-                            <th className="p-3">Actions</th>
-                        </tr>
-                    </thead>
-			
-			<tbody className="border-b dark:bg-gray-50 dark:border-gray-300">
-				
-                {allApplications.map(application=>(
-
- <tr>
-					<td className="px-3 py-2
-                    ">{application.applicantName}
-                    
-                    </td>
-					<td className="px-3 py-2">
-						<p>{application.email}</p>
-					</td>
-					<td className="px-3 py-2">
-						<p>{application.name}</p>
-					</td>
-					<td className="px-3 py-2">
-						<p>{application.created_at}</p>
-					</td>
-					<td className="px-3 py-2">
-						  <span
-          className={`px-3 py-1 rounded-full text-sm font-medium ${
-            application.status === 'Pending'
-              ? 'bg-yellow-100 text-yellow-800'
-              : application.status === 'Approved'
-              ? 'bg-green-100 text-green-800'
-              : 'bg-red-100 text-red-800'
-          }`}
-        >
-          {application.status}
-        </span>
-					</td>
-					<td className="px-3 py-2">
-						
-					</td>
-					<td className="px-3 py-2">
-                        <div className='flex gap-3 space-x-2 items-center justify-center'>
-						 <button
-            onClick={handleAssignAgent}
-            className="px-2 py-1 text-white bg-green-900"
-          >
-            ✅ Assign
-          </button>
+  const handleReject = async (applicationId) => {
     
-        <button
-        //   onClick={handleReject}
-        className="px-2 py-1 text-white bg-red-700 "
-        >
-         Reject
-        </button>
-        <button
-        //   onClick={handleView}
-          className="px-2 py-1 text-white bg-blue-800"
-        >
-          🔍 View Details
-        </button>
+      const res=await axiosSecure.patch(`/reject-application/${applicationId}`);
+      console.log(res.data)
+      refetch();
+   
+  };
+
+  return (
+    <div>
+      <div className="container p-2 mx-auto sm:p-4">
+      <h2 className="mb-4 text-2xl font-semibold leading-tight">Manage Applications</h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border p-6 text-xs text-left whitespace-nowrap">
+            <thead className="bg-gray-200 text-gray-700">
+              <tr>
+                <th className="p-3">Applicant</th>
+                <th className="p-3">Email</th>
+                <th className="p-3">Policy</th>
+                <th className="p-3">Date</th>
+                <th className="p-3">Status</th>
+                <th className="p-3">Agent</th>
+                <th className="p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="border-b">
+              {allApplications.map((application) => (
+                <tr key={application._id}>
+                  <td className="px-3 py-2">{application.applicantName}</td>
+                  <td className="px-3 py-2">{application.email}</td>
+                  <td className="px-3 py-2">{application.name}</td>
+                  <td className="px-3 py-2">{application.created_at}</td>
+                  <td className="px-3 py-2">
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        application.status === 'Pending'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : application.status === 'Approved'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}
+                    >
+                      {application.status}
+                    </span>
+                  </td>
+                  <td className="px-3 py-2">
+                    <select
+                      value={agentSelections[application._id] || ''}
+                      onChange={(e) =>
+                        setAgentSelections({
+                          ...agentSelections,
+                          [application._id]: e.target.value,
+                        })
+                      }
+                      className="border rounded px-2 py-1"
+                    >
+                      <option value="">Select Agent</option>
+                      {allAgents.map((agent) => (
+                        <option key={agent._id} value={agent._id}>
+                          {agent.email}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td className="px-3 py-2">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleAssign(application._id)}
+                        className="px-3 py-1 bg-green-700 text-white rounded text-sm hover:bg-green-800"
+                      >
+                        ✅ Assign
+                      </button>
+                      <button
+                        onClick={() => handleReject(application._id)}
+                        className="px-3 py-1 bg-red-700 text-white rounded text-sm hover:bg-red-800"
+                      >
+                        ❌ Reject
+                      </button>
+                      
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-					</td>
-				</tr>
-				
-                ))}
-                
-               
-			</tbody>
-			
-			
-		</table>
-	</div>
-</div>
-
-
-
-
-
-
-
-        </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default ManageApplication;

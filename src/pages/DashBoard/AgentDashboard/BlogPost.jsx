@@ -24,7 +24,8 @@ const BlogPost = ({ setShowModal, refetch }) => {
       authorImage:user.photoURL,
       authorEmail: user.email,
       image: imageUrl,
-      publishDate
+      publishDate,
+      totalVisitCount:0
     };
    
 

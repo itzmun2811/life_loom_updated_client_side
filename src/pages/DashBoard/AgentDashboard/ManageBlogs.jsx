@@ -5,26 +5,56 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { AuthContext } from '../../../context/AuthContext';
 import useRole from '../../../hooks/useRole';
 import { useQuery } from '@tanstack/react-query';
+import Swal from 'sweetalert2';
+import EditBlogModal from './EditBlogModal';
 
   const ManageBlogs = () => {
          const { user } = useContext(AuthContext);
           const {role}= useRole();
          const axiosSecure = useAxiosSecure();
          const [showModal, setShowModal] = useState(false);
+         const [editBlog, setEditBlog] = useState(null);
 
     const { data: blogs = [], refetch } = useQuery({
     queryKey: ['blogs', user?.email, role],
     enabled: !!user?.email && !!role,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/blogs?email=${user.email}&role=${role}`);
+      const res = await axiosSecure.get(`/blogsByEmail?email=${user.email}&role=${role}`);
       return res.data;
     },
 
   });
 
-//   const handleDelete = async (id) => {
+  const handleDelete = async (id) => {
 
-//   };
+     const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await axiosSecure.delete(`/blogs/${id}`);
+      Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+  refetch()
+    } catch (error) {
+      Swal.fire('Error!', 'Failed to delete blog.', 'error',error.message);
+    }
+  }
+  }
+
+//   const handleEdit =async(id)=>{
+//     const res=await axiosSecure.patch(`/blogs/edit/${id}`)
+//     console.log(res.data)
+//   }
+  const handleEdit = (blog) => {
+  setEditBlog(blog); // this opens the modal with that blog
+};
 
   return (
     <div>
@@ -48,23 +78,64 @@ import { useQuery } from '@tanstack/react-query';
             <th scope="col" className="px-6 py-3">Action</th>
           </tr>
         </thead>
-        <tbody>
-         
-            <tr
+         <tbody>
+    {blogs.map((singleBlog) => (
+      <tr
+        key={singleBlog._id}
+        className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
+      >
+        {/* Title */}
+        <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
+          {singleBlog.title}
+        </td>
+
+        {/* Content preview (first 20-30 words) */}
+        <td className="px-6 py-4">
+          {singleBlog.content.split(' ').slice(0, 25).join(' ')}...
+        </td>
+
+        {/* Author */}
+        <td className="px-6 py-4">{singleBlog.author}</td>
+
+        {/* Publish Date */}
+        <td className="px-6 py-4">
+          {new Date(singleBlog.publishDate).toLocaleDateString()}
+        </td>
+
+        {/* Action */}
+        <td className="px-6 py-4">
+          <div className="flex space-x-2">
+            <button
+               onClick={() => handleEdit(singleBlog)}
               
-              className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
+              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
-            
-              
-              
-            </tr>
-        
-        </tbody>
+              Edit
+            </button>
+            <button
+            onClick={() => handleDelete(singleBlog._id)}
+              className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+            >
+              Delete
+            </button>
+           
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
       </table>
     </div>
 
       {/* Modal */}
       {showModal && <BlogPost setShowModal={setShowModal} refetch={refetch} />}
+      {editBlog && (
+        <EditBlogModal
+        blog={editBlog}
+        closeModal={() => setEditBlog(null)}
+        refetch={refetch}
+  />
+)}
     </div>
   );
 };
