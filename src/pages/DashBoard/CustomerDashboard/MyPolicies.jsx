@@ -11,14 +11,18 @@ const MyPolicies = () => {
    const {user} =use(AuthContext);
    const [isOpen, setIsOpen] = useState(false);
 
+
    
     const toggleModal = () => setIsOpen(!isOpen);
    const closeModal = () => setIsOpen(false);
    
-     const handleSubmit = (e) => {
-       e.preventDefault();
-       // Handle form submission here
-       alert('Product Added!');
+     const handleSubmit = async({rating,message})=> {
+     
+       const newReviews={rating,message};
+       console.log(newReviews)
+        // const res= await axiosSecure.post('/reviews',newReviews)
+        // console.log(res.data)
+      
        closeModal();
      };
 
@@ -36,7 +40,7 @@ const MyPolicies = () => {
    })
   
 
-console.log(myPolicies)
+// console.log(myPolicies)
    
 
     return (

@@ -10,7 +10,9 @@ const PolicyForm = ({ setShowModal, refetch }) => {
   const axiosInstance = useAxios();
 
   const onSubmit = async (data) => {
-    const policy = { ...data, image: imageURL };
+    const policy = { ...data, image: imageURL ,
+        
+    };
     const res = await axiosInstance.post('/allPolicies', policy);
 
      if (res.data.insertedId) {

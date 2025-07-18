@@ -1,10 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import PolicyForm from "./PolicyForm";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import useRole from "../../../hooks/useRole";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
-import Swal from "sweetalert2";
-import PolicyForm from "./PolicyForm";
 
 
   const ManagePolicies = () => {
@@ -12,13 +12,12 @@ import PolicyForm from "./PolicyForm";
           const {role}= useRole();
          const axiosSecure = useAxiosSecure();
          const [showModal, setShowModal] = useState(false);
-         const [editBlog, setEditBlog] = useState(null);
+         const [editPolicy, setEditPolicy] = useState(null);
 
-    const { data: blogs = [], refetch } = useQuery({
-    queryKey: ['blogs', user?.email, role],
-    enabled: !!user?.email && !!role,
+    const { data: policies = [], refetch } = useQuery({
+    queryKey: ['policies'],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/blogsByEmail?email=${user.email}&role=${role}`);
+      const res = await axiosSecure(`/getAllPolicy`);
       return res.data;
     },
 
@@ -91,27 +90,33 @@ import PolicyForm from "./PolicyForm";
           </tr>
         </thead>
          <tbody>
-    {/* {blogs.map((singleBlog) => (
+    {policies.map((policy) => (
       <tr
-        key={singleBlog._id}
+        key={policy._id}
         className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
       >
         
         <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
-          {singleBlog.title}
+          {policy.title}
         </td>
 
         
         <td className="px-6 py-4">
-          {singleBlog.content.split(' ').slice(0, 25).join(' ')}...
+          {policy.category}...
         </td>
 
         
-        <td className="px-6 py-4">{singleBlog.author}</td>
+        <td className="px-6 py-4">{policy.description}</td>
+        <td className="px-6 py-4">{policy.minAge}</td>
+        <td className="px-6 py-4">{policy.maxAge}</td>
+        <td className="px-6 py-4">{policy.coverage}</td>
 
     
         <td className="px-6 py-4">
-          {new Date(singleBlog.publishDate).toLocaleDateString()}
+          {policy.duration}
+        </td>
+        <td className="px-6 py-4">
+          {policy.basePremium}
         </td>
 
 
@@ -134,7 +139,7 @@ import PolicyForm from "./PolicyForm";
           </div>
         </td>
       </tr>
-    ))} */}
+    ))}
   </tbody>
       </table>
     </div>

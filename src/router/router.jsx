@@ -158,7 +158,7 @@ export const router = createBrowserRouter([
     path: "blogPost",
     element: <BlogPost></BlogPost>
   }, {
-    path: "assignCustomer",
+    path: "assignedCustomer",
     element: <AssignedCustomers></AssignedCustomers>
   },
 
