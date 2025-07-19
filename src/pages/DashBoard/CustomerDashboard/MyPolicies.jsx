@@ -18,10 +18,14 @@ const MyPolicies = () => {
    
      const handleSubmit = async({rating,message})=> {
      
-       const newReviews={rating,message};
+       const newReviews={
+        name:user?.displayName,
+        image:user?.photoURL,
+        rating,
+        message};
        console.log(newReviews)
-        // const res= await axiosSecure.post('/reviews',newReviews)
-        // console.log(res.data)
+        const res= await axiosSecure.post('/reviews',newReviews)
+        console.log(res.data)
       
        closeModal();
      };
@@ -105,7 +109,7 @@ const MyPolicies = () => {
         ))}
 
          {isOpen && (
-      <ReviewCard handleSubmit={handleSubmit} closeModal={closeModal}></ReviewCard>
+      <ReviewCard handleSubmit={handleSubmit}  closeModal={closeModal}></ReviewCard>
   
 
       )}

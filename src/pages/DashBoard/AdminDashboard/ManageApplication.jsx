@@ -39,7 +39,7 @@ import useRole from '../../../hooks/useRole';
 
  
       const res=await axiosSecure.patch(`/assign-agent/${applicationId}`, {
-        agentId: selectedAgent,
+        agentEmail: selectedAgent
       });
       console.log(res.data)
       refetch();
@@ -104,7 +104,7 @@ import useRole from '../../../hooks/useRole';
                     >
                       <option value="">Select Agent</option>
                       {allAgents.map((agent) => (
-                        <option key={agent._id} value={agent._id}>
+                        <option key={agent._id} value={agent.email}>
                           {agent.email}
                         </option>
                       ))}

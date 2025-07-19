@@ -29,6 +29,7 @@ const LatestBlogs = () => {
 
       <div className="flex justify-center">
         <Swiper
+         onAutoplay={true}
           grabCursor={true}
           effect="creative"
           creativeEffect={{
