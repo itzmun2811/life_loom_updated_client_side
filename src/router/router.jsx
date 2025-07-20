@@ -18,15 +18,17 @@ import ManageAgents from "../pages/DashBoard/AdminDashboard/ManageAgents";
 import ManageUsers from "../pages/DashBoard/AdminDashboard/ManageUsers";
 import ManagePolicies from "../pages/DashBoard/AdminDashboard/ManagePolicies";
 import ManageApplication from "../pages/DashBoard/AdminDashboard/ManageApplication";
-import ManageTransactions from "../pages/DashBoard/AdminDashboard/ManageTransactions";
+import ManageTransactions from "../pages/DashBoard/AdminDashboard/ManageTransactions"
 import PaymentPage from "../pages/DashBoard/CustomerDashboard/PaymentPage";
 import PaymentStatus from "../pages/DashBoard/CustomerDashboard/PaymentStatus";
-import ClaimPayment from "../pages/DashBoard/CustomerDashboard/ClaimPayment";
+import ClaimPayment from "../pages/DashBoard/CustomerDashboard/ClaimPolicyPage";
 import Blogs from "../pages/Blogs";
 import ManageBlogs from "../pages/DashBoard/AgentDashboard/ManageBlogs";
 import BlogPost from "../pages/DashBoard/AgentDashboard/BlogPost";
 import AssignedCustomers from "../pages/DashBoard/AgentDashboard/AssignedCustomers";
 import BlogDetails from "../pages/BlogDetails";
+import PolicyClearance from "../pages/DashBoard/AgentDashboard/PolicyClearance";
+import ClaimPolicyPage from "../pages/DashBoard/CustomerDashboard/ClaimPolicyPage";
 
 
 export const router = createBrowserRouter([
@@ -147,8 +149,8 @@ export const router = createBrowserRouter([
     element: <PaymentStatus></PaymentStatus>
   },
   {
-    path: "claimPayments",
-    element: <ClaimPayment></ClaimPayment>
+    path: "claimPolicy",
+    element: <ClaimPolicyPage></ClaimPolicyPage>
   },
   // AGENT
    {
@@ -158,6 +160,12 @@ export const router = createBrowserRouter([
     path: "blogPost",
     element: <BlogPost></BlogPost>
   }, {
+  },
+   {
+    path: "policyClearance",
+    element: <PolicyClearance></PolicyClearance>
+  }, 
+  {
     path: "assignedCustomer",
     element: <AssignedCustomers></AssignedCustomers>
   },

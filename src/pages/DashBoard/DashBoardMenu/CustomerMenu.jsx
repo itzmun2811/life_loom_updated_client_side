@@ -14,7 +14,7 @@ const CustomerMenu = () => {
                         <NavLink to='myPolicy'>My Policy</NavLink>
                         <NavLink to='payment/:id'>Payment Page</NavLink>
                         <NavLink to='paymentStatus'>Payment Status</NavLink>
-                        <NavLink to='claimPayments'>Claim Payment</NavLink>
+                        <NavLink to='claimPolicy'>Claim Policy</NavLink>
 
                         
                     

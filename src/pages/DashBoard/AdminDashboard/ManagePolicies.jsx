@@ -90,7 +90,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
           </tr>
         </thead>
          <tbody>
-    {policies.map((policy) => (
+    {/* {policies.map((policy) => (
       <tr
         key={policy._id}
         className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
@@ -139,7 +139,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
           </div>
         </td>
       </tr>
-    ))}
+    ))} */}
   </tbody>
       </table>
     </div>

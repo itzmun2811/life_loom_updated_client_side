@@ -10,8 +10,10 @@ const PolicyForm = ({ setShowModal, refetch }) => {
   const axiosInstance = useAxios();
 
   const onSubmit = async (data) => {
-    const policy = { ...data, image: imageURL ,
-        
+    const policy = { ...data, 
+        image: imageURL ,
+        purchaseCount:0
+
     };
     const res = await axiosInstance.post('/allPolicies', policy);
 
@@ -97,12 +99,45 @@ const PolicyForm = ({ setShowModal, refetch }) => {
           {(errors.minAge || errors.maxAge) && (
             <p className="text-red-500 text-sm">Age limits are required</p>
           )}
+<div>
+  <label className="font-medium block mb-3">Select Coverage Amount</label>
+  
+  
+  <div className="grid grid-cols-2 gap-4">
+    <div>
+      <label className="font-medium block mb-1">Minimum Coverage</label>
+      <input
+        type="number"
+        {...register('minCoverage', { required: true, min: 100000 })}
+        placeholder="min coverage"
+        className="w-full border p-2 rounded"
+      />
+    </div>
+    <div>
+      <label className="font-medium block mb-1">Maximum Coverage</label>
+      <input
+        type="number"
+        {...register('maxCoverage', {
+          required: true,
+        })}
+        placeholder="max coverage"
+        className="w-full border p-2 rounded"
+      />
+    </div>
+  </div>
 
-          <div>
-            <label className="font-medium block mb-1">Coverage Range</label>
-            <input {...register('coverage', { required: true })} placeholder="e.g. ৳5L - ৳2Cr" className="w-full border p-2 rounded" />
-            {errors.coverage && <p className="text-red-500 text-sm">Coverage is required</p>}
-          </div>
+  {(errors.minCoverage || errors.maxCoverage) && (
+    <p className="text-red-500 text-sm mt-1">
+      {errors.maxCoverage?.message || "Coverage limits are required"}
+    </p>
+  )}
+</div>
+
+  {errors.coverage && (
+    <p className="text-red-500 text-sm">Coverage is required</p>
+  )}
+
+          
 
           <div>
             <label className="font-medium block mb-1">Duration</label>

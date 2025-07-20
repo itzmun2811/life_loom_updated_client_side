@@ -38,7 +38,7 @@ const onSubmit=async(data)=>{
     status: 'pending',
     mothlyPremium:estimatedPremium.mothly,
     annualPremium:estimatedPremium.annual,
-    created_at:new Date().toISOString(),
+    created_at:new Date().toISOString()
   }
 
 

@@ -1,155 +1,121 @@
-import React, { use, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import Swal from "sweetalert2";
+
 
 const Profile = () => {
-    const {user} =use(AuthContext);
-    const {updateUserProfile }=use(AuthContext);
-    const [profilePicture,setProfilePicture]=useState('');
-    const {register,handleSubmit} =useForm();
-   
-   const onSubmit =data=>{
-           const profileInfo={
-                displayName:data.name,
-                photoURL:profilePicture
-            }
-       updateUserProfile(profileInfo)
-       .then(()=>{
-        console.log('profile updated')
-       })
-       .catch((error)=>{
-        console.log(error)
-       })
-     
-      
-      
+  const { user, updateUserProfile } = useContext(AuthContext);
+  const [profilePicture, setProfilePicture] = useState(user?.photoURL || '');
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async (data) => {
+    const profileInfo = {
+      displayName: data.name,
+      photoURL: profilePicture,
+    };
+
+    try {
+      await updateUserProfile(profileInfo);
+      // Optional: Save to DB
+      await axios.patch(`/api/users/${user?.email}`, profileInfo); 
+      Swal.fire({
+    icon: 'success',
+    title: 'Profile Updated',
+    text: 'Your profile was updated successfully!',
+    timer: 2000,
+    showConfirmButton: false
+  });
+    } catch (error) {
+      console.error('Error updating profile:', error);
     }
-   const handleImageUpload=async(e)=>{
-    const image =e.target.files[0];
-     const formData =new FormData();
-     formData.append('image',image)
-     const imageUrl=`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`
-     const res=await axios.post(imageUrl,formData);
-     setProfilePicture(res.data.data.url)
+  };
 
+  const handleImageUpload = async (e) => {
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', image);
+    const imageUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
+    try {
+      const res = await axios.post(imageUrl, formData);
+      setProfilePicture(res.data.data.url);
+    } catch (error) {
+      console.error('Image upload failed:', error);
+    }
+  };
 
-   }
+  const getRoleBadge = (role) => {
+    switch (role) {
+      case 'admin':
+        return <span className="bg-red-100 text-red-800 text-xs 
+        font-medium px-2.5 py-0.5 rounded">Admin</span>;
+      case 'agent':
+        return <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Agent</span>;
+      default:
+        return <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Customer</span>;
+    }
+  };
 
-
-
-
-
-    return (
-        <div className='text-gray-600 w-11/12 mx-auto my-12 p-12'>
-            profile
-{
-    user && <div className="w-full  bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-  <div className="flex justify-end px-4 pt-4">
-    
+  return (
+    <div className="w-11/12 mx-auto my-12 p-6 md:p-12 bg-white rounded shadow">
       
-    <form onSubmit={handleSubmit(onSubmit)}>
 
-    {/* Dropdown menu */}
-   
+      <h2 className="text-2xl font-semibold mb-6">My Profile</h2>
 
-  <div className="flex flex-col items-center pb-10">
-    <img
-      className="w-42 h-42 mb-3 rounded-full shadow-lg"
-        src={ profilePicture || user?.photoURL}
-      alt="Bonnie image"
-    />
+      {user && (
+        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div className="flex flex-col items-center">
+            <img
+              src={profilePicture}
+              alt="User"
+              className="w-40 h-40 rounded-full object-cover shadow-lg mb-4"
+            />
 
- <label
-      htmlFor="photo"
-      className="block mb-2 text-sm font-medium text-white dark:text-white"
-    >
-      Your Photo
-    </label>
-    <input
-      type="file"
-      id="email"
-    onChange={handleImageUpload}
-     placeholder="Photo URL"
-    
+            <input
+              type="file"
+              onChange={handleImageUpload}
+              className="text-sm"
+            />
 
+            <p className="mt-2 text-sm text-gray-600">
+              Last Login: {user?.metadata?.lastSignInTime || 'N/A'}
+            </p>
+            <p className="mt-1">{getRoleBadge(user?.role)}</p>
+          </div>
 
-className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-       focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-       dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-     
-  
-    />
+          <div className="space-y-4">
+            <div>
+              <label className="block mb-1 text-sm font-medium">Name</label>
+              <input
+                {...register('name')}
+                defaultValue={user?.displayName}
+                type="text"
+                className="w-full px-4 py-2 border rounded"
+              />
+            </div>
 
+            <div>
+              <label className="block mb-1 text-sm font-medium">Email</label>
+              <input
+                type="email"
+                defaultValue={user?.email}
+                readOnly
+                className="w-full px-4 py-2 border rounded bg-gray-100 cursor-not-allowed"
+              />
+            </div>
 
-
-
-    <label
-      htmlFor="email"
-      className="block mb-2 text-sm font-medium text-white dark:text-white"
-    >
-      Your email
-    </label>
-    <input
-      type="email"
-      id="email"
-      defaultValue={user?.email}
-     placeholder="Email"
-readOnly
-
-
-className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-       focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-       dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-     
-  
-    />
-    <label
-      htmlFor="email"
-      className="block mb-2 text-sm font-medium text-white dark:text-white"
-    >
-      Your email
-    </label>
-    <input
-      type="text"
-      id="name"
-      defaultValue={user?.displayName}
-     placeholder="Name"
-
-
-className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-       focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-       dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-     
-  
-    />
-</div>
-  </form>
-     <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-  {user?.displayName}
-    </h5>
-    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-  {user?.role}
-    </h5>
-   
-    <div className="flex mt-4 md:mt-6">
-    <button type='submit'>Update</button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      )}
     </div>
-  </div>
- 
-</div>
-}
-
-
-
-
-
-
-        </div>
-    );
+  );
 };
 
 export default Profile;

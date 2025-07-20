@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useRole from '../../../hooks/useRole';
+import Swal from 'sweetalert2';
 
-  const ManageApplication = () => {
+const ManageApplication = () => {
   const { role } = useRole();
   const axiosSecure = useAxiosSecure();
   const [agentSelections, setAgentSelections] = useState({});
@@ -30,34 +31,74 @@ import useRole from '../../../hooks/useRole';
     },
   });
 
+  // Collect emails of assigned agents
+  const assignedAgentEmails = allApplications
+    .map(app => app.agentEmail)
+    .filter(Boolean);
+
+  // Filter available agents excluding assigned ones
+  const availableAgents = allAgents.filter(
+    agent => !assignedAgentEmails.includes(agent.email)
+  );
+
   const handleAssign = async (applicationId) => {
     const selectedAgent = agentSelections[applicationId];
     if (!selectedAgent) {
-      alert('Please select an agent.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Please select an agent.',
+      });
       return;
     }
 
- 
-      const res=await axiosSecure.patch(`/assign-agent/${applicationId}`, {
-        agentEmail: selectedAgent
+    try {
+      const res = await axiosSecure.patch(`/assign-agent/${applicationId}`, {
+        agentEmail: selectedAgent,
       });
-      console.log(res.data)
-      refetch();
 
+      Swal.fire({
+        icon: 'success',
+        title: 'Agent Assigned',
+        text: 'The agent has been successfully assigned.',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      console.log(res.data);
+      setAgentSelections(prev => ({
+        ...prev,
+        [applicationId]: '', // Clear selection after assign
+      }));
+
+      refetch();
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to assign',
+        text: 'Something went wrong.',
+      });
+    }
   };
 
   const handleReject = async (applicationId) => {
-    
-      const res=await axiosSecure.patch(`/reject-application/${applicationId}`);
-      console.log(res.data)
+    try {
+      const res = await axiosSecure.patch(`/reject-application/${applicationId}`);
+      console.log(res.data);
       refetch();
-   
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to reject',
+        text: 'Something went wrong.',
+      });
+    }
   };
 
   return (
     <div>
       <div className="container p-2 mx-auto sm:p-4">
-      <h2 className="mb-4 text-2xl font-semibold leading-tight">Manage Applications</h2>
+        <h2 className="mb-4 text-2xl font-semibold leading-tight">Manage Applications</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border p-6 text-xs text-left whitespace-nowrap">
             <thead className="bg-gray-200 text-gray-700">
@@ -92,39 +133,45 @@ import useRole from '../../../hooks/useRole';
                     </span>
                   </td>
                   <td className="px-3 py-2">
-                    <select
-                      value={agentSelections[application._id] || ''}
-                      onChange={(e) =>
-                        setAgentSelections({
-                          ...agentSelections,
-                          [application._id]: e.target.value,
-                        })
-                      }
-                      className="border rounded px-2 py-1"
-                    >
-                      <option value="">Select Agent</option>
-                      {allAgents.map((agent) => (
-                        <option key={agent._id} value={agent.email}>
-                          {agent.email}
-                        </option>
-                      ))}
-                    </select>
+                    {application.agentEmail ? (
+                      // If already assigned, show agent email and disable select
+                      <span>{application.agentEmail}</span>
+                    ) : (
+                      <select
+                        value={agentSelections[application._id] || ''}
+                        onChange={(e) =>
+                          setAgentSelections({
+                            ...agentSelections,
+                            [application._id]: e.target.value,
+                          })
+                        }
+                        className="border rounded px-2 py-1"
+                      >
+                        <option value="">Select Agent</option>
+                        {availableAgents.map((agent) => (
+                          <option key={agent._id} value={agent.email}>
+                            {agent.email}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </td>
                   <td className="px-3 py-2">
                     <div className="flex gap-2">
-                      <button
-                        onClick={() => handleAssign(application._id)}
-                        className="px-3 py-1 bg-green-700 text-white rounded text-sm hover:bg-green-800"
-                      >
-                        ✅ Assign
-                      </button>
+                      {!application.agentEmail && (
+                        <button
+                          onClick={() => handleAssign(application._id)}
+                          className="px-3 py-1 bg-green-700 text-white rounded text-sm hover:bg-green-800"
+                        >
+                          ✅ Assign
+                        </button>
+                      )}
                       <button
                         onClick={() => handleReject(application._id)}
                         className="px-3 py-1 bg-red-700 text-white rounded text-sm hover:bg-red-800"
                       >
                         ❌ Reject
                       </button>
-                      
                     </div>
                   </td>
                 </tr>

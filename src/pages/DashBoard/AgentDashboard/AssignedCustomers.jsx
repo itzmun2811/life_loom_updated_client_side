@@ -10,7 +10,7 @@ const AssignedCustomers = () => {
   const [viewedApp, setViewedApp] = useState(null);
   console.log(user?.email)
 
-  // 1. Get applications assigned to this agent
+
   const { data: assignedApps = [], refetch } = useQuery({
     queryKey: ['assignedApplications', user?.email],
     enabled: !!user?.email,
@@ -20,7 +20,6 @@ const AssignedCustomers = () => {
     },
   });
 
-  // 2. Status change mutation
   const statusMutation = useMutation({
     mutationFn: async ({ appId, status, policyId }) => {
       await axiosSecure.patch(`/applications/status/${appId}`, { status });

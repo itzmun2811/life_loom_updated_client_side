@@ -11,7 +11,7 @@ const AgentMenu = () => {
                         uppercase dark:text-gray-600">My Dashboard</h2>
                         <div className="flex flex-col space-y-1">
                         <NavLink to='assignedCustomer'>Assigned Customers</NavLink>
-                        <NavLink to='blogPost'>Blog Post</NavLink>
+                        <NavLink to='policyClearance'>Policy Clearance</NavLink>
                         <NavLink to='manageBlogs'>Manage Blogs</NavLink>
                         
                     

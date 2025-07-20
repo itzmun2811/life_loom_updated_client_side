@@ -12,7 +12,7 @@ const AdminMenu = () => {
                         <NavLink to='manageApplication'>Manage Applications</NavLink>
                         <NavLink to='manageUsers'>Manage Users</NavLink>
                         <NavLink to='managePolicy'>Manage Policy</NavLink>
-                        <NavLink to='manageTransactions'>Manage Transaction</NavLink>
+                        <NavLink to='manageTransaction'>Manage Transaction</NavLink>
                         <NavLink to='manageAgent'>Manage Agent</NavLink>
                         <NavLink to='manageBlogs'>Manage Blogs</NavLink>
                     
