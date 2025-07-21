@@ -12,7 +12,8 @@ const PolicyForm = ({ setShowModal, refetch }) => {
   const onSubmit = async (data) => {
     const policy = { ...data, 
         image: imageURL ,
-        purchaseCount:0
+        purchaseCount:0,
+        premiumLogic:"baseRate × ageFactor × smokerFactor × genderFactor × (coverage / 100,000)",
 
     };
     const res = await axiosInstance.post('/allPolicies', policy);
@@ -108,7 +109,7 @@ const PolicyForm = ({ setShowModal, refetch }) => {
       <label className="font-medium block mb-1">Minimum Coverage</label>
       <input
         type="number"
-        {...register('minCoverage', { required: true, min: 100000 })}
+        {...register('minCoverage', { required: true, min:5000})}
         placeholder="min coverage"
         className="w-full border p-2 rounded"
       />

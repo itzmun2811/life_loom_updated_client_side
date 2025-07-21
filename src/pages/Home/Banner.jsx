@@ -77,10 +77,10 @@ const Banner = () => {
 
          <div className=" rounded-2xl py-16 px-6 flex-1 ">
     <h1 className="text-4xl font-bold mb-4">
-      "Every Little Saving Counts Towards a Safer Tomorrow."
+     "Live Freely, We've Got You Covered"
     </h1>
     <p className="text-base mb-6">
-      Whether it's a small deposit or a smart policy choice, each step you take today builds a stronger, more secure future for you and your loved ones.
+ Enjoy every moment knowing your life insurance plan supports your journey, even on life’s greatest adventures.
     </p>
     
     <button
@@ -118,10 +118,10 @@ const Banner = () => {
 
          <div className=" rounded-2xl py-16 px-6 flex-1 ">
     <h1 className="text-4xl font-bold mb-4">
-      "Every Little Saving Counts Towards a Safer Tomorrow."
+   "Plan Today for Peace of Mind Tomorrow"
     </h1>
     <p className="text-base mb-6">
-      Whether it's a small deposit or a smart policy choice, each step you take today builds a stronger, more secure future for you and your loved ones.
+      Protect your loved ones with reliable life insurance. It’s never too late to make the right choice.
     </p>
     
     <button
@@ -158,10 +158,10 @@ const Banner = () => {
 
          <div className=" rounded-2xl py-16 px-6 flex-1 ">
     <h1 className="text-4xl font-bold mb-4">
-      "Every Little Saving Counts Towards a Safer Tomorrow."
+    "Comprehensive Protection, Simple Planning"
     </h1>
     <p className="text-base mb-6">
-      Whether it's a small deposit or a smart policy choice, each step you take today builds a stronger, more secure future for you and your loved ones.
+    Simple Planning"	Life is unpredictable, but your coverage doesn’t have to be. Discover flexible, all-in-one life insurance plans.
     </p>
     
     <button

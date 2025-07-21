@@ -8,7 +8,7 @@ const AssignedCustomers = () => {
  const {user}=useContext(AuthContext)
   const [selectedStatus, setSelectedStatus] = useState({});
   const [viewedApp, setViewedApp] = useState(null);
-  console.log(user?.email)
+//   console.log(user?.email)
 
 
   const { data: assignedApps = [], refetch } = useQuery({
@@ -19,21 +19,29 @@ const AssignedCustomers = () => {
       return res.data;
     },
   });
+  console.log(assignedApps)
+  const updateStatusMutation = useMutation({
+  mutationFn: async ({ appId, status, policyId }) => {
+ 
+    await axiosSecure.patch(`/applications/status/${appId}`, { status });
 
-  const statusMutation = useMutation({
-    mutationFn: async ({ appId, status, policyId }) => {
-      await axiosSecure.patch(`/applications/status/${appId}`, { status });
-      if (status === 'Approved') {
-        await axiosSecure.patch(`/policies/increase/${policyId}`);
-      }
-    },
-    onSuccess: () => refetch(),
-  });
+    if (status === 'Approved') {
+       
+      await axiosSecure.patch(`/policies/increase/${policyId}`);
+    }
+  },
+  onSuccess: () => {
+    refetch(); 
+  },
+});
 
-  const handleStatusChange = (appId, status, policyId) => {
-    setSelectedStatus(prev => ({ ...prev, [appId]: status }));
-    statusMutation.mutate({ appId, status, policyId });
-  };
+
+const handleStatusChange = (appId, newStatus, policyId) => {
+    console.log(policyId)
+  setSelectedStatus(prev => ({ ...prev, [appId]: newStatus }));
+
+  updateStatusMutation.mutate({ appId, status: newStatus, policyId });
+};
 
   return (
     <div className="p-4">

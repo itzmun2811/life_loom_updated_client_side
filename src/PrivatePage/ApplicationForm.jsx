@@ -33,6 +33,7 @@ const onSubmit=async(data)=>{
     ...data,
     applicantName:user?.displayName,
     name:policyDetails.title,
+    policyId:policyDetails._id,
     coverage:estimatedPremium.coverage,
     duration:estimatedPremium.duration,
     status: 'pending',
