@@ -79,7 +79,7 @@ const Profile = () => {
             />
 
             <p className="mt-2 text-sm text-gray-600">
-              Last Login: {user?.metadata?.lastSignInTime || 'N/A'}
+              Last Login:  {user?.last_log_in ? new Date(user.last_log_in).toLocaleString() : 'N/A'}
             </p>
             <p className="mt-1">{getRoleBadge(user?.role)}</p>
           </div>

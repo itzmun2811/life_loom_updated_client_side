@@ -8,7 +8,9 @@ const ManageAgents = () => {
   const { role } = useRole();
   const axiosSecure = useAxiosSecure();
   const [activeTab, setActiveTab] = useState('pending');
-
+  const [rejectEmail, setRejectEmail] = useState(null);
+  const [feedbackText, setFeedbackText] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const { data: agentRequests = [], refetch: refetchRequests } = useQuery({
     queryKey: ['agentRequests', role],
@@ -18,7 +20,6 @@ const ManageAgents = () => {
       return res.data;
     }
   });
-
 
   const { data: allAgents = [], refetch: refetchAgents } = useQuery({
     queryKey: ['agents'],
@@ -30,23 +31,39 @@ const ManageAgents = () => {
   });
 
   const handleApprove = async (email) => {
-    const res=await axiosSecure.patch(`/agentRequest/approve/${email}`);
-    console.log(res.data);
+    const res = await axiosSecure.patch(`/agentRequest/approve/${email}`);
     Swal.fire('Approved!', `${email} is now an agent.`, 'success');
     refetchRequests();
     refetchAgents();
   };
 
-  const handleReject = async (email) => {
-    const res=await axiosSecure.delete(`/agentRequest/${email}`);
-    console.log(res.data);
-    Swal.fire('Rejected!', `${email}'s request was removed.`, 'info');
-    refetchRequests();
+  const openRejectModal = (email) => {
+    setRejectEmail(email);
+    setShowModal(true);
+  };
+
+  const handleRejectSubmit = async () => {
+    if (!feedbackText.trim()) {
+      return Swal.fire('Error', 'Feedback is required.', 'warning');
+    }
+
+    try {
+      const res = await axiosSecure.patch(`/agentRequest/reject/${rejectEmail}`, {
+        feedback: feedbackText
+      });
+
+      Swal.fire('Rejected!', `${rejectEmail}'s request was rejected.`, 'info');
+      setFeedbackText('');
+      setRejectEmail(null);
+      setShowModal(false);
+      refetchRequests();
+    } catch (error) {
+      Swal.fire('Error', 'Something went wrong.', 'error');
+    }
   };
 
   const handleDemote = async (email) => {
-    const res=await axiosSecure.patch(`/agentRequest/demote/${email}`);
-    console.log(res.data)
+    const res = await axiosSecure.patch(`/agentRequest/demote/${email}`);
     Swal.fire('Demoted', `${email} is now a customer.`, 'warning');
     refetchAgents();
   };
@@ -87,30 +104,33 @@ const ManageAgents = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                {agentRequests.map((req) => (
-                  <tr key={req._id} className="border-t text-center">
-                    <td>{req.name}</td>
-                    <td>{req.email}</td>
-                    <td>{req.experience}</td>
-                    <td>{req.specialties}</td>
-                    <td className="space-x-2">
-                      <button
-                        onClick={() => handleApprove(req.email)}
-                        className="bg-green-500 px-3 py-1 text-white rounded"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => handleReject(req.email)}
-                        className="bg-red-500 px-3 py-1 text-white rounded"
-                      >
-                        Reject
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+             <tbody>
+  {agentRequests
+    .filter((req) => req.status !== 'Rejected')
+    .map((req) => (
+      <tr key={req._id} className="border-t text-center">
+        <td>{req.name}</td>
+        <td>{req.email}</td>
+        <td>{req.experience}</td>
+        <td>{req.specialties}</td>
+        <td className="space-x-2">
+          <button
+            onClick={() => handleApprove(req.email)}
+            className="bg-green-500 px-3 py-1 text-white rounded"
+          >
+            Approve
+          </button>
+          <button
+            onClick={() => openRejectModal(req.email)}
+            className="bg-red-500 px-3 py-1 text-white rounded"
+          >
+            Reject
+          </button>
+        </td>
+      </tr>
+  ))}
+</tbody>
+
             </table>
           )}
         </div>
@@ -145,6 +165,39 @@ const ManageAgents = () => {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* REJECTION MODAL */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h2 className="text-lg font-semibold mb-4">Provide Rejection Feedback</h2>
+            <textarea
+              className="w-full border rounded p-2 mb-4"
+              rows="4"
+              placeholder="Enter feedback..."
+              value={feedbackText}
+              onChange={(e) => setFeedbackText(e.target.value)}
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  setFeedbackText('');
+                }}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRejectSubmit}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

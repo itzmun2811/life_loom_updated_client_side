@@ -10,25 +10,21 @@ const ManageApplication = () => {
   const axiosSecure = useAxiosSecure();
   const [agentSelections, setAgentSelections] = useState({});
   const [showRejectModal, setShowRejectModal] = useState(false);
-   const [selectedAppId, setSelectedAppId] = useState(null);
+  const [selectedAppId, setSelectedAppId] = useState(null);
 
-const openRejectModal = (id) => {
-  setSelectedAppId(id);
-  setShowRejectModal(true);
-};
+  const openRejectModal = (id) => {
+    setSelectedAppId(id);
+    setShowRejectModal(true);
+  };
 
-const closeRejectModal = () => {
-  setSelectedAppId(null);
-  setShowRejectModal(false);
-};
+  const closeRejectModal = () => {
+    setSelectedAppId(null);
+    setShowRejectModal(false);
+  };
 
-const submitRejection = (feedback) => {
-  handleReject(selectedAppId, feedback);
-};
-
-
-
-
+  const submitRejection = (feedback) => {
+    handleReject(selectedAppId, feedback);
+  };
 
   const { data: allApplications = [], refetch } = useQuery({
     queryKey: ['allApplications', role],
@@ -52,15 +48,9 @@ const submitRejection = (feedback) => {
     },
   });
 
-
   const assignedAgentEmails = allApplications
-    .map(app => app.agentEmail)
+    .map((app) => app.agentEmail)
     .filter(Boolean);
-
-  // Filter available agents excluding assigned ones
-  const availableAgents = allAgents.filter(
-    agent => !assignedAgentEmails.includes(agent.email)
-  );
 
   const handleAssign = async (applicationId) => {
     const selectedAgent = agentSelections[applicationId];
@@ -86,10 +76,9 @@ const submitRejection = (feedback) => {
         showConfirmButton: false,
       });
 
-      console.log(res.data);
-      setAgentSelections(prev => ({
+      setAgentSelections((prev) => ({
         ...prev,
-        [applicationId]: '', // Clear selection after assign
+        [applicationId]: '',
       }));
 
       refetch();
@@ -102,15 +91,13 @@ const submitRejection = (feedback) => {
     }
   };
 
-  const handleReject = async (applicationId, feedback) =>{
-  const res = await axiosSecure.patch(`/reject-application/${applicationId}`
-      ,{feedback});
-    console.log(res.data);
+  const handleReject = async (applicationId, feedback) => {
+    const res = await axiosSecure.patch(`/reject-application/${applicationId}`, {
+      feedback,
+    });
     refetch();
-    Swal.fire('Rejected!', 'Application has been rejected with feedback.', 
-      'success'); 
-};
-
+    Swal.fire('Rejected!', 'Application has been rejected.', 'success');
+  };
 
   return (
     <div>
@@ -129,85 +116,80 @@ const submitRejection = (feedback) => {
                 <th className="p-3">Actions</th>
               </tr>
             </thead>
-           <tbody className="border-b">
-  {allApplications
-    .filter(application => application.status !== 'Rejected')  // <-- filter out rejected here
-    .map((application) => (
-      <tr key={application._id}>
-        <td className="px-3 py-2">{application.applicantName}</td>
-        <td className="px-3 py-2">{application.email}</td>
-        <td className="px-3 py-2">{application.name}</td>
-        <td className="px-3 py-2">{application.created_at}</td>
-        <td className="px-3 py-2">
-          <span
-            className={`px-3 py-1 rounded-full text-sm font-medium ${
-              application.status === 'Pending'
-                ? 'bg-yellow-100 text-yellow-800'
-                : application.status === 'Approved'
-                ? 'bg-green-100 text-green-800'
-                : 'bg-red-100 text-red-800'
-            }`}
-          >
-            {application.status}
-          </span>
-        </td>
-        <td className="px-3 py-2">
-          {application.agentEmail ? (
-            <span>{application.agentEmail}</span>
-          ) : (
-            <select
-              value={agentSelections[application._id] || ''}
-              onChange={(e) =>
-                setAgentSelections({
-                  ...agentSelections,
-                  [application._id]: e.target.value,
-                })
-              }
-              className="border rounded px-2 py-1"
-            >
-              <option value="">Select Agent</option>
-              {availableAgents.map((agent) => (
-                <option key={agent._id} value={agent.email}>
-                  {agent.email}
-                </option>
-              ))}
-            </select>
-          )}
-        </td>
-        <td className="px-3 py-2">
-          <div className="flex gap-2">
-            {!application.agentEmail && (
-              <button
-                onClick={() => handleAssign(application._id)}
-                className="px-3 py-1 bg-green-700 text-white rounded text-sm hover:bg-green-800"
-              >
-                ✅ Assign
-              </button>
-            )}
-            <button
-              onClick={() => openRejectModal(application._id)}
-              className="px-3 py-1 bg-red-700 text-white rounded text-sm hover:bg-red-800"
-            >
-              ❌ Reject
-            </button>
-          </div>
-        </td>
-      </tr>
-    ))}
-</tbody>
-
+            <tbody className="border-b">
+              {allApplications
+                .filter((application) => application.status !== 'Rejected')
+                .map((application) => (
+                  <tr key={application._id}>
+                    <td className="px-3 py-2">{application.applicantName}</td>
+                    <td className="px-3 py-2">{application.email}</td>
+                    <td className="px-3 py-2">{application.name}</td>
+                    <td className="px-3 py-2">{application.created_at}</td>
+                    <td className="px-3 py-2">
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          application.status === 'Pending'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : application.status === 'Approved'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}
+                      >
+                        {application.status}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2">
+                      {application.agentEmail ? (
+                        <span>{application.agentEmail}</span>
+                      ) : (
+                        <select
+                          value={agentSelections[application._id] || ''}
+                          onChange={(e) =>
+                            setAgentSelections({
+                              ...agentSelections,
+                              [application._id]: e.target.value,
+                            })
+                          }
+                          className="border rounded px-2 py-1"
+                        >
+                          <option value="">Select Agent</option>
+                          {allAgents.map((agent) => (
+                              <option key={agent._id} value={agent.email}>
+                                {agent.email}
+                              </option>
+                            ))}
+                        </select>
+                      )}
+                    </td>
+                    <td className="px-3 py-2">
+                      <div className="flex gap-2">
+                        {!application.agentEmail && (
+                          <button
+                            onClick={() => handleAssign(application._id)}
+                            className="px-3 py-1 bg-green-700 text-white rounded text-sm hover:bg-green-800"
+                          >
+                            ✅ Assign
+                          </button>
+                        )}
+                        <button
+                          onClick={() => openRejectModal(application._id)}
+                          className="px-3 py-1 bg-red-700 text-white rounded text-sm hover:bg-red-800"
+                        >
+                          ❌ Reject
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
           </table>
         </div>
       </div>
-      {showRejectModal && (
-  <RejectionModal
-    onClose={closeRejectModal}
-    onSubmit={submitRejection}
-  />
-)}
 
+      {showRejectModal && (
+        <RejectionModal onClose={closeRejectModal} onSubmit={submitRejection} />
+      )}
     </div>
-    
   );
 };
 

@@ -4,9 +4,10 @@ import { AuthContext } from '../context/AuthContext';
 import { Link,useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../shared/socialLogin/SocialLogin';
 import lifeimg from '../../src/assets/life.jpg'
+import axios from 'axios';
 
 const Login = () => {
-    const {logInUser} = useContext(AuthContext);
+    const {logInUser,user} = useContext(AuthContext);
     const location =useLocation();
     const navigate=useNavigate();
     const from =location?.state?.from?.pathname || '/';
@@ -14,19 +15,20 @@ const Login = () => {
 
     const {register,handleSubmit,formState:{errors}} =useForm();
 
-    const onSubmit =data=>{
-        console.log(data);
-        logInUser(data.email,data.password)
-         .then(res=>{
-            
-            console.log(res.user);
-             navigate( from,{ replace: true })
-        })
-        .catch((error)=>{
-            console.log(error)
+   const onSubmit = async (data) => {
+  try {
+    const res = await logInUser(data.email, data.password);
+    const user = res.user;
 
-        })
-    }
+    await axios.patch(`/users/${user.email}`, {
+      last_log_in: new Date().toISOString(),
+    });
+
+    navigate(from, { replace: true });
+  } catch (error) {
+    console.error(error);
+  }
+};
     return (
 <div className='flex w-11/12 mx-auto'>
 

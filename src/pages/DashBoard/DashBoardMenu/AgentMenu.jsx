@@ -13,6 +13,7 @@ const AgentMenu = () => {
                         <NavLink to='assignedCustomer'>Assigned Customers</NavLink>
                         <NavLink to='policyClearance'>Policy Clearance</NavLink>
                         <NavLink to='manageBlogs'>Manage Blogs</NavLink>
+                        <NavLink to='myApplication'>My Application</NavLink>
                         
                     
                         </div>

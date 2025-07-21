@@ -51,7 +51,7 @@ const MyPolicies = () => {
               <th className="px-6 py-3">Action</th>
             </tr>
           </thead>
-          <tbody>
+        
            <tbody>
   {myPolicies.map(policy => (
     <tr key={policy._id} className="border-b border-gray-200 dark:border-gray-700">
@@ -87,7 +87,7 @@ const MyPolicies = () => {
   ))}
 </tbody>
 
-          </tbody>
+        
         </table>
       </div>
 

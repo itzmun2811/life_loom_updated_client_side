@@ -29,6 +29,7 @@ import AssignedCustomers from "../pages/DashBoard/AgentDashboard/AssignedCustome
 import BlogDetails from "../pages/BlogDetails";
 import PolicyClearance from "../pages/DashBoard/AgentDashboard/PolicyClearance";
 import ClaimPolicyPage from "../pages/DashBoard/CustomerDashboard/ClaimPolicyPage";
+import MyAgentApplication from "../pages/DashBoard/AgentDashboard/MyAgentApplication";
 
 
 export const router = createBrowserRouter([
@@ -159,11 +160,14 @@ export const router = createBrowserRouter([
   }, {
     path: "blogPost",
     element: <BlogPost></BlogPost>
-  }, {
-  },
+  }, 
    {
     path: "policyClearance",
     element: <PolicyClearance></PolicyClearance>
+  }, 
+   {
+    path: "myApplication",
+    element: <MyAgentApplication></MyAgentApplication>
   }, 
   {
     path: "assignedCustomer",
