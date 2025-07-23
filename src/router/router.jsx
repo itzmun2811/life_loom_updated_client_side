@@ -1,5 +1,4 @@
 import { createBrowserRouter, Navigate } from "react-router";
-import Payment from "../pages/Payment/Payment";
 import MainLayOut from "../LayOut/MainLayOut";
 import Home from "../pages/Home/Home";
 import Login from "../Components/Login";
@@ -19,7 +18,7 @@ import ManageUsers from "../pages/DashBoard/AdminDashboard/ManageUsers";
 import ManagePolicies from "../pages/DashBoard/AdminDashboard/ManagePolicies";
 import ManageApplication from "../pages/DashBoard/AdminDashboard/ManageApplication";
 import ManageTransactions from "../pages/DashBoard/AdminDashboard/ManageTransactions"
-import PaymentPage from "../pages/DashBoard/CustomerDashboard/PaymentPage";
+import PaymentPage from "../pages/DashBoard/CustomerDashboard/PaymentPage"
 import PaymentStatus from "../pages/DashBoard/CustomerDashboard/PaymentStatus";
 import ClaimPayment from "../pages/DashBoard/CustomerDashboard/ClaimPolicyPage";
 import Blogs from "../pages/Blogs";
@@ -104,10 +103,7 @@ export const router = createBrowserRouter([
  
  ]
   },
-  {
-    path: "/payment",
-    element: <Payment></Payment>,
-  },
+ 
    {
     path:'/dashboard',
     element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,

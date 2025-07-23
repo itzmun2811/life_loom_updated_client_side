@@ -43,7 +43,7 @@ const MyAgentApplication = () => {
       <p><strong>Status:</strong>
         <span className={`ml-2 font-semibold ${
           application.status === 'Rejected' ? 'text-red-600' :
-          application.status === 'Approved' ? 'text-green-600' : 'text-yellow-500'
+          application.status === 'approved' ? 'text-green-600' : 'text-yellow-500'
         }`}>
           {application.status}
         </span>

@@ -44,7 +44,7 @@ const LatestBlogs = () => {
           }}
           modules={[EffectCreative]}
           className="w-full max-w-md md:max-w-2xl lg:max-w-3xl"
-        >
+        >  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 '>
           {latestBlogs.map((blog) => (
             <SwiperSlide key={blog._id}>
               <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -79,6 +79,7 @@ const LatestBlogs = () => {
               </div>
             </SwiperSlide>
           ))}
+          </div>
         </Swiper>
       </div>
 

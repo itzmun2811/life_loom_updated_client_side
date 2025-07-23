@@ -1,54 +1,102 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import useAxios from '../../../hooks/useAxios';
 import Swal from 'sweetalert2';
 
-const PolicyForm = ({ setShowModal, refetch }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+const PolicyForm = ({ existingPolicy, setShowModal, refetch }) => {
+  const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
   const [imageURL, setImageURL] = useState('');
   const axiosInstance = useAxios();
 
+  useEffect(() => {
+    if (existingPolicy) {
+      // Prefill form values except _id and image handled separately
+      Object.entries(existingPolicy).forEach(([key, value]) => {
+        if (key !== '_id' && key !== 'image') {
+          setValue(key, value);
+        }
+      });
+      setImageURL(existingPolicy.image || '');
+    } else {
+      reset();
+      setImageURL('');
+    }
+  }, [existingPolicy, reset, setValue]);
+
   const onSubmit = async (data) => {
-    const policy = { ...data, 
-        image: imageURL ,
-        purchaseCount:0,
-        premiumLogic:"baseRate × ageFactor × smokerFactor × genderFactor × (coverage / 100,000)",
+    try {
+      const policy = {
+        ...data,
+        image: imageURL,
+        purchaseCount: existingPolicy ? existingPolicy.purchaseCount || 0 : 0,
+        premiumLogic: existingPolicy ? existingPolicy.premiumLogic || "baseRate × ageFactor × smokerFactor × genderFactor × (coverage / 100,000)" : "baseRate × ageFactor × smokerFactor × genderFactor × (coverage / 100,000)",
+      };
 
-    };
-    const res = await axiosInstance.post('/allPolicies', policy);
+      if (existingPolicy && existingPolicy._id) {
+        // Update existing policy
+        await axiosInstance.put(`/policy/${existingPolicy._id}`, policy);
+        Swal.fire({
+          icon: 'success',
+          title: 'Policy Updated Successfully!',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      } else {
+        // Add new policy
+        const res = await axiosInstance.post('/allPolicies', policy);
+        if (res.data.insertedId) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Policy Added Successfully!',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          });
+        }
+      }
 
-     if (res.data.insertedId) {
-           Swal.fire({
-           icon: 'success',
-           title: 'Policy Added Successfully!',
-           toast: true,
-           position: 'top-end',
-           showConfirmButton: false,
-           timer: 2000,
-           timerProgressBar: true,
-    })};
-    
-
-    console.log(res.data);
-    reset();
-    setImageURL('');
-    setShowModal(false);
+      refetch();
+      reset();
+      setImageURL('');
+      setShowModal(false);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Operation failed',
+        text: 'Please try again later.',
+      });
+    }
   };
 
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
+    if (!image) return;
     const formData = new FormData();
     formData.append('image', image);
     const uploadURL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
-    const res = await axios.post(uploadURL, formData);
-    setImageURL(res.data.data.url);
+    try {
+      const res = await axios.post(uploadURL, formData);
+      setImageURL(res.data.data.url);
+    } catch {
+      Swal.fire({
+        icon: 'error',
+        title: 'Image upload failed',
+      });
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-opacity-40 overflow-y-auto pt-10">
       <div className="max-w-xl w-full mx-4 p-6 bg-white rounded shadow-md relative">
-        <h2 className="text-2xl font-bold mb-6 text-center">Create New Policy</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          {existingPolicy ? 'Edit Policy' : 'Create New Policy'}
+        </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
@@ -100,45 +148,36 @@ const PolicyForm = ({ setShowModal, refetch }) => {
           {(errors.minAge || errors.maxAge) && (
             <p className="text-red-500 text-sm">Age limits are required</p>
           )}
-<div>
-  <label className="font-medium block mb-3">Select Coverage Amount</label>
-  
-  
-  <div className="grid grid-cols-2 gap-4">
-    <div>
-      <label className="font-medium block mb-1">Minimum Coverage</label>
-      <input
-        type="number"
-        {...register('minCoverage', { required: true, min:5000})}
-        placeholder="min coverage"
-        className="w-full border p-2 rounded"
-      />
-    </div>
-    <div>
-      <label className="font-medium block mb-1">Maximum Coverage</label>
-      <input
-        type="number"
-        {...register('maxCoverage', {
-          required: true,
-        })}
-        placeholder="max coverage"
-        className="w-full border p-2 rounded"
-      />
-    </div>
-  </div>
 
-  {(errors.minCoverage || errors.maxCoverage) && (
-    <p className="text-red-500 text-sm mt-1">
-      {errors.maxCoverage?.message || "Coverage limits are required"}
-    </p>
-  )}
-</div>
+          <div>
+            <label className="font-medium block mb-3">Select Coverage Amount</label>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="font-medium block mb-1">Minimum Coverage</label>
+                <input
+                  type="number"
+                  {...register('minCoverage', { required: true, min: 5000 })}
+                  placeholder="min coverage"
+                  className="w-full border p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="font-medium block mb-1">Maximum Coverage</label>
+                <input
+                  type="number"
+                  {...register('maxCoverage', { required: true })}
+                  placeholder="max coverage"
+                  className="w-full border p-2 rounded"
+                />
+              </div>
+            </div>
 
-  {errors.coverage && (
-    <p className="text-red-500 text-sm">Coverage is required</p>
-  )}
-
-          
+            {(errors.minCoverage || errors.maxCoverage) && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.maxCoverage?.message || "Coverage limits are required"}
+              </p>
+            )}
+          </div>
 
           <div>
             <label className="font-medium block mb-1">Duration</label>
@@ -154,7 +193,7 @@ const PolicyForm = ({ setShowModal, refetch }) => {
 
           <div>
             <label className="block font-medium mb-1">Upload Policy Image</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full" required />
+            <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full" />
             {imageURL && (
               <img src={imageURL} alt="Uploaded Policy" className="mt-4 w-full h-64 object-cover rounded" />
             )}
@@ -165,7 +204,7 @@ const PolicyForm = ({ setShowModal, refetch }) => {
               Cancel
             </button>
             <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700">
-              Submit Policy
+              {existingPolicy ? 'Update Policy' : 'Submit Policy'}
             </button>
           </div>
         </form>

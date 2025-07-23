@@ -4,11 +4,12 @@ import { AuthContext } from '../context/AuthContext';
 import { Link,useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../shared/socialLogin/SocialLogin';
 import lifeimg from '../../src/assets/life.jpg'
-import axios from 'axios';
+import useAxios from '../hooks/useAxios';
 
 const Login = () => {
-    const {logInUser,user} = useContext(AuthContext);
+    const {logInUser} = useContext(AuthContext);
     const location =useLocation();
+    const axiosInstance=useAxios();
     const navigate=useNavigate();
     const from =location?.state?.from?.pathname || '/';
  
@@ -18,17 +19,21 @@ const Login = () => {
    const onSubmit = async (data) => {
   try {
     const res = await logInUser(data.email, data.password);
-    const user = res.user;
+    console.log(res.user);
 
-    await axios.patch(`/users/${user.email}`, {
-      last_log_in: new Date().toISOString(),
-    });
+    const userInfo = {
+      email: data.email,
+    };
+
+    const users = await axiosInstance.post('users', userInfo);
+    console.log('User login recorded:', users.data);
 
     navigate(from, { replace: true });
   } catch (error) {
-    console.error(error);
+    console.error('Login failed:', error);
   }
 };
+
     return (
 <div className='flex w-11/12 mx-auto'>
 

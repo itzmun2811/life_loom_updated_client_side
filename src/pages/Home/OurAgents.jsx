@@ -21,34 +21,39 @@ const OurAgents = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-16">
-      <h2 className="text-4xl font-bold text-center mb-12 text-blue-800" data-aos="fade-down">
-        Meet Our Agents
+      <h2
+        className="text-4xl font-extrabold text-center mb-14 text-sky-800"
+        data-aos="fade-down"
+      >
+        🤝 Meet Our Expert Agents
       </h2>
 
       {isLoading ? (
         <div className="text-center text-lg text-gray-600">Loading agents...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {agents.slice(0,3).map((agent, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {agents.slice(0, 3).map((agent, index) => (
             <div
               key={index}
-              className="bg-white shadow-md hover:shadow-xl transition duration-300 rounded-2xl overflow-hidden border border-gray-200"
-              data-aos="fade-left"
-              data-aos-delay={index * 100}
+              data-aos="fade-up"
+              data-aos-delay={index * 150}
+              className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl border border-gray-100 transition-all duration-300"
             >
-              <img
-                src={agent.photoURL}
-                alt={agent.name}
-                className="w-64 rounded-3xl mx-auto shadow-2xl h-64 object-cover"
-              />
+              <div className="flex justify-center mt-6">
+                <img
+                  src={agent.photoURL}
+                  alt={agent.name}
+                  className="w-48 h-48 rounded-full border-4 border-sky-600 object-cover shadow-lg"
+                />
+              </div>
 
-              <div className="p-6 space-y-2">
-                <h3 className="text-2xl font-bold text-gray-800">{agent.name}</h3>
-                <p className="text-sm text-gray-600">📧 {agent.email}</p>
-                <p className="text-sm text-gray-600">🎓 Experience: {agent.experience} years</p>
-                <p className="text-sm text-gray-600">💼 Specialties: {agent.specialties}</p>
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-bold text-gray-800 mb-1">{agent.name}</h3>
+                <p className="text-gray-600 text-sm mb-2">📧 {agent.email}</p>
+                <p className="text-gray-600 text-sm">🎓 Experience: {agent.experience} years</p>
+                <p className="text-gray-600 text-sm mb-4">💼 Specialties: {agent.specialties}</p>
 
-                <button className="mt-4 w-full bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-violet-700 transition">
+                <button className="bg-gradient-to-r from-sky-600 to-cyan-500 hover:from-sky-700 hover:to-cyan-600 text-white py-2 px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg">
                   Read More
                 </button>
               </div>

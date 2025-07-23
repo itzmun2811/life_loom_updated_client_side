@@ -14,7 +14,7 @@ const ApplicationForm = () => {
     const axiosSecure=useAxiosSecure();
      const location = useLocation();
     const  { policyDetails = {}, estimatedPremium = null } = location.state ;
-    console.log(policyDetails)
+    console.log(estimatedPremium)
 
 const options = [
   { value: 'Diabetes', label: 'Diabetes' },
@@ -37,12 +37,12 @@ const onSubmit=async(data)=>{
     coverage:estimatedPremium.coverage,
     duration:estimatedPremium.duration,
     status: 'pending',
-    mothlyPremium:estimatedPremium.mothly,
     annualPremium:estimatedPremium.annual,
+    monthlyPremium:estimatedPremium.monthly,
     created_at:new Date().toISOString(),
     paymentStatus:"due"
   }
-
+//  console.log(data)
 
 console.log(newData)
 

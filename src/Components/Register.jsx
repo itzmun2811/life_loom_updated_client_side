@@ -181,17 +181,24 @@ className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
       type="password"
       id="password"
      placeholder="Password" 
-     {...register('password',{required:true,minLength:6},)}
-
-      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+     {...register('password', {required: 'Password is required',
+  minLength: {value: 6,message: 'Password must be at least 6 characters',},
+  pattern: {
+    value: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+    message: 'Must include uppercase and lowercase letters',
+  },
+})} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
  
     />
-     {errors.password?.type === 'required' && <p className='text-red-500'>
-    password is required</p>}
-       {errors.password?.type === 'minLength' && <p className='text-red-400'>           password must be 6 characters</p>}
+    {errors.password && (
+  <p className="text-red-500 text-sm mt-1">
+    {errors.password.message}
+  </p>
+)}
+
   </div>
 
 

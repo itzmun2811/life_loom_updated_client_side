@@ -2,17 +2,20 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useLocation } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const CheckoutForm = () => {
   const { id: policyId } = useParams();
+  const location = useLocation();
+  const frequency = new URLSearchParams(location.search).get('frequency') || 'annually';
+
   const stripe = useStripe();
   const elements = useElements();
   const queryClient = useQueryClient();
   const [clientSecret, setClientSecret] = useState('');
- const axiosSecure=useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
   const { data: policy, isLoading } = useQuery({
     queryKey: ['policy', policyId],
@@ -24,30 +27,39 @@ const CheckoutForm = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-
   useEffect(() => {
     const createIntent = async () => {
-      if (policy?.annualPremium) {
-        const res = await axios.post('http://localhost:3000/create-payment-intent', {
-          amount: parseInt(policy.annualPremium),
-        });
-        setClientSecret(res.data.clientSecret);
+      if (policy) {
+        const amount =
+          frequency === 'monthly'
+            ? parseInt(policy.monthlyPremium)
+            : parseInt(policy.annualPremium);
+
+        try {
+          const res = await axios.post('http://localhost:3000/create-payment-intent',
+
+             
+       {amount:amount})
+          ;
+          setClientSecret(res.data.clientSecret);
+        } catch (err) {
+          Swal.fire('Error', 'Failed to create payment intent', 'error',err.message);
+        }
       }
     };
-    if (policy) {
-      createIntent();
-    }
-  }, [policy]);
 
-  // Mutation to update status
+    createIntent();
+  }, [policy, frequency]);
+
   const updatePaymentStatus = useMutation({
-    mutationFn: async ({ id, transactionId }) => {
+    mutationFn: async ({ id, transactionId, frequency }) => {
       return await axios.patch(`http://localhost:3000/policy-paid/${id}`, {
         transactionId,
+        frequency,
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['policy', policyId]);
+
       Swal.fire('✅ Success', 'Payment successful and policy activated.', 'success');
     },
     onError: () => {
@@ -62,42 +74,54 @@ const CheckoutForm = () => {
     const card = elements.getElement(CardElement);
     if (!card) return;
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card,
-      billing_details: {
-        name: policy?.applicantName || 'Customer',
-        email: policy?.email,
-      },
-    });
-
-    if (error) {
-      Swal.fire('Error', error.message, 'error');
-      return;
-    }
-
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: paymentMethod.id,
-    });
-
-    if (result.error) {
-      Swal.fire('❌ Error', result.error.message, 'error');
-    } else if (result.paymentIntent.status === 'succeeded') {
-      updatePaymentStatus.mutate({
-        id: policyId,
-        transactionId: result.paymentIntent.id,
+    try {
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card,
+        billing_details: {
+          name: policy?.applicantName || 'Customer',
+          email: policy?.email,
+        },
       });
+
+      if (error) {
+        Swal.fire('Error', error.message, 'error');
+        return;
+      }
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: paymentMethod.id,
+      });
+
+      if (result.error) {
+        Swal.fire('❌ Error', result.error.message, 'error');
+      } else if (result.paymentIntent.status === 'succeeded') {
+        updatePaymentStatus.mutate({
+          id: policyId,
+          transactionId: result.paymentIntent.id,
+          frequency,
+        });
+      }
+    } catch (err) {
+      Swal.fire('Error', err.message || 'Something went wrong', 'error');
     }
   };
 
   if (isLoading) return <p className="text-center py-10">Loading policy...</p>;
+
+  const selectedAmount =
+    frequency === 'monthly'
+      ? policy?.monthlyPremium
+      : policy?.annualPremium;
 
   return (
     <form
       onSubmit={handleSubmit}
       className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-8 my-12"
     >
-      <h2 className="text-2xl font-semibold text-center mb-6 text-blue-700">Secure Payment</h2>
+      <h2 className="text-2xl font-semibold text-center mb-6 text-blue-700">
+        Secure Payment
+      </h2>
 
       <div className="space-y-6">
         <div>
@@ -118,10 +142,13 @@ const CheckoutForm = () => {
           </label>
           <input
             type="text"
-            value={policy?.annualPremium || ''}
+            value={selectedAmount}
             disabled
             className="w-full px-4 py-2 border rounded bg-gray-100"
           />
+          <p className="text-sm text-gray-500 mt-1 capitalize">
+            Frequency: {frequency}
+          </p>
         </div>
 
         <div>
@@ -146,10 +173,10 @@ const CheckoutForm = () => {
 
         <button
           type="submit"
-          disabled={!stripe || updatePaymentStatus.isPending}
+          disabled={!stripe || updatePaymentStatus.isLoading}
           className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition disabled:opacity-50"
         >
-          {updatePaymentStatus.isPending ? 'Processing...' : 'Pay Now'}
+          {updatePaymentStatus.isLoading ? 'Processing...' : 'Pay Now'}
         </button>
       </div>
     </form>

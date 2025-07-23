@@ -6,152 +6,128 @@ import { AuthContext } from "../../../context/AuthContext";
 import useRole from "../../../hooks/useRole";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
+const ManagePolicies = () => {
+  const { user } = useContext(AuthContext);
+  const { role } = useRole();
+  const axiosSecure = useAxiosSecure();
+  const [showModal, setShowModal] = useState(false);
+  const [editPolicy, setEditPolicy] = useState(null);
 
-  const ManagePolicies = () => {
-         const { user } = useContext(AuthContext);
-          const {role}= useRole();
-         const axiosSecure = useAxiosSecure();
-         const [showModal, setShowModal] = useState(false);
-         const [editPolicy, setEditPolicy] = useState(null);
-
-    const { data: policies = [], refetch } = useQuery({
-    queryKey: ['policies'],
+  const { data: policies = [], refetch } = useQuery({
+    queryKey: ['policies', user?.email],
     queryFn: async () => {
-      const res = await axiosSecure(`/getAllPolicy`);
+      const res = await axiosSecure.get(`/allPOlicyByAdmin?email=${user?.email}`);
       return res.data;
     },
-
+    enabled: !!user && role === 'admin',
   });
 
   const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    });
 
-     const result = await Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!',
-  });
-
-  if (result.isConfirmed) {
-    try {
-      await axiosSecure.delete(`/blogs/${id}`);
-      Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-  refetch()
-    } catch (error) {
-      Swal.fire('Error!', 'Failed to delete blog.', 'error',error.message);
+    if (result.isConfirmed) {
+      try {
+        await axiosSecure.delete(`/policy/${id}`);
+        Swal.fire('Deleted!', 'Policy has been deleted.', 'success');
+        refetch();
+      } catch (error) {
+        Swal.fire('Error!', 'Failed to delete policy.', 'error');
+      }
     }
-  }
-  }
+  };
 
-//   const handleEdit =async(id)=>{
-//     const res=await axiosSecure.patch(`/blogs/edit/${id}`)
-//     console.log(res.data)
-//   }
-  const handleEdit = (blog) => {
-  setEditBlog(blog); // this opens the modal with that blog
-};
+  const handleEdit = (policy) => {
+    setEditPolicy(policy);
+    setShowModal(true);
+  };
 
   return (
-    <div>
-      <div className='flex justify-between'>
-<h2 className="text-2xl font-bold mb-4 text-center">Manage Policy</h2>
-      <button onClick={() => setShowModal(true)} 
-      className="btn btn-primary mb-4 text-center">
-        ➕ Add New Policy
-      </button>
+    <div className="px-4 py-8 max-w-7xl mx-auto">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Manage Policies</h2>
+        <button
+          onClick={() => {
+            setEditPolicy(null);
+            setShowModal(true);
+          }}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          ➕ Add New Policy
+        </button>
       </div>
 
-
-
-
-
-
-
-
-
-
       {/* Table */}
-     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">Policy Title</th>
-            <th scope="col" className="px-6 py-3">Category</th>
-            <th scope="col" className="px-6 py-3">Description</th>
-            <th scope="col" className="px-6 py-3">Minimum Age</th>
-            <th scope="col" className="px-6 py-3">Maximum Age</th>
-            <th scope="col" className="px-6 py-3">Coverage Range</th>
-            <th scope="col" className="px-6 py-3">Duration</th>
-            <th scope="col" className="px-6 py-3">Base Premium Rate</th>
-            <th scope="col" className="px-6 py-3">Policy Image </th>
-          </tr>
-        </thead>
-         <tbody>
-    {/* {policies.map((policy) => (
-      <tr
-        key={policy._id}
-        className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
-      >
-        
-        <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
-          {policy.title}
-        </td>
+      <div className="overflow-x-auto shadow rounded-lg">
+        <table className="w-full text-sm text-left text-gray-600">
+          <thead className="text-xs uppercase bg-gray-100">
+            <tr>
+              <th className="px-4 py-2">Title</th>
+              <th className="px-4 py-2">Category</th>
+              <th className="px-4 py-2">Description</th>
+              <th className="px-4 py-2">Min Age</th>
+              <th className="px-4 py-2">Max Age</th>
+              <th className="px-4 py-2">Coverage</th>
+              <th className="px-4 py-2">Duration</th>
+              <th className="px-4 py-2">Premium</th>
+              <th className="px-4 py-2">Image</th>
+              <th className="px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {policies.map((policy) => (
+              <tr key={policy._id} className="border-t">
+                <td className="px-4 py-2">{policy.title}</td>
+                <td className="px-4 py-2">{policy.category}</td>
+                <td className="px-4 py-2 line-clamp-2">{policy.description}</td>
+                <td className="px-4 py-2">{policy.minAge}</td>
+                <td className="px-4 py-2">{policy.maxAge}</td>
+                <td className="px-4 py-2">{policy.coverage}</td>
+                <td className="px-4 py-2">{policy.duration}</td>
+                <td className="px-4 py-2">{policy.basePremium || policy.premiumRate}</td>
+                <td className="px-4 py-2">
+                  <img src={policy.image} alt="Policy" className="w-12 h-12 object-cover rounded" />
+                </td>
+                <td className="px-4 py-2 space-x-2">
+                  <button
+                    onClick={() => handleEdit(policy)}
+                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(policy._id)}
+                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {policies.length === 0 && (
+              <tr>
+                <td colSpan="10" className="text-center py-4 text-gray-400">No policies found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
-        
-        <td className="px-6 py-4">
-          {policy.category}...
-        </td>
-
-        
-        <td className="px-6 py-4">{policy.description}</td>
-        <td className="px-6 py-4">{policy.minAge}</td>
-        <td className="px-6 py-4">{policy.maxAge}</td>
-        <td className="px-6 py-4">{policy.coverage}</td>
-
-    
-        <td className="px-6 py-4">
-          {policy.duration}
-        </td>
-        <td className="px-6 py-4">
-          {policy.basePremium}
-        </td>
-
-
-        <td className="px-6 py-4">
-          <div className="flex space-x-2">
-            <button
-               onClick={() => handleEdit(singleBlog)}
-              
-              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Edit
-            </button>
-            <button
-            onClick={() => handleDelete(singleBlog._id)}
-              className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-            >
-              Delete
-            </button>
-           
-          </div>
-        </td>
-      </tr>
-    ))} */}
-  </tbody>
-      </table>
-    </div>
-
-      {/* Modal */}
-      {showModal && <PolicyForm setShowModal={setShowModal} refetch={refetch} />}
-      {/* {editBlog && (
-        <EditBlogModal
-        blog={editBlog}
-        closeModal={() => setEditBlog(null)}
-        refetch={refetch}/>
-)} */}
+      {/* Add/Edit Modal */}
+      {showModal && (
+        <PolicyForm
+          existingPolicy={editPolicy}
+          setShowModal={setShowModal}
+          refetch={refetch}
+        />
+      )}
     </div>
   );
 };

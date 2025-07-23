@@ -34,7 +34,7 @@ const MyPolicies = () => {
       return res.data;
     },
   });
-
+ console.log(myPolicies)
   return (
     <div className="w-11/12 mx-auto my-12 py-8">
       <h1 className="text-2xl font-bold mb-6">My Policy</h1>
@@ -46,7 +46,10 @@ const MyPolicies = () => {
               <th className="px-6 py-3 bg-gray-50 dark:bg-gray-800">Policy-Name</th>
               <th className="px-6 py-3 bg-gray-50 dark:bg-gray-800">Coverage (Lakhs)</th>
               <th className="px-6 py-3">Duration (years)</th>
-              <th className="px-6 py-3 bg-gray-50 dark:bg-gray-800">Premium (Annual)</th>
+              <th className="px-6 py-3 bg-gray-50 d-gray-800">
+                Premium (Annual)</th>
+              <th className="px-6 py-3 bg-gray-50 d-gray-800">
+                Premium (Monthly)</th>
               <th className="px-6 py-3">Status</th>
               <th className="px-6 py-3">Action</th>
             </tr>
@@ -59,6 +62,8 @@ const MyPolicies = () => {
       <td className="px-6 py-4 font-medium text-gray-900 bg-gray-50 dark:text-white dark:bg-gray-800">{policy.coverage}</td>
       <td className="px-6 py-4">{policy.duration}</td>
       <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{policy.annualPremium}</td>
+      <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+        {policy.monthlyPremium}</td>
       <td className="px-6 py-4">
         {policy.status}
 

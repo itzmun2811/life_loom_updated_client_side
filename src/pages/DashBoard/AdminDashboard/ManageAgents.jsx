@@ -104,9 +104,9 @@ const ManageAgents = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
-             <tbody>
+      <tbody>
   {agentRequests
-    .filter((req) => req.status !== 'Rejected')
+    .filter((req) => req.status === 'Pending')
     .map((req) => (
       <tr key={req._id} className="border-t text-center">
         <td>{req.name}</td>
@@ -128,7 +128,7 @@ const ManageAgents = () => {
           </button>
         </td>
       </tr>
-  ))}
+    ))}
 </tbody>
 
             </table>

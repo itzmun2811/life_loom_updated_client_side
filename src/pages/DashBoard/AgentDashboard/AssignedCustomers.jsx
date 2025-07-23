@@ -89,25 +89,43 @@ const handleStatusChange = (appId, newStatus, policyId) => {
       </table>
 
       {/* Modal for Viewing Details */}
-      {viewedApp && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-semibold mb-2">Applicant Details</h3>
-            <p><strong>Name:</strong> {viewedApp.applicantName}</p>
-            <p><strong>Email:</strong> {viewedApp.email}</p>
-            <p><strong>Policy:</strong> {viewedApp.policyName}</p>
-            <p><strong>Message:</strong> {viewedApp.inquiry || 'N/A'}</p>
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={() => setViewedApp(null)}
-                className="px-4 py-1 bg-gray-700 text-white rounded hover:bg-gray-800"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+    {viewedApp && (
+  <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+    <div className="bg-white p-6 rounded shadow-lg max-w-md w-full space-y-2">
+      <h3 className="text-lg font-semibold mb-4 border-b pb-2">Application Details</h3>
+
+      <p><strong>Applicant Name:</strong> {viewedApp.applicantName}</p>
+      <p><strong>Email:</strong> {viewedApp.email}</p>
+      <p><strong>Address:</strong> {viewedApp.address}</p>
+      <p><strong>NID:</strong> {viewedApp.nid}</p>
+
+      <p><strong>Policy Name:</strong> {viewedApp.name}</p>
+      <p><strong>Coverage:</strong> ৳ {Number(viewedApp.coverage).toLocaleString()}</p>
+      <p><strong>Duration:</strong> {viewedApp.duration} years</p>
+      <p><strong>Annual Premium:</strong> ৳ {viewedApp.annualPremium}</p>
+
+      <p><strong>Nominee:</strong> {viewedApp.name1} ({viewedApp.relation})</p>
+      <p><strong>Health Conditions:</strong> {viewedApp.health?.map(h => h.label).join(', ') || 'None'}</p>
+
+      <p><strong>Application Status:</strong> {viewedApp.status}</p>
+      <p><strong>Payment Status:</strong> {viewedApp.paymentStatus}</p>
+      <p><strong>Agent Email:</strong> {viewedApp.agentEmail}</p>
+
+     
+      <p><strong>Submitted At:</strong> {new Date(viewedApp.created_at).toLocaleString()}</p>
+
+      <div className="mt-4 flex justify-end">
+        <button
+          onClick={() => setViewedApp(null)}
+          className="px-4 py-1 bg-gray-700 text-white rounded hover:bg-gray-800"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
