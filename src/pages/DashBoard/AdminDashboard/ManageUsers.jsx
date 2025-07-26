@@ -3,6 +3,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useRole from '../../../hooks/useRole';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -71,6 +72,10 @@ const ManageUsers = () => {
 
   return (
     <div className="p-6">
+       <Helmet>
+              <title>Manage Users</title>
+              <meta name="description" content="This is my page description" />
+            </Helmet>
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
 
       <div className="overflow-x-auto">

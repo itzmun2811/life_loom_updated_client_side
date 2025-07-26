@@ -3,11 +3,12 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import useAxios from '../../../hooks/useAxios';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const PolicyForm = ({ existingPolicy, setShowModal, refetch }) => {
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
   const [imageURL, setImageURL] = useState('');
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     if (existingPolicy) {
@@ -35,7 +36,7 @@ const PolicyForm = ({ existingPolicy, setShowModal, refetch }) => {
 
       if (existingPolicy && existingPolicy._id) {
         // Update existing policy
-        await axiosInstance.put(`/policy/${existingPolicy._id}`, policy);
+        await axiosSecure.put(`/policy/${existingPolicy._id}`, policy);
         Swal.fire({
           icon: 'success',
           title: 'Policy Updated Successfully!',
@@ -47,7 +48,7 @@ const PolicyForm = ({ existingPolicy, setShowModal, refetch }) => {
         });
       } else {
         // Add new policy
-        const res = await axiosInstance.post('/allPolicies', policy);
+        const res = await axiosSecure.post('/allPolicies', policy);
         if (res.data.insertedId) {
           Swal.fire({
             icon: 'success',

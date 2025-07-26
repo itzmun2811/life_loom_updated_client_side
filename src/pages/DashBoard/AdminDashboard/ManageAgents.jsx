@@ -3,6 +3,7 @@ import useRole from '../../../hooks/useRole';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const ManageAgents = () => {
   const { role } = useRole();
@@ -16,16 +17,17 @@ const ManageAgents = () => {
     queryKey: ['agentRequests', role],
     enabled: role === 'admin',
     queryFn: async () => {
-      const res = await axiosSecure.get('/agentRequest?role=admin');
+      const res = await axiosSecure('/agentRequest?role=admin');
       return res.data;
     }
   });
+  console.log(agentRequests)
 
   const { data: allAgents = [], refetch: refetchAgents } = useQuery({
     queryKey: ['agents'],
     enabled: role === 'admin',
     queryFn: async () => {
-      const res = await axiosSecure.get('/agents');
+      const res = await axiosSecure('/agents');
       return res.data;
     }
   });
@@ -70,6 +72,10 @@ const ManageAgents = () => {
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
+        <Helmet>
+        <title>Manage Agents</title>
+        <meta name="description" content="This is my page description" />
+      </Helmet>
       <h2 className="text-2xl font-bold mb-4">Manage Agents</h2>
 
       <div className="flex gap-4 mb-6">
@@ -106,27 +112,28 @@ const ManageAgents = () => {
               </thead>
       <tbody>
   {agentRequests
-    .filter((req) => req.status === 'Pending')
+    .filter((req) => req.status === 'pending')
     .map((req) => (
       <tr key={req._id} className="border-t text-center">
         <td>{req.name}</td>
         <td>{req.email}</td>
         <td>{req.experience}</td>
-        <td>{req.specialties}</td>
-        <td className="space-x-2">
-          <button
-            onClick={() => handleApprove(req.email)}
-            className="bg-green-500 px-3 py-1 text-white rounded"
-          >
-            Approve
-          </button>
-          <button
-            onClick={() => openRejectModal(req.email)}
-            className="bg-red-500 px-3 py-1 text-white rounded"
-          >
-            Reject
-          </button>
-        </td>
+        <td className='p-3'>{req.specialties}</td>
+     <td className="space-x-3 my-3 mx-3 flex flex-col gap-3 m">
+  <button
+    onClick={() => handleApprove(req.email)}
+    className="bg-sky-800 hover:bg-sky-700 transition-colors duration-300 px-4 py-2 rounded-md text-white font-semibold shadow-sm"
+  >
+    Approve
+  </button>
+  <button
+    onClick={() => openRejectModal(req.email)}
+    className="bg-red-600 hover:bg-red-700 transition-colors duration-300 px-4 py-2 rounded-md text-white font-semibold shadow-sm"
+  >
+    Reject
+  </button>
+</td>
+
       </tr>
     ))}
 </tbody>

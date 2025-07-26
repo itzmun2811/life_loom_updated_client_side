@@ -3,10 +3,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Profile = () => {
   const { user, updateUserProfile } = useContext(AuthContext);
+  const axiosSecure=useAxiosSecure()
   const [profilePicture, setProfilePicture] = useState(user?.photoURL || '');
   const { register, handleSubmit } = useForm();
 
@@ -18,15 +19,15 @@ const Profile = () => {
 
     try {
       await updateUserProfile(profileInfo);
-      // Optional: Save to DB
-      await axios.patch(`/api/users/${user?.email}`, profileInfo); 
+      await axiosSecure.patch(`/users/${user?.email}`, profileInfo); 
+
       Swal.fire({
-    icon: 'success',
-    title: 'Profile Updated',
-    text: 'Your profile was updated successfully!',
-    timer: 2000,
-    showConfirmButton: false
-  });
+        icon: 'success',
+        title: 'Profile Updated',
+        text: 'Your profile was updated successfully!',
+        timer: 2000,
+        showConfirmButton: false
+      });
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -36,6 +37,7 @@ const Profile = () => {
     const image = e.target.files[0];
     const formData = new FormData();
     formData.append('image', image);
+
     const imageUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
     try {
       const res = await axios.post(imageUrl, formData);
@@ -48,8 +50,7 @@ const Profile = () => {
   const getRoleBadge = (role) => {
     switch (role) {
       case 'admin':
-        return <span className="bg-red-100 text-red-800 text-xs 
-        font-medium px-2.5 py-0.5 rounded">Admin</span>;
+        return <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Admin</span>;
       case 'agent':
         return <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Agent</span>;
       default:
@@ -59,8 +60,6 @@ const Profile = () => {
 
   return (
     <div className="w-11/12 mx-auto my-12 p-6 md:p-12 bg-white rounded shadow">
-      
-
       <h2 className="text-2xl font-semibold mb-6">My Profile</h2>
 
       {user && (
@@ -79,8 +78,11 @@ const Profile = () => {
             />
 
             <p className="mt-2 text-sm text-gray-600">
-              Last Login:  {user?.last_log_in}
+              Last Login: {user?.metadata?.lastSignInTime
+                ? new Date(user.metadata.lastSignInTime).toLocaleString()
+                : 'N/A'}
             </p>
+
             <p className="mt-1">{getRoleBadge(user?.role)}</p>
           </div>
 

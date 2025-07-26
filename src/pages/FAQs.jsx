@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const FAQs = () => {
     const faqList = [
@@ -54,6 +55,11 @@ const FAQs = () => {
 
     return (
         <section className="dark:bg-gray-100 dark:text-gray-800">
+           <Helmet>
+                  <title>FAQs</title>
+                  <meta name="description" content="This is my page description" />
+                </Helmet>
+           
             <div data-aos='fade-left' className="container flex flex-col justify-center px-4 py-8 mx-auto md:p-8">
                 <h2 className="text-2xl font-semibold sm:text-4xl">Frequently Asked Questions</h2>
                 <p className="mt-4 mb-8 text-gray-600">

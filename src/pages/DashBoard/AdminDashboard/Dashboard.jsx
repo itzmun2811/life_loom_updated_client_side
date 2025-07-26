@@ -7,6 +7,7 @@ import useRole from '../../../hooks/useRole';
 import Header from '../../../Components/Header';
 import Footer from '../../../Components/Footer';
 import Loading from '../../../shared/Loading/Loading';
+import { Helmet } from 'react-helmet-async';
 
 const Dashboard = () => {
   const { role, loading } = useRole();
@@ -17,17 +18,21 @@ const Dashboard = () => {
 
   return (
     <>
+      
       <Header />
+       <Helmet>
+              <title>DashBoard</title>
+              <meta name="description" content="This is my page description" />
+            </Helmet>
 
       <div className="flex flex-col lg:flex-row gap-4 my-6 max-w-[1600px] mx-auto px-4 lg:px-8">
-        {/* Sidebar - collapses vertically on mobile */}
+       
         <aside className="w-full lg:w-60 bg-gray-100 p-4 rounded-lg shadow-md">
           {role === 'admin' && <AdminMenu />}
           {role === 'agent' && <AgentMenu />}
           {role === 'customer' && <CustomerMenu />}
         </aside>
 
-        {/* Main Content */}
         <main className="flex-1 w-full bg-white p-4 lg:p-8 rounded-lg shadow-md overflow-y-auto">
           <h2 className="text-xl lg:text-2xl font-bold mb-4 text-center capitalize">
             {role} Dashboard

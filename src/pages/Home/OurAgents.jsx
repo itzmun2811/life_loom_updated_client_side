@@ -3,9 +3,10 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import useAxios from '../../hooks/useAxios';
 
 const OurAgents = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -14,7 +15,7 @@ const OurAgents = () => {
   const { data: agents = [], isLoading } = useQuery({
     queryKey: ['agents'],
     queryFn: async () => {
-      const res = await axiosSecure.get('/agents');
+      const res = await axiosInstance.get('/agentsThree');
       return res.data;
     }
   });
@@ -32,7 +33,7 @@ const OurAgents = () => {
         <div className="text-center text-lg text-gray-600">Loading agents...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {agents.slice(0, 3).map((agent, index) => (
+          {agents.map((agent, index) => (
             <div
               key={index}
               data-aos="fade-up"

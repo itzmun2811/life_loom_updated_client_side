@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../../../context/AuthContext';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { Helmet } from 'react-helmet-async';
 
 const PaymentStatus = () => {
   const { user } = useContext(AuthContext);
@@ -34,6 +35,10 @@ const PaymentStatus = () => {
 
   return (
     <div className="w-11/12 mx-auto my-10">
+		 <Helmet>
+				<title>Payment Status</title>
+				<meta name="description" content="This is my page description" />
+			  </Helmet>
       <h2 className="text-2xl font-bold mb-6">💳 Payment Status</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">

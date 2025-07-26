@@ -1,17 +1,19 @@
 import { useParams } from 'react-router';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
+import useAxios from '../hooks/useAxios';
 
 
 const BlogDetails = () => {
   const { id } = useParams();
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
  
 
 const {data:blog={}}=useQuery({
     queryKey:['blogs',id],
     queryFn:async()=>{
-        const res=await axiosSecure(`/blogs/${id}`)
+        const res=await axiosInstance(`/blogs/${id}`)
         return res.data
     }
 })
@@ -19,6 +21,10 @@ const {data:blog={}}=useQuery({
 console.log(blog)
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
+         <Helmet>
+                <title>Blog details</title>
+                <meta name="description" content="This is my page description" />
+              </Helmet>
       <h1 className="text-4xl font-bold mb-6 text-gray-800">{blog.title}</h1>
       <img src={blog.image} alt='' className="w-full h-96 object-cover rounded-xl mb-6" />
 

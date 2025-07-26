@@ -1,14 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import useAxiosSecure from '../hooks/useAxiosSecure';
+import useAxios from '../hooks/useAxios';
 
 const BlogModal = ({blog,closeModal}) => {
      const navigate=useNavigate();
-     const axiosSecure =useAxiosSecure();
+     const axiosInstance =useAxios();
 
     const handleDetails=async(id)=>{
     try {
-    const visitedCount = await axiosSecure.patch(`/blogs/${id}`);
+    const visitedCount = await axiosInstance.patch(`/blogs/${id}`);
     console.log(visitedCount.data);
     navigate(`/blogs/${id}`);
   } catch (error) {

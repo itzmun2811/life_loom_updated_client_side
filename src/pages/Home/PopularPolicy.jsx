@@ -4,9 +4,10 @@ import { Link } from 'react-router';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAxios from '../../hooks/useAxios';
 
 const PopularPolicy = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
 
   useEffect(() => {
     AOS.init({
@@ -19,7 +20,7 @@ const PopularPolicy = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['popularPolicies'],
     queryFn: async () => {
-      const res = await axiosSecure.get('/popularPolicies');
+      const res = await axiosInstance.get('/popularPolicies');
       return res.data;
     },
   });

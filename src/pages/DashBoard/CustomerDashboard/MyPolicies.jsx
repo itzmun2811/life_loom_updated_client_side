@@ -5,6 +5,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import ReviewCard from './ReviewCard';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import PolicyPDF from './PolicyPDF';
+import { Helmet } from 'react-helmet-async';
 
 const MyPolicies = () => {
   const axiosSecure = useAxiosSecure();
@@ -37,6 +38,10 @@ const MyPolicies = () => {
  console.log(myPolicies)
   return (
     <div className="w-11/12 mx-auto my-12 py-8">
+       <Helmet>
+              <title>My Policy</title>
+              <meta name="description" content="This is my page description" />
+            </Helmet>
       <h1 className="text-2xl font-bold mb-6">My Policy</h1>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

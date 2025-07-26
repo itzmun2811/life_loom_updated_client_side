@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useAxios from '../hooks/useAxios';
 import { NavLink } from 'react-router';
+import { Helmet } from 'react-helmet-async';
 
 const AllPolicies = () => {
   const axiosInstance = useAxios();
@@ -29,7 +30,12 @@ const AllPolicies = () => {
   });
 
   return (
+    
     <div className="px-4 md:px-8 lg:px-16 py-10">
+         <Helmet>
+                <title>All Policies</title>
+                <meta name="description" content="This is my page description" />
+              </Helmet>
       <h1 className="text-4xl font-bold text-center text-blue-900 mb-10">
         Check Out Our All Policies
       </h1>

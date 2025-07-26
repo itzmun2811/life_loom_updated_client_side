@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { AuthContext } from '../../../context/AuthContext';
+import { Helmet } from 'react-helmet-async';
 
 const AssignedCustomers = () => {
   const axiosSecure = useAxiosSecure();
@@ -45,6 +46,10 @@ const handleStatusChange = (appId, newStatus, policyId) => {
 
   return (
     <div className="p-4">
+         <Helmet>
+                <title>Assigned Customers</title>
+                <meta name="description" content="This is my page description" />
+              </Helmet>
       <h2 className="text-xl font-bold mb-4">Applications Assigned to Me</h2>
       <table className="min-w-full table-auto border">
         <thead className="bg-gray-200 text-left">

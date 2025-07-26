@@ -7,6 +7,7 @@ import useRole from '../../../hooks/useRole';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import EditBlogModal from './EditBlogModal';
+import { Helmet } from 'react-helmet-async';
 
   const ManageBlogs = () => {
          const { user } = useContext(AuthContext);
@@ -48,16 +49,17 @@ import EditBlogModal from './EditBlogModal';
   }
   }
 
-//   const handleEdit =async(id)=>{
-//     const res=await axiosSecure.patch(`/blogs/edit/${id}`)
-//     console.log(res.data)
-//   }
+
   const handleEdit = (blog) => {
   setEditBlog(blog); // this opens the modal with that blog
 };
 
   return (
     <div>
+         <Helmet>
+                <title>Manage Blogs</title>
+                <meta name="description" content="This is my page description" />
+              </Helmet>
       <div className='flex justify-between'>
 <h2 className="text-2xl font-bold mb-4 text-center">Manage Blogs</h2>
       <button onClick={() => setShowModal(true)} 

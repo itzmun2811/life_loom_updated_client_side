@@ -29,6 +29,12 @@ import BlogDetails from "../pages/BlogDetails";
 import PolicyClearance from "../pages/DashBoard/AgentDashboard/PolicyClearance";
 import ClaimPolicyPage from "../pages/DashBoard/CustomerDashboard/ClaimPolicyPage";
 import MyAgentApplication from "../pages/DashBoard/AgentDashboard/MyAgentApplication";
+import UnAuthorized from "../pages/UnAuthorized";
+import Forbidden from "../pages/Forbidden";
+import AdminRoute from "./AdminRoute/AdminRoute";
+import AgentRoute from "./AgentRoute/AgentRoute";
+import BlogRoute from "./AdminRoute/BlogRoute";
+
 
 
 export const router = createBrowserRouter([
@@ -80,11 +86,6 @@ export const router = createBrowserRouter([
   },
  
   {
-    path: "/profile",
-    element: <Profile></Profile>
-  },
- 
-  {
     path: "/beAgent",
     element: <PrivateRoute><BeAgentForm></BeAgentForm></PrivateRoute>
   },
@@ -97,6 +98,16 @@ export const router = createBrowserRouter([
     path: "/blogs/:id",
     element: <BlogDetails></BlogDetails>
   },
+  
+  {
+    path: "/unauthorized",
+    element: <UnAuthorized></UnAuthorized>
+  },
+  {
+    path: "/forbidden",
+    element: <Forbidden></Forbidden>
+  },
+
  
  
   
@@ -108,34 +119,36 @@ export const router = createBrowserRouter([
     path:'/dashboard',
     element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
     children:[
+    
+      // admin
 {
     path: "manageAgent",
-    element:<ManageAgents></ManageAgents>
+    element:<AdminRoute><ManageAgents></ManageAgents></AdminRoute>
   },
   
  {
     path: "manageApplication",
-    element:<ManageApplication></ManageApplication>
+    element:<AdminRoute><ManageApplication></ManageApplication></AdminRoute>
   },
   
  {
     path: "manageUsers",
-    element:<ManageUsers></ManageUsers>
+    element:<AdminRoute><ManageUsers></ManageUsers></AdminRoute>
   },
  {
     path: "managePolicy",
-    element:<ManagePolicies></ManagePolicies>
+    element:<AdminRoute><ManagePolicies></ManagePolicies></AdminRoute>
   },
   
  {
     path: "manageTransaction",
-    element:<ManageTransactions></ManageTransactions>
+    element:<AdminRoute><ManageTransactions></ManageTransactions></AdminRoute>
   
   },
   // CUSTOMER
   {
     path: "myPolicy",
-    element:<MyPolicies></MyPolicies>
+    element:<PrivateRoute><MyPolicies></MyPolicies></PrivateRoute>
   },
   {
     path: "payment/:id",
@@ -149,25 +162,27 @@ export const router = createBrowserRouter([
     path: "claimPolicy",
     element: <ClaimPolicyPage></ClaimPolicyPage>
   },
-  // AGENT
+  // AGENT && admin
    {
     path: "manageBlogs",
-    element: <ManageBlogs></ManageBlogs>
-  }, {
-    path: "blogPost",
-    element: <BlogPost></BlogPost>
+    element: <BlogRoute><ManageBlogs></ManageBlogs></BlogRoute>
   }, 
+  {
+    path: "blogPost",
+    element: <BlogRoute><BlogPost></BlogPost></BlogRoute>
+  }, 
+    // AGENT
    {
     path: "policyClearance",
-    element: <PolicyClearance></PolicyClearance>
+    element: <AgentRoute><PolicyClearance></PolicyClearance></AgentRoute>
   }, 
    {
     path: "myApplication",
-    element: <MyAgentApplication></MyAgentApplication>
+    element:<AgentRoute><MyAgentApplication></MyAgentApplication></AgentRoute> 
   }, 
   {
     path: "assignedCustomer",
-    element: <AssignedCustomers></AssignedCustomers>
+    element:<AgentRoute> <AssignedCustomers></AssignedCustomers></AgentRoute>
   },
 
     ]

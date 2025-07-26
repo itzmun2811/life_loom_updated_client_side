@@ -4,6 +4,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useRole from '../../../hooks/useRole';
 import Swal from 'sweetalert2';
 import RejectionModal from './RejectionModal';
+import { Helmet } from 'react-helmet-async';
 
 const ManageApplication = () => {
   const { role } = useRole();
@@ -48,9 +49,7 @@ const ManageApplication = () => {
     },
   });
 
-  const assignedAgentEmails = allApplications
-    .map((app) => app.agentEmail)
-    .filter(Boolean);
+
 
   const handleAssign = async (applicationId) => {
     const selectedAgent = agentSelections[applicationId];
@@ -102,6 +101,10 @@ const ManageApplication = () => {
   return (
     <div>
       <div className="container p-2 mx-auto sm:p-4">
+         <Helmet>
+                <title>Manage Applications</title>
+                <meta name="description" content="This is my page description" />
+              </Helmet>
         <h2 className="mb-4 text-2xl font-semibold leading-tight">Manage Applications</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border p-6 text-xs text-left whitespace-nowrap">
@@ -118,8 +121,9 @@ const ManageApplication = () => {
             </thead>
             <tbody className="border-b">
               {allApplications
-                .filter((application) => application.status !== 'Rejected')
-                .map((application) => (
+              .filter((application) => application.status !== 'Rejected'
+               && application.status !== 'Approved')
+    .map((application) => (
                   <tr key={application._id}>
                     <td className="px-3 py-2">{application.applicantName}</td>
                     <td className="px-3 py-2">{application.email}</td>
@@ -153,7 +157,8 @@ const ManageApplication = () => {
                           className="border rounded px-2 py-1"
                         >
                           <option value="">Select Agent</option>
-                          {allAgents.map((agent) => (
+                          {allAgents
+                        .map((agent) => (
                               <option key={agent._id} value={agent.email}>
                                 {agent.email}
                               </option>

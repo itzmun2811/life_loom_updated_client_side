@@ -31,6 +31,10 @@ const PolicyClearance = () => {
 
   return (
     <div className="p-6">
+       <Helmet>
+              <title>Policy Clearance</title>
+              <meta name="description" content="This is my page description" />
+            </Helmet>
       <h2 className="text-2xl font-bold mb-6">Customer Claim Requests</h2>
       <div className="overflow-x-auto">
         <table className="table w-full border">

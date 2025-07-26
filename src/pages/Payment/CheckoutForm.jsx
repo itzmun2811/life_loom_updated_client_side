@@ -8,14 +8,13 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const CheckoutForm = () => {
   const { id: policyId } = useParams();
+  const axiosSecure=useAxiosSecure();
   const location = useLocation();
   const frequency = new URLSearchParams(location.search).get('frequency') || 'annually';
-
-  const stripe = useStripe();
+ const stripe = useStripe();
   const elements = useElements();
   const queryClient = useQueryClient();
   const [clientSecret, setClientSecret] = useState('');
-  const axiosSecure = useAxiosSecure();
 
   const { data: policy, isLoading } = useQuery({
     queryKey: ['policy', policyId],
@@ -36,7 +35,7 @@ const CheckoutForm = () => {
             : parseInt(policy.annualPremium);
 
         try {
-          const res = await axios.post('http://localhost:3000/create-payment-intent',
+          const res = await axiosSecure.post('/create-payment-intent',
 
              
        {amount:amount})
@@ -49,11 +48,11 @@ const CheckoutForm = () => {
     };
 
     createIntent();
-  }, [policy, frequency]);
+  }, [policy, frequency,axiosSecure]);
 
   const updatePaymentStatus = useMutation({
     mutationFn: async ({ id, transactionId, frequency }) => {
-      return await axios.patch(`http://localhost:3000/policy-paid/${id}`, {
+      return await axiosSecure.patch(`/policy-paid/${id}`, {
         transactionId,
         frequency,
       });

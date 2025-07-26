@@ -3,15 +3,17 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import BlogDetails from './BlogModal';
 import BlogModal from './BlogModal';
+import { Helmet } from 'react-helmet-async';
+import useAxios from '../hooks/useAxios';
 
 const Blogs = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const [selectedBlog, setSelectedBlog] = useState(null);
 
   const { data: blogs = [],refetch } = useQuery({
     queryKey: ['blogs'],
     queryFn: async () => {
-      const res = await axiosSecure('/blogs');
+      const res = await axiosInstance('/blogs');
       return res.data;
     },
   });
@@ -19,7 +21,12 @@ const Blogs = () => {
  
 
   return (
+    
     <div className="w-11/12 mx-auto my-12">
+        <Helmet>
+               <title>Blogs</title>
+               <meta name="description" content="This is my page description" />
+             </Helmet>
       <h2 className="text-3xl font-bold text-center mb-8">All Blogs</h2>
        
           

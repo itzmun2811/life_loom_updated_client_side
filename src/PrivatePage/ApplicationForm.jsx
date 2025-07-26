@@ -5,6 +5,7 @@ import useAxiosSecure from '../hooks/useAxiosSecure';
 import { useLocation } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -68,7 +69,10 @@ Swal.fire({
 
     return (
         <div>
-         
+          <Helmet>
+                 <title>Application</title>
+                 <meta name="description" content="This is my page description" />
+               </Helmet>
         <h1 data-aos='zoom-in' className='text-2xl text-center font-bold text-blue-950 mt-6 pt-6'>Apply for Policy</h1>    
         <h1 data-aos='zoom-out' className='text-xl text-center font-bold text-blue-950 mt-3 pt-3'>Policy Name :{policyDetails.title}</h1>    
 
@@ -174,7 +178,7 @@ Swal.fire({
              {...register('name1',{required:true})}
             id="name1"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            placeholder="Your Name"
+            placeholder="Nominee Name"
             required
           />
   

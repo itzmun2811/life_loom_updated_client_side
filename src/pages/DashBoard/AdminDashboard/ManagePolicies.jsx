@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import useRole from "../../../hooks/useRole";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const ManagePolicies = () => {
   const { user } = useContext(AuthContext);
@@ -15,11 +16,12 @@ const ManagePolicies = () => {
 
   const { data: policies = [], refetch } = useQuery({
     queryKey: ['policies', user?.email],
+       enabled: !!user && role === 'admin',
     queryFn: async () => {
-      const res = await axiosSecure.get(`/allPOlicyByAdmin?email=${user?.email}`);
+      const res = await axiosSecure(`/allPolicyByAdmin?email=${user?.email}`);
       return res.data;
     },
-    enabled: !!user && role === 'admin',
+ 
   });
 
   const handleDelete = async (id) => {
@@ -51,6 +53,10 @@ const ManagePolicies = () => {
 
   return (
     <div className="px-4 py-8 max-w-7xl mx-auto">
+         <Helmet>
+                <title>Manage Policies</title>
+                <meta name="description" content="This is my page description" />
+              </Helmet>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Manage Policies</h2>
         <button

@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCreative } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/effect-creative';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import BlogModal from '../BlogModal';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import useAxios from '../../hooks/useAxios';
 
 const LatestBlogs = () => {
+  const axiosInstance = useAxios();
   const [selectedBlog, setSelectedBlog] = useState(null);
-  const axiosSecure = useAxiosSecure();
 
-  const { data: latestBlogs = [], isLoading, isError } = useQuery({
-    queryKey: ['latestBlogs'],
+  const { data: blogs = [], isLoading, isError } = useQuery({
+    queryKey: ['blogs'],
     queryFn: async () => {
-      const res = await axiosSecure.get('/latestBlogs?limit=4&sort=latest');
+      const res = await axiosInstance('/latestBlogs?limit=4&sort=latest');
       return res.data;
     },
   });
@@ -24,107 +28,105 @@ const LatestBlogs = () => {
   if (isError) return <p className="text-center py-10 text-red-500">Error loading blogs.</p>;
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-14">
-      <h2 className="text-4xl font-bold text-center mb-10">Latest Blogs & Articles</h2>
+    <div className="w-11/12 mx-auto my-12">
+    
+      <h2 className="text-3xl font-bold text-center mb-8">Latest Blogs & Articles</h2>
 
-      <div className="flex justify-center">
-        <Swiper
-         onAutoplay={true}
-          grabCursor={true}
-          effect="creative"
-          creativeEffect={{
-            prev: {
-              shadow: true,
-              translate: ['-120%', 0, -500],
-            },
-            next: {
-              shadow: true,
-              translate: ['120%', 0, -500],
-            },
-          }}
-          modules={[EffectCreative]}
-          className="w-full max-w-md md:max-w-2xl lg:max-w-3xl"
-        >  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 '>
-          {latestBlogs.map((blog) => (
-            <SwiperSlide key={blog._id}>
-              <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                <img
-                  src={blog.image}
-                  alt={blog.title}
-                  className="w-full h-60 object-cover"
-                />
-                <div className="p-5">
-                  <h3 className="text-xl font-semibold mb-2 line-clamp-2">{blog.title}</h3>
-                  <p className="text-sm text-gray-600 line-clamp-3 mb-4">
-                    {blog.content.slice(0, 100)}...
-                  </p>
-                  <div className="flex items-center gap-3 mb-4">
-                    <img
-                      src={blog.authorImage}
-                      alt={blog.author}
-                      className="w-9 h-9 rounded-full object-cover"
-                    />
-                    <div className="text-xs">
-                      <p className="font-medium">{blog.author}</p>
-                      <p className="text-gray-500">{blog.authorEmail}</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setSelectedBlog(blog)}
-                    className="text-blue-600 text-sm font-semibold hover:underline"
-                  >
-                    Read More →
-                  </button>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-          </div>
-        </Swiper>
-      </div>
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="mySwiper"
+      >
+        {blogs.map((blog) => (
+      <SwiperSlide key={blog._id}>
+  <div className="w-full mx-auto max-w-3xl  
+  p-6 bg-gradient-to-tl from-sky-600 to-gray-200 
+  rounded-2xl shadow-md overflow-hidden">
+    {/* Image */}
+    <div className="w-full">
+      <img
+        className="w-full h-56  md:h-64 lg:h-64  object-cover object-center p-4 sm:p-6"
+        src={blog.image}
+        alt={blog.title}
+      />
+    </div>
 
-      {/* Modal */}
-      {selectedBlog && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full p-6 relative overflow-y-auto max-h-[90vh]">
-            <h2 className="text-2xl font-bold mb-3">{selectedBlog.title}</h2>
-            <p className="text-sm text-gray-500 mb-4">
-              Published: {new Date(selectedBlog.publishDate).toLocaleDateString()} | Views: {selectedBlog.totalVisitCount}
+    {/* Content */}
+    <div className="p-4 sm:p-6 md:p-8 bg-white flex flex-col space-y-4">
+      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800">{blog.title}</h3>
+
+      <p className="text-sm sm:text-base md:text-lg text-slate-700 leading-relaxed">
+        {blog.content.split(' ').slice(0, 50).join(' ')}...
+      </p>
+
+      {/* Author + Stats */}
+      <div className="flex flex-col sm:flex-row justify-between gap-4 sm:items-center">
+        <div className="flex items-center space-x-3">
+          <img
+            src={blog.authorImage}
+            alt={blog.author}
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2"
+          />
+          <div>
+            <p className="text-sm md:text-base font-medium text-sky-800 flex gap-1 items-center">
+              {blog.author}
+              <span className="bg-sky-200 text-sky-800 text-xs px-2 py-0.5 rounded-full">
+                Author
+              </span>
             </p>
-            <img
-              src={selectedBlog.image}
-              alt={selectedBlog.title}
-              className="w-full h-64 object-cover rounded mb-4"
-            />
-            <p className="text-gray-800 mb-6">{selectedBlog.content}</p>
-            <div className="flex justify-between items-center">
-              <Link
-                to={`/blogs/${selectedBlog._id}`}
-                className="text-blue-600 hover:underline"
-              >
-                Go to Full Blog →
-              </Link>
-              <button
-                onClick={() => setSelectedBlog(null)}
-                className="text-red-500 hover:underline"
-              >
-                Close
-              </button>
-            </div>
+            <p className="text-xs md:text-sm text-slate-600">
+              {new Date(blog.publishDate).toLocaleDateString()}
+            </p>
           </div>
         </div>
-      )}
+        <p className="text-sm text-slate-600 font-semibold">
+          👁️ {blog.totalVisitCount}
+        </p>
+      </div>
 
-      {/* View All Button */}
-      <div className="text-center mt-12">
+      {/* Button */}
+      <div className="text-right">
+        <button
+          onClick={() => setSelectedBlog(blog)}
+          className="px-4 py-2 text-sm sm:text-base bg-sky-600 text-white rounded hover:bg-sky-700 transition"
+        >
+          Read More →
+        </button>
+      </div>
+    </div>
+  </div>
+</SwiperSlide>
+
+        ))}
+      </Swiper>
+
+      {/* View All Blogs Button */}
+      <div className="text-center mt-10">
         <Link
           to="/blogs"
-          className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition"
+          className="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition"
         >
-          View All Blogs / Articles
+          View All Blogs
         </Link>
       </div>
-    </section>
+
+      {/* Blog Modal */}
+      {selectedBlog && (
+        <BlogModal
+          blog={selectedBlog}
+          closeModal={() => setSelectedBlog(null)}
+        />
+      )}
+    </div>
   );
 };
 

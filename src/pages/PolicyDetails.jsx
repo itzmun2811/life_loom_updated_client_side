@@ -1,12 +1,13 @@
-import React, { use } from 'react';
+import React, { use, useContext } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router';
 import useAxios from '../hooks/useAxios';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../context/AuthContext';
+import { Helmet } from 'react-helmet-async';
 
 const PolicyDetails = () => {
     const {id} =useParams();
-    const{user}=use(AuthContext);
+    const{user}=useContext(AuthContext);
      console.log(user?.role)
  const axiosInstance =useAxios();
  
@@ -22,6 +23,10 @@ const PolicyDetails = () => {
 
     return (
         <div>
+             <Helmet>
+                    <title>Policy Deatils</title>
+                    <meta name="description" content="This is my page description" />
+                  </Helmet>
           <h1 className='font-bold text-center shadow rounded-2xl p-4 text-4xl text-blue-900'>Policy Details Page</h1>
 
 <div className="my-12 max-w-7xl mx-auto p-4 shadow-md dark:bg-gray-50 dark:text-gray-800" data-aos="fade-down-right">

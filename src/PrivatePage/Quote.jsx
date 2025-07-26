@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../context/AuthContext';
+import { Helmet } from 'react-helmet-async';
 
 const Quote = () => {
   const { user } = useContext(AuthContext);
@@ -47,6 +48,10 @@ const Quote = () => {
 
   return (
     <div>
+       <Helmet>
+              <title>Quote</title>
+              <meta name="description" content="This is my page description" />
+            </Helmet>
       <h1 className="text-2xl text-center font-bold text-blue-950 mt-6 pt-6">
         Get Estimated Quote
       </h1>

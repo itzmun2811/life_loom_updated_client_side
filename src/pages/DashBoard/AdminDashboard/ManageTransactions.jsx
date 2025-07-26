@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { Helmet } from 'react-helmet-async';
 
 const ManageTransactions = () => {
   const axiosSecure = useAxiosSecure();
@@ -20,6 +21,10 @@ const ManageTransactions = () => {
 
   return (
     <div className="p-6 space-y-8">
+         <Helmet>
+                <title>Manage Transactions</title>
+                <meta name="description" content="This is my page description" />
+              </Helmet>
       <div className="bg-white p-6 rounded shadow-md">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">

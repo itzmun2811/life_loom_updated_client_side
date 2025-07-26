@@ -5,6 +5,7 @@ import axios from 'axios';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { AuthContext } from '../../../context/AuthContext';
 import { useForm } from 'react-hook-form';
+import { Helmet } from 'react-helmet-async';
 
 const ClaimPolicyPage = () => {
   const axiosSecure = useAxiosSecure();
@@ -82,6 +83,10 @@ const ClaimPolicyPage = () => {
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
+       <Helmet>
+              <title>Claim Policy</title>
+              <meta name="description" content="This is my page description" />
+            </Helmet>
       <h2 className="text-3xl font-bold mb-6">📃 Your Approved Policies</h2>
       <div className="overflow-x-auto">
         <table className="w-full border text-sm">

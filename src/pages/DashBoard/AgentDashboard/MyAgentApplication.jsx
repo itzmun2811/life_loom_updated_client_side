@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { AuthContext } from '../../../context/AuthContext';
 import { useContext } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const MyAgentApplication = () => {
   const axiosSecure = useAxiosSecure();
@@ -25,7 +26,12 @@ const MyAgentApplication = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded">
+         <Helmet>
+                <title>My Application</title>
+                <meta name="description" content="This is my page description" />
+              </Helmet>
       <h2 className="text-2xl font-bold mb-4">Your Agent Application</h2>
+      
       <div className="flex gap-4 mb-4 items-center">
         <img
           src={application.photo}
@@ -41,11 +47,8 @@ const MyAgentApplication = () => {
       <p><strong>Specialties:</strong> {application.specialties}</p>
       <p><strong>Message:</strong> {application.message}</p>
       <p><strong>Status:</strong>
-        <span className={`ml-2 font-semibold ${
-          application.status === 'Rejected' ? 'text-red-600' :
-          application.status === 'approved' ? 'text-green-600' : 'text-yellow-500'
-        }`}>
-          {application.status}
+        <span className='ml-2 font-semibold'>
+          {application.status ==="Rejected" ? "Rejected" :"Approved "}  
         </span>
       </p>
 

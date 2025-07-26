@@ -8,14 +8,15 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { FaStar, FaRegStar } from 'react-icons/fa';
+import useAxios from '../../hooks/useAxios';
 
 const CustomerReview = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance= useAxios();
 
   const { data: reviews = [] } = useQuery({
     queryKey: ['customerReviews'],
     queryFn: async () => {
-      const res = await axiosSecure.get('/reviews?limit=8&sort=latest');
+      const res = await axiosInstance.get('/reviews?limit=8&sort=latest');
       return res.data;
     },
   });

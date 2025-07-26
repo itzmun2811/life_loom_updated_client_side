@@ -21,25 +21,25 @@ const AuthProvider = ({children}) => {
   }
 
   useEffect(()=>{
-   const unSubscribe=onAuthStateChanged(auth,(currentUser)=>{
+   const unSubscribe=onAuthStateChanged(auth,async(currentUser)=>{
      if(currentUser){
         setUser(currentUser);
 
         if(currentUser?.email){
-          axiosInstance.post('/jwt',{email:currentUser?.email})
+           await axiosInstance.post('/jwt',{email:currentUser?.email})
           .then(res=>{
             console.log(res.data.token)
             localStorage.setItem('token',res.data.token)
           }
           )
-        }else{
-          localStorage.removeItem('token')
         }
         setLoading(false)
       console.log('user is here',currentUser)
     }
         else{
             setUser(null)
+            setLoading(false)
+             localStorage.removeItem('token')
         }
       
    })
@@ -64,7 +64,8 @@ const logOut=()=>{
     return signOut(auth)
   }
 
-  const Info={createNewUser, logInUser,googleSignIn,logOut,user,updateUserProfile
+  const Info={createNewUser, logInUser,
+    googleSignIn,logOut,user,updateUserProfile,loading
      }
 
 

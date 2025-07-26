@@ -4,6 +4,7 @@ import useAxiosSecure from '../hooks/useAxiosSecure';
 import useRole from '../hooks/useRole';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../context/AuthContext'; 
+import { Helmet } from 'react-helmet-async';
 
 const BeAgentForm = () => {
   const { role } = useRole();
@@ -47,6 +48,10 @@ const BeAgentForm = () => {
 
   return (
     <div className="max-w-xl mx-auto p-6 border rounded shadow-sm mt-8">
+       <Helmet>
+              <title>Be Agent</title>
+              <meta name="description" content="This is my page description" />
+            </Helmet>
       <h2 className="text-2xl font-bold mb-4">Apply to Become an Agent</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
