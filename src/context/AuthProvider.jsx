@@ -19,35 +19,43 @@ const AuthProvider = ({children}) => {
       setLoading(true)
     return signInWithEmailAndPassword (auth,email,password)
   }
+useEffect(() => {
+  const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    if (currentUser) {
+      setLoading(true);
+      setUser(currentUser); // Temporarily set user (without role)
 
-  useEffect(()=>{
-   const unSubscribe=onAuthStateChanged(auth,async(currentUser)=>{
-     if(currentUser){
-        setUser(currentUser);
+      try {
+        const res = await axiosInstance.post('/jwt', { email: currentUser.email });
+        const token = res.data.token;
+        localStorage.setItem('token', token);
 
-        if(currentUser?.email){
-           await axiosInstance.post('/jwt',{email:currentUser?.email})
-          .then(res=>{
-            console.log(res.data.token)
-            localStorage.setItem('token',res.data.token)
-          }
-          )
-        }
-        setLoading(false)
-      console.log('user is here',currentUser)
+        // ✅ Securely get role from backend
+        const userInfo = await axiosInstance.get('/user-info', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          
+        });
+
+        // ✅ Set user with role
+        setUser({ ...currentUser, role: userInfo.data.role });
+      } catch (error) {
+        console.error('Auth error:', error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setUser(null);
+      localStorage.removeItem('token');
+      setLoading(false);
     }
-        else{
-            setUser(null)
-            setLoading(false)
-             localStorage.removeItem('token')
-        }
-      
-   })
- return()=>{
-    unSubscribe()
- }
+  });
 
-  },[axiosInstance])
+  return () => unSubscribe();
+}, [axiosInstance]);
+
 
  const updateUserProfile =(profileInfo)=>{
     return updateProfile(auth.currentUser,profileInfo)

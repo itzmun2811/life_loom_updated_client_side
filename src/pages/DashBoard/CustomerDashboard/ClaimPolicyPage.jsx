@@ -42,14 +42,13 @@ const ClaimPolicyPage = () => {
   };
 
   const onSubmit = (data) => {
-    if (!uploadedDocumentUrl) {
-      return Swal.fire('Missing', 'Please upload the document first.', 'warning');
-    }
+   
 
     const claimRequest = {
       policyId: selectedPolicy._id,
       policyName: selectedPolicy.name,
       email: user.email,
+      amount:selectedPolicy.coverage,
       claimReason: data.claimReason,
       documentUrl: uploadedDocumentUrl,
       agentEmail: selectedPolicy.agentEmail,
@@ -113,25 +112,26 @@ const ClaimPolicyPage = () => {
                   <td className="border p-2">{idx + 1}</td>
                   <td className="border p-2">{policy.name}</td>
                   <td className="border p-2 capitalize">{status || 'Not Claimed'}</td>
-                  <td className="border p-2">
-                    {status === 'approved' ? (
-                      <button
-                        className="bg-green-600 text-white px-3 py-1 rounded"
-                        onClick={handleApprovedAlert}
-                      >
-                        Approved
-                      </button>
-                    ) : status === 'pending' ? (
-                      <span className="text-yellow-600 font-semibold">Pending</span>
-                    ) : (
-                      <button
-                        onClick={() => setSelectedPolicy(policy)}
-                        className="bg-blue-600 text-white px-3 py-1 rounded"
-                      >
-                        Claim
-                      </button>
-                    )}
-                  </td>
+                 <td className="border p-2">
+  {status === 'approved' ? (
+    <button
+      className="bg-green-600 text-white px-3 py-1 rounded cursor-default"
+      onClick={handleApprovedAlert}
+    >
+      Approved
+    </button>
+  ) : status === 'pending' ? (
+    <span className="text-yellow-600 font-semibold">Pending</span>
+  ) : (
+    <button
+      onClick={() => setSelectedPolicy(policy)}
+      className="bg-blue-600 text-white px-3 py-1 rounded"
+    >
+      Claim
+    </button>
+  )}
+</td>
+
                 </tr>
               );
             })}

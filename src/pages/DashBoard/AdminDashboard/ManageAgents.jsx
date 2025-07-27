@@ -44,25 +44,33 @@ const ManageAgents = () => {
     setShowModal(true);
   };
 
-  const handleRejectSubmit = async () => {
-    if (!feedbackText.trim()) {
-      return Swal.fire('Error', 'Feedback is required.', 'warning');
-    }
+const handleRejectSubmit = async () => {
+  if (!feedbackText.trim()) {
+    return Swal.fire('Error', 'Feedback is required.', 'warning');
+  }
 
-    try {
-      const res = await axiosSecure.patch(`/agentRequest/reject/${rejectEmail}`, {
-        feedback: feedbackText
-      });
+  try {
+    await axiosSecure.patch(`/agentRequest/reject/${rejectEmail}`, {
+      status: "rejected",
+      feedback: feedbackText
+    });
 
-      Swal.fire('Rejected!', `${rejectEmail}'s request was rejected.`, 'info');
-      setFeedbackText('');
-      setRejectEmail(null);
-      setShowModal(false);
-      refetchRequests();
-    } catch (error) {
-      Swal.fire('Error', 'Something went wrong.', 'error');
-    }
-  };
+    Swal.fire('Rejected!', `${rejectEmail}'s request was rejected.`, 'info');
+
+    setFeedbackText('');
+    setRejectEmail(null);
+    setShowModal(false);
+
+    // Give DB a moment to finish update before refetching
+    await new Promise(resolve => setTimeout(resolve, 300));
+    refetchRequests();
+    refetchAgents();
+
+  } catch (error) {
+    Swal.fire('Error', 'Something went wrong.', 'error');
+  }
+};
+
 
   const handleDemote = async (email) => {
     const res = await axiosSecure.patch(`/agentRequest/demote/${email}`);
@@ -158,7 +166,7 @@ const ManageAgents = () => {
             <tbody>
               {allAgents.map((agent) => (
                 <tr key={agent._id} className="border-t text-center">
-                  <td>{agent.displayName || 'N/A'}</td>
+                  <td>{agent.name || 'N/A'}</td>
                   <td>{agent.email}</td>
                   <td>
                     <button

@@ -3,6 +3,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { AuthContext } from '../../../context/AuthContext';
 import { Helmet } from 'react-helmet-async';
+import Swal from 'sweetalert2';
 
 const AssignedCustomers = () => {
   const axiosSecure = useAxiosSecure();
@@ -32,7 +33,19 @@ const AssignedCustomers = () => {
     }
   },
   onSuccess: () => {
-    refetch(); 
+    refetch();
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'Status updated successfully!',
+    });
+  },
+  onError: (error) => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error?.response?.data?.message || 'Something went wrong!',
+    });
   },
 });
 

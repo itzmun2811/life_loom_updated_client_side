@@ -20,7 +20,6 @@ import ManageApplication from "../pages/DashBoard/AdminDashboard/ManageApplicati
 import ManageTransactions from "../pages/DashBoard/AdminDashboard/ManageTransactions"
 import PaymentPage from "../pages/DashBoard/CustomerDashboard/PaymentPage"
 import PaymentStatus from "../pages/DashBoard/CustomerDashboard/PaymentStatus";
-import ClaimPayment from "../pages/DashBoard/CustomerDashboard/ClaimPolicyPage";
 import Blogs from "../pages/Blogs";
 import ManageBlogs from "../pages/DashBoard/AgentDashboard/ManageBlogs";
 import BlogPost from "../pages/DashBoard/AgentDashboard/BlogPost";
@@ -34,6 +33,8 @@ import Forbidden from "../pages/Forbidden";
 import AdminRoute from "./AdminRoute/AdminRoute";
 import AgentRoute from "./AgentRoute/AgentRoute";
 import BlogRoute from "./AdminRoute/BlogRoute";
+import AgentApplicationRejection from "../pages/DashBoard/CustomerDashboard/AgentApplicationRejection";
+
 
 
 
@@ -152,15 +153,19 @@ export const router = createBrowserRouter([
   },
   {
     path: "payment/:id",
-    element: <PaymentPage></PaymentPage>
+    element: <PrivateRoute><PaymentPage></PaymentPage></PrivateRoute>
   },
   {
     path: "paymentStatus",
-    element: <PaymentStatus></PaymentStatus>
+    element: <PrivateRoute><PaymentStatus></PaymentStatus></PrivateRoute>
   },
   {
     path: "claimPolicy",
-    element: <ClaimPolicyPage></ClaimPolicyPage>
+    element:<PrivateRoute><ClaimPolicyPage></ClaimPolicyPage></PrivateRoute>
+  },
+  {
+    path: "rejection",
+    element: <PrivateRoute><AgentApplicationRejection></AgentApplicationRejection></PrivateRoute>
   },
   // AGENT && admin
    {
@@ -187,5 +192,5 @@ export const router = createBrowserRouter([
 
     ]
   }
-
+  
 ]);

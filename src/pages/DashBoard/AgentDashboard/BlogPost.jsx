@@ -11,6 +11,7 @@ const BlogPost = ({ setShowModal, refetch }) => {
   const [content, setContent] = useState('');
  const [publishDate] = useState(new Date().toISOString());
  const [imageUrl, setImageUrl] = useState('');
+ const [uploading, setUploading] = useState(false);
 
 
  
@@ -46,18 +47,28 @@ setShowModal(false);
     }
   };
 
-   const handleImageUpload=async(e)=>{
-    const image =e.target.files[0];
-     const formData =new FormData();
-     formData.append('image',image)
-     const imageUrl=`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`
-     const res=await axios.post(imageUrl,formData);
-     console.log(res.data)
-      setImageUrl(res.data.data.url);
-     
+  const handleImageUpload = async (e) => {
+  const image = e.target.files[0];
+  if (!image) return;
+  
+  const formData = new FormData();
+  formData.append('image', image);
+  
+  const imageUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
 
+  setUploading(true);
+  try {
+    const res = await axios.post(imageUrl, formData);
+    setImageUrl(res.data.data.url);
+  
+  } catch (err) {
+    console.error("Image upload failed:", err);
+   
+  } finally {
+    setUploading(false); 
+  }
+};
 
-   }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
@@ -88,7 +99,7 @@ setShowModal(false);
     </label>
     <input
       type="file"
-      id="email"
+  
     onChange={handleImageUpload}
      placeholder="Photo URL"
     
@@ -117,7 +128,10 @@ className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 </div>
         <div className="flex justify-between mt-4">
           <button type="button" className="btn" onClick={() => setShowModal(false)}>Cancel</button>
-          <button type="submit" className="btn btn-success">Publish</button>
+          <button type="submit" className="btn btn-success"   disabled={uploading || !imageUrl}>
+
+              {uploading ? "Uploading..." : "Publish"}
+          </button>
         </div>
       </form>
     </div>

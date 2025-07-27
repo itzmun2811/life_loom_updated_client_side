@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../../context/AuthContext';
+import { Helmet } from 'react-helmet-async';
 
 const PolicyClearance = () => {
   const axiosSecure = useAxiosSecure();
@@ -53,8 +54,8 @@ const PolicyClearance = () => {
               <tr key={claim._id} className="border-b">
                 <td className="p-3">{index + 1}</td>
                 <td className="p-3">{claim.policyName}</td>
-                <td className="p-3">{claim.customerName}</td>
-                <td className="p-3">{claim.claimAmount} BDT</td>
+                <td className="p-3">{claim.email}</td>
+                <td className="p-3">{claim.amount} BDT</td>
                 <td className="p-3 capitalize">{claim.status}</td>
                 <td className="p-3">
                   <button
@@ -82,8 +83,8 @@ const PolicyClearance = () => {
             </button>
             <h3 className="text-xl font-semibold mb-4">Policy Claim Details</h3>
             <p><strong>Policy Name:</strong> {selectedClaim.policyName}</p>
-            <p><strong>Customer:</strong> {selectedClaim.customerName}</p>
-            <p><strong>Claim Amount:</strong> {selectedClaim.claimAmount} BDT</p>
+            <p><strong>Customer:</strong> {selectedClaim.email}</p>
+            <p><strong>Claim Amount:</strong> {selectedClaim.mount} BDT</p>
             <p><strong>Reason:</strong> {selectedClaim.claimReason || 'N/A'}</p>
             <p><strong>Status:</strong> {selectedClaim.status}</p>
 

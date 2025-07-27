@@ -48,7 +48,7 @@ const MyAgentApplication = () => {
       <p><strong>Message:</strong> {application.message}</p>
       <p><strong>Status:</strong>
         <span className='ml-2 font-semibold'>
-          {application.status ==="Rejected" ? "Rejected" :"Approved "}  
+          {application.status}  
         </span>
       </p>
 

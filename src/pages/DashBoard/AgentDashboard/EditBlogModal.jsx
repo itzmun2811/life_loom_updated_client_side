@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const EditBlogModal = ({ blog, closeModal, refetch }) => {
   const axiosSecure = useAxiosSecure();
@@ -38,6 +39,16 @@ const handleImageUpload = async (e) => {
    
      const res= await axiosSecure.patch(`/blogs/edit/${blog._id}`, updatedBlog);
      console.log(res.data)
+     if (res.data.modifiedCount > 0) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Blog Updated!',
+    text: 'The blog has been successfully updated.',
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'OK'
+  });
+}
+
      closeModal();
       refetch();
    

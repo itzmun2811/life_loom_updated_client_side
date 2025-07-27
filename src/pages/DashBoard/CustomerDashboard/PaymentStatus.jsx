@@ -46,6 +46,7 @@ const PaymentStatus = () => {
             <tr>
               <th className="py-3 px-6 text-left">Policy</th>
               <th className="py-3 px-6 text-left">Premium</th>
+              <th className="py-3 px-6 text-left">Frequency</th>
               <th className="py-3 px-6 text-left">Status</th>
               <th className="py-3 px-6 text-left">Action</th>
             </tr>
@@ -63,10 +64,13 @@ const PaymentStatus = () => {
                   <td className="py-4 px-6">{policy.name}</td>
                   <td className="py-4 px-6">
                     <div>
+					 <span>Monthly: ৳{policy.monthlyPremium}</span>
                       <span>Annual: ৳{policy.annualPremium}</span><br />
-                      <span>Monthly: ৳{policy.monthlyPremium}</span>
+                   
                     </div>
                   </td>
+				    <td className="py-4 px-6">Monthly/Yearly
+					</td>
                   <td className="py-4 px-6 capitalize font-medium text-sm">
                     {policy.paymentStatus === 'paid' ? (
                       <span className="text-green-600">Paid</span>

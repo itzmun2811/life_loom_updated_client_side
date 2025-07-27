@@ -51,7 +51,7 @@ import { Helmet } from 'react-helmet-async';
 
 
   const handleEdit = (blog) => {
-  setEditBlog(blog); // this opens the modal with that blog
+  setEditBlog(blog); 
 };
 
   return (

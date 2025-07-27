@@ -2,11 +2,13 @@ import React, { useContext, useState } from 'react';
 import Logo from '../shared/WebLogo/Logo';
 import { AuthContext } from '../context/AuthContext';
 import { NavLink } from 'react-router';
+import useRole from '../hooks/useRole';
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const {role}=useRole();
 
   const handleLogOut = () => {
     logOut()
@@ -124,7 +126,9 @@ const Header = () => {
               <li><NavLink to="/faq" className="hover:text-blue-300">FAQs</NavLink></li>
               <li><NavLink to="/dashboard" 
               className="hover:text-blue-300">Dashboard</NavLink></li>
-              <li><NavLink to="/beAgent" className="hover:text-blue-300">Be A Agent</NavLink></li>
+            {role === 'customer' && (
+           <li><NavLink to="/beAgent" className="hover:text-blue-300">Be A Agent</NavLink></li>
+          )}
             </ul>
           </div>
         </div>
@@ -139,7 +143,12 @@ const Header = () => {
             <li><NavLink to="/blogs" className="block py-2" onClick={() => setMenuOpen(false)}>Blogs</NavLink></li>
             <li><NavLink to="/faq" className="block py-2" onClick={() => setMenuOpen(false)}>FAQs</NavLink></li>
             <li><NavLink to="/dashboard" className="block py-2" onClick={() => setMenuOpen(false)}>Dashboard</NavLink></li>
-            <li><NavLink to="/beAgent" className="block py-2" onClick={() => setMenuOpen(false)}>Be A Agent</NavLink></li>
+            {
+              role === 'customer' &&
+                <li><NavLink to="/beAgent" className="block py-2" 
+            onClick={() => setMenuOpen(false)}>Be A Agent</NavLink></li>
+            }
+          
           </ul>
         </div>
       )}

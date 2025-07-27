@@ -12,9 +12,10 @@ const CustomerMenu = () => {
                             My Dashboard</h2>
                         <div className="flex flex-col pt-6 space-y-7">
                         <NavLink to='myPolicy'>My Policy</NavLink>
-                        <NavLink to='payment/:id'>Payment Page</NavLink>
                         <NavLink to='paymentStatus'>Payment Status</NavLink>
+                        <NavLink to='payment/:id'>Payment Page</NavLink>
                         <NavLink to='claimPolicy'>Claim Policy</NavLink>
+                        <NavLink to='rejection'>Agent Request Feedback</NavLink>
 
                         
                     

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
   const { user, updateUserProfile } = useContext(AuthContext);
@@ -60,6 +61,10 @@ const Profile = () => {
 
   return (
     <div className="w-11/12 mx-auto my-12 p-6 md:p-12 bg-white rounded shadow">
+       <Helmet>
+              <title>Profile </title>
+              <meta name="description" content="This is my page description" />
+            </Helmet>
       <h2 className="text-2xl font-semibold mb-6">My Profile</h2>
 
       {user && (

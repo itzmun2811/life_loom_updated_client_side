@@ -40,13 +40,13 @@ const PopularPolicy = () => {
             data-aos-delay={index * 100}
             className="bg-gradient-to-tr from-sky-600 to-gray-200 border p-4 border-gray-200 dark:border-gray-700 rounded-xl shadow-md hover:shadow-xl transition duration-300"
           >
-            <Link to={`/policies/${policy._id}`}>
+     
               <img
                 src={policy.image}
                 alt={policy.title}
                 className="rounded-t-xl w-full h-48 p-10 object-cover"
               />
-            </Link>
+        
             <div className="p-10 bg-white">
               <Link to={`/policies/${policy._id}`}>
                 <h5 className="text-xl font-bold text-gray-900 dark:text-white mb-2 hover:text-sky-600 transition">

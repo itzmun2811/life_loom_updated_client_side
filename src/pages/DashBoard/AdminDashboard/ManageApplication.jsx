@@ -91,7 +91,8 @@ const ManageApplication = () => {
   };
 
   const handleReject = async (applicationId, feedback) => {
-    const res = await axiosSecure.patch(`/reject-application/${applicationId}`, {
+    const res = await axiosSecure.patch(`/reject-application/${applicationId}`, 
+      {
       feedback,
     });
     refetch();
@@ -121,8 +122,7 @@ const ManageApplication = () => {
             </thead>
             <tbody className="border-b">
               {allApplications
-              .filter((application) => application.status !== 'Rejected'
-               && application.status !== 'Approved')
+              .filter((application) => application.status !== 'Rejected')
     .map((application) => (
                   <tr key={application._id}>
                     <td className="px-3 py-2">{application.applicantName}</td>

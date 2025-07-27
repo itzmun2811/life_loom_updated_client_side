@@ -26,7 +26,11 @@ console.log(blog)
                 <meta name="description" content="This is my page description" />
               </Helmet>
       <h1 className="text-4xl font-bold mb-6 text-gray-800">{blog.title}</h1>
-      <img src={blog.image} alt='' className="w-full h-96 object-cover rounded-xl mb-6" />
+     <img
+  src={blog.image}
+  alt=""
+  className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover rounded-xl mb-6"
+/>
 
       <div className="flex items-center gap-4 mb-4">
         <img
