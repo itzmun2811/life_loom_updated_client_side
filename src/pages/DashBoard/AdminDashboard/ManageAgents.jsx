@@ -108,14 +108,14 @@ const handleRejectSubmit = async () => {
           {agentRequests.length === 0 ? (
             <p>No pending requests found.</p>
           ) : (
-            <table className="w-full table-auto border">
+            <table className="w-full  table-auto border">
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-4 py-2">Name</th>
-                  <th>Email</th>
-                  <th>Experience</th>
-                  <th>Specialties</th>
-                  <th>Actions</th>
+                  <th className="px-4 py-2">Email</th>
+                  <th className="px-4 py-2">Experience</th>
+                  <th className="px-4 py-2">Specialties</th>
+                  <th className="px-4 py-2">Actions</th>
                 </tr>
               </thead>
       <tbody>
