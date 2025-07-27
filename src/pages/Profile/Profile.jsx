@@ -5,6 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Helmet } from "react-helmet-async";
+import { getAuth } from "firebase/auth";
 
 const Profile = () => {
   const { user, updateUserProfile } = useContext(AuthContext);
@@ -12,27 +13,33 @@ const Profile = () => {
   const [profilePicture, setProfilePicture] = useState(user?.photoURL || '');
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = async (data) => {
-    const profileInfo = {
-      displayName: data.name,
-      photoURL: profilePicture,
-    };
-
-    try {
-      await updateUserProfile(profileInfo);
-      await axiosSecure.patch(`/users/${user?.email}`, profileInfo); 
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Profile Updated',
-        text: 'Your profile was updated successfully!',
-        timer: 2000,
-        showConfirmButton: false
-      });
-    } catch (error) {
-      console.error('Error updating profile:', error);
-    }
+const onSubmit = async (data) => {
+  const profileInfo = {
+    displayName: data.name,
+    photoURL: profilePicture,
   };
+
+  try {
+    
+    await updateUserProfile(profileInfo);
+
+    await axiosSecure.patch(`/users/${user?.email}`, profileInfo);
+
+
+    const auth = getAuth();
+    await auth.currentUser.reload();
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Profile Updated',
+      text: 'Your profile was updated successfully!',
+      timer: 2000,
+      showConfirmButton: false
+    });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+  }
+};
 
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];

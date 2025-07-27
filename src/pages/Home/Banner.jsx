@@ -12,7 +12,7 @@ import img4 from '../../assets/happy-young-man-purchasing-vacation-package-with-
 
 const Banner = () => {
   return (
-    <div className='mx-auto text-white my-6 bg-gradient-to-tl from-sky-700 to-gray-200 ' style={{ height: 'calc(100vh - 180px)' }}>
+    <div className='mx-8 md:mx-auto lg:mx-auto  text-white my-6 bg-gradient-to-tl from-sky-700 to-gray-200 ' style={{ height: 'calc(100vh - 180px)' }}>
       <Swiper
         direction="vertical"
         autoplay={{ delay: 3000, disableOnInteraction: false }}

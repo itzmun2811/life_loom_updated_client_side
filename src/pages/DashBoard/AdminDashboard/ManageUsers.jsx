@@ -78,8 +78,8 @@ const ManageUsers = () => {
             </Helmet>
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border">
+      <div className="overflow-x-auto w-full">
+        <table className=" min-w-[700px] w-full table-auto border">
           <thead className="bg-gray-200">
             <tr>
               <th className="p-2 border">#</th>

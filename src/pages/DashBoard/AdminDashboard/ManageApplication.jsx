@@ -107,8 +107,9 @@ const ManageApplication = () => {
                 <meta name="description" content="This is my page description" />
               </Helmet>
         <h2 className="mb-4 text-2xl font-semibold leading-tight">Manage Applications</h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto border p-6 text-xs text-left whitespace-nowrap">
+        <div className="overflow-x-auto w-full">
+          <table className=" min-w-[700px] w-full 
+          table-auto border p-6 text-xs text-left whitespace-nowrap">
             <thead className="bg-gray-200 text-gray-700">
               <tr>
                 <th className="p-3">Applicant</th>

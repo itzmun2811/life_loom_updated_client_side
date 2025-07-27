@@ -71,8 +71,8 @@ const ManagePolicies = () => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto shadow rounded-lg">
-        <table className="w-full text-sm text-left text-gray-600">
+      <div className="overflow-x-auto w-full shadow rounded-lg">
+        <table className="w-full min-w-[700px]  table-auto border text-sm text-left text-gray-600">
           <thead className="text-xs uppercase bg-gray-100">
             <tr>
               <th className="px-4 py-2">Title</th>
@@ -95,7 +95,9 @@ const ManagePolicies = () => {
                 <td className="px-4 py-2 line-clamp-2">{policy.description}</td>
                 <td className="px-4 py-2">{policy.minAge}</td>
                 <td className="px-4 py-2">{policy.maxAge}</td>
-                <td className="px-4 py-2">{policy.coverage}</td>
+                <td className="px-4 py-2 ">Min:{policy.minCoverage}
+                    Max{policy.maxCoverage}
+                </td>
                 <td className="px-4 py-2">{policy.duration}</td>
                 <td className="px-4 py-2">{policy.basePremium || policy.premiumRate}</td>
                 <td className="px-4 py-2">

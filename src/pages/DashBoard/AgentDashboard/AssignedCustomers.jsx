@@ -64,7 +64,7 @@ const handleStatusChange = (appId, newStatus, policyId) => {
                 <meta name="description" content="This is my page description" />
               </Helmet>
       <h2 className="text-xl font-bold mb-4">Applications Assigned to Me</h2>
-      <table className="min-w-full table-auto border">
+      <table className="min-w-[700px] w-full table-auto border">
         <thead className="bg-gray-200 text-left">
           <tr>
             <th className="p-2">Customer</th>

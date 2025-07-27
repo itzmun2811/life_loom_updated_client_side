@@ -49,13 +49,13 @@ const PopularPolicy = () => {
         
             <div className="p-10 bg-white">
               <Link to={`/policies/${policy._id}`}>
-                <h5 className="text-xl font-bold text-gray-900 dark:text-white mb-2 hover:text-sky-600 transition">
+                <h5 className="text-xl font-bold text-gray-900 mb-2 hover:text-sky-600 transition">
                   {policy.title}
                 </h5>
               </Link>
 
               <div className="mb-3 text-sm text-gray-700 dark:text-gray-300">
-                <div className="font-semibold">Coverage Amount:</div>
+                <div className="font-semibold text-black">Coverage Amount:</div>
                 <div className="ml-2">
                   <p className="text-green-600">Min: ৳{policy.minCoverage?.toLocaleString()}</p>
                   <p className="text-red-600">Max: ৳{policy.maxCoverage?.toLocaleString()}</p>

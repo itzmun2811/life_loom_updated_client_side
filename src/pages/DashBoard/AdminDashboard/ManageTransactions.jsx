@@ -49,8 +49,8 @@ const ManageTransactions = () => {
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto border border-gray-200 text-sm">
+        <div className="overflow-x-auto w-full">
+          <table className="min-w-[700px] w-full table-auto border border-gray-200 text-sm">
             <thead className="bg-gray-100 text-left text-gray-700">
               <tr>
                 <th className="p-3 border">#</th>

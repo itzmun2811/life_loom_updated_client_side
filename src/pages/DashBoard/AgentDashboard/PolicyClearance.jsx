@@ -37,8 +37,8 @@ const PolicyClearance = () => {
               <meta name="description" content="This is my page description" />
             </Helmet>
       <h2 className="text-2xl font-bold mb-6">Customer Claim Requests</h2>
-      <div className="overflow-x-auto">
-        <table className="table w-full border">
+      <div className="overflow-x-auto w-full">
+        <table className="table w-full border min-w-[700px]  table-auto ">
           <thead className="bg-gray-100 text-left">
             <tr>
               <th className="p-3">#</th>
