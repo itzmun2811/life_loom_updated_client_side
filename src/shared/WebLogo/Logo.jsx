@@ -5,7 +5,7 @@ const Logo = () => {
     return (
  <div className="flex items-center justify-center space-x-3">
   <img
-    className="w-18 h-18 object-contain"
+    className="w-16 h-16 my-2 object-contain"
     src={logoimg}
     alt="LifeLoom Logo"
   />

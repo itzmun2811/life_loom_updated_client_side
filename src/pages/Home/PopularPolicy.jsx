@@ -29,7 +29,7 @@ const PopularPolicy = () => {
   if (isError) return <div className="text-center py-12 text-red-500">Error loading policies.</div>;
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-12">
+    <section className="max-w-7xl mx-auto px-4 py-12 ">
       <h2 className="text-3xl font-bold mb-10 text-center text-sky-700" data-aos="fade-down">🔥 Popular Policies</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -38,7 +38,7 @@ const PopularPolicy = () => {
             key={policy._id}
             data-aos="fade-up"
             data-aos-delay={index * 100}
-            className="bg-gradient-to-tr from-sky-600 to-gray-200 border p-4 border-gray-200 dark:border-gray-700 rounded-xl shadow-md hover:shadow-xl transition duration-300"
+            className="bg-[#D2C1B6] border p-4 border-gray-200 dark:border-gray-700 rounded-xl shadow-md hover:shadow-xl transition duration-300"
           >
      
               <img

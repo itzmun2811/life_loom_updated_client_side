@@ -12,7 +12,9 @@ import img4 from '../../assets/happy-young-man-purchasing-vacation-package-with-
 
 const Banner = () => {
   return (
-    <div className='mx-8 md:mx-auto lg:mx-auto  text-white my-6 bg-gradient-to-tl from-sky-700 to-gray-200 ' style={{ height: 'calc(100vh - 180px)' }}>
+    <div className='mx-8 md:mx-auto lg:mx-auto my-6
+     bg-[#F9F3EF] text-[#1B3C53]' 
+     style={{ height: 'calc(100vh - 180px)' }}>
       <Swiper
         direction="vertical"
         autoplay={{ delay: 3000, disableOnInteraction: false }}
@@ -35,7 +37,9 @@ const Banner = () => {
               </p>
               <button
                 type='button'
-                className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition'
+                className='
+                bg-[#456882] hover:bg-[#1B3C53]
+                text-white font-semibold py-3 px-6 rounded-lg transition'
               >
                 Get A Quote
               </button>
@@ -67,7 +71,7 @@ const Banner = () => {
               </p>
               <button
                 type='button'
-                className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition'
+                className='bg-[#456882] hover:bg-[#1B3C53] text-white font-semibold py-3 px-6 rounded-lg transition'
               >
                 Get A Quote
               </button>
@@ -98,7 +102,7 @@ const Banner = () => {
               </p>
               <button
                 type='button'
-                className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition'
+                className='bg-[#456882] hover:bg-[#1B3C53] text-white font-semibold py-3 px-6 rounded-lg transition'
               >
                 Get A Quote
               </button>
@@ -130,7 +134,7 @@ const Banner = () => {
               </p>
               <button
                 type='button'
-                className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition'
+                className='bg-[#456882] hover:bg-[#1B3C53] text-white font-semibold py-3 px-6 rounded-lg transition'
               >
                 Get A Quote
               </button>

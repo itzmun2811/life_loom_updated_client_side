@@ -3,7 +3,8 @@ import Logo from '../shared/WebLogo/Logo';
 
 const Footer = () => {
     return (
-        <footer className="px-4 bg-gradient-to-tl text-white from-[#29819c] to-[#6e82b9] divide-y dark:bg-gray-100 dark:text-gray-800">
+        <footer className="px-4  bg-[#5F99AE]
+         text-white divide-y dark:bg-gray-100 dark:text-gray-800">
             <div className="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
                 <div className="lg:w-1/3">
                     <a rel="noopener noreferrer" href="#" className="flex justify-center space-x-3 lg:justify-start">
