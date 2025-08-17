@@ -3,8 +3,10 @@ import Logo from '../shared/WebLogo/Logo';
 import { AuthContext } from '../context/AuthContext';
 import { NavLink } from 'react-router'; 
 import useRole from '../hooks/useRole';
+import { MdModeNight } from "react-icons/md";
+import { MdOutlineLightMode } from "react-icons/md";
 
-const Header = () => {
+const Header = ({ onToggleTheme, theme }) => {
   const { user, logOut } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -45,6 +47,10 @@ const Header = () => {
 
         
           <div className="relative flex items-center space-x-3">
+                <button onClick={onToggleTheme} className='button-primary ml-0 pl-0  lg:ml-2'> 
+       {theme === "light" ? <MdModeNight size={30} /> : 
+       <MdOutlineLightMode size={30} />}
+      </button>
             {user ? (
               <>
           
