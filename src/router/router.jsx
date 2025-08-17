@@ -34,6 +34,7 @@ import AdminRoute from "./AdminRoute/AdminRoute";
 import AgentRoute from "./AgentRoute/AgentRoute";
 import BlogRoute from "./AdminRoute/BlogRoute";
 import AgentApplicationRejection from "../pages/DashBoard/CustomerDashboard/AgentApplicationRejection";
+import DashBoardOverView from "../pages/DashBoard/DashBoardOverView";
 
 
 
@@ -108,6 +109,7 @@ export const router = createBrowserRouter([
     path: "/forbidden",
     element: <Forbidden></Forbidden>
   },
+ 
 
  
  
@@ -189,6 +191,11 @@ export const router = createBrowserRouter([
     path: "assignedCustomer",
     element:<AgentRoute> <AssignedCustomers></AssignedCustomers></AgentRoute>
   },
+   {
+    path: "dashBoardOverView",
+    element: <DashBoardOverView></DashBoardOverView>
+  },
+  
 
     ]
   }
