@@ -30,13 +30,16 @@ const MainLayOut = () => {
 
 
         
-        <div className="flex flex-col min-h-screen">
+        <div className="">
             
             <Header onToggleTheme={toggleTheme} theme={theme}></Header>
-
-            <Outlet></Outlet>
-
+<div className='mt-10 pt-2 max-w-7xl mx-auto'>
+ <Outlet></Outlet>
+</div>
+           
+<div className='w-full'>
             <Footer></Footer>
+            </div>
         </div>
     );
 };

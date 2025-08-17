@@ -10,10 +10,12 @@ const AgentMenu = () => {
                         <h2 className="text-sm font-semibold tracking-widest 
                         uppercase dark:text-gray-600">My Dashboard</h2>
                         <div className="flex flex-col space-y-1">
+                             <NavLink to='dashBoardOverView'>Home</NavLink>
                         <NavLink to='assignedCustomer'>Assigned Customers</NavLink>
                         <NavLink to='policyClearance'>Policy Clearance</NavLink>
                         <NavLink to='manageBlogs'>Manage Blogs</NavLink>
                         <NavLink to='myApplication'>My Application</NavLink>
+                         <NavLink to='/profile'> My Profile</NavLink>
                         
                     
                         </div>

@@ -103,7 +103,7 @@ const AllPolicies = () => {
                   <span className="font-semibold text-blue-600">Category:</span> {policy.category}
                 </p>
                 <p className="text-sm font-semibold text-green-700 mb-4">
-                  ${policy.price}
+                  ${policy.premiumRate}
                 </p>
                 <button className="mt-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                   See More

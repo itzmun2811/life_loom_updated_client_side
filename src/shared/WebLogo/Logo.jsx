@@ -9,7 +9,7 @@ const Logo = () => {
     src={logoimg}
     alt="LifeLoom Logo"
   />
-  <h1 className="text-2xl font-bold text-white">Life_Loom</h1>
+  <h1 className="lg:text-2xl md:text-xl text-lg font-bold text-white">Life_Loom</h1>
 </div>
     );
 };

@@ -11,11 +11,13 @@ const CustomerMenu = () => {
                         tracking-widest uppercase border-b-2 pb-4 dark:text-gray-600">
                             My Dashboard</h2>
                         <div className="flex flex-col pt-6 space-y-7">
+                        <NavLink to='dashBoardOverView'>Home</NavLink>
                         <NavLink to='myPolicy'>My Policy</NavLink>
                         <NavLink to='paymentStatus'>Payment Status</NavLink>
                         <NavLink to='payment/:id'>Payment Page</NavLink>
                         <NavLink to='claimPolicy'>Claim Policy</NavLink>
                         <NavLink to='rejection'>Agent Request Feedback</NavLink>
+                         <NavLink to='/profile'> My Profile</NavLink>
 
                         
                     

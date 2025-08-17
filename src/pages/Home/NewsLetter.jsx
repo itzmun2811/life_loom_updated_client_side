@@ -40,7 +40,8 @@ const Newsletter = () => {
   return (
     <div
       data-aos="zoom-in-right"
-      className="w-11/12 my-12 mx-auto p-6 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-white"
+      className="w-11/12 mt-12 mb-12 mx-auto p-10 bg-[#dce6e8b7] rounded-lg shadow-md
+       dark:bg-gray-800 dark:text-white"
     >
       <h2 className="text-xl font-semibold mb-4 text-center">Subscribe to Our Newsletter</h2>
 

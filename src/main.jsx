@@ -9,6 +9,7 @@ import 'aos/dist/aos.css';
 import Aos from 'aos';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
+import { ChakraProvider } from '@chakra-ui/react';
 
 Aos.init();
 
@@ -16,15 +17,16 @@ const queryClient =new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+  
     <HelmetProvider>
    <QueryClientProvider client={queryClient}>
       <AuthProvider>
-  <div className='mx-auto max-w-6xl'>
+  <div className='mx-auto'>
         <RouterProvider router={router} />
   </div>
     </AuthProvider>
    </QueryClientProvider>
    </HelmetProvider>
-    
+   
  </StrictMode>,
 )
