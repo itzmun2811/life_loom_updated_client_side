@@ -21,7 +21,7 @@ const Dashboard = () => {
   return (
     <>
       
-      <Header />
+  
        <Helmet>
               <title>DashBoard</title>
               <meta name="description" content="This is my page description" />
@@ -33,8 +33,7 @@ const Dashboard = () => {
        
      
         <aside className="w-full lg:w-60 bg-gray-100 p-4 rounded-lg shadow-md">
-          <DashboardHome></DashboardHome>
-          <NavLink to='/profile'> My Profile</NavLink>
+     
           {role === 'admin' && <AdminMenu />}
           {role === 'agent' && <AgentMenu />}
           {role === 'customer' && <CustomerMenu />}
@@ -43,7 +42,7 @@ const Dashboard = () => {
 
         <main className="flex-1 w-full bg-white p-4 lg:p-8 rounded-lg shadow-md overflow-y-auto">
           <h2 className="text-xl lg:text-2xl font-bold mb-4 text-center capitalize">
-            {role} Dashboard
+         Dashboard -Home
           </h2>
        
           <div className="w-full">
@@ -52,7 +51,7 @@ const Dashboard = () => {
         </main>
       </div>
 
-      <Footer />
+   
     </>
   );
 };

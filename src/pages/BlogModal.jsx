@@ -27,13 +27,13 @@ const BlogModal = ({blog,closeModal}) => {
         <div className="text-right mt-4 flex gap-7">
           <button
             onClick={closeModal}
-            className="px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+            className="px-4 py-2 text-sm btn btn-sm bg-blue-600 hover:bg-blue-700 text-white rounded "
           >
             Close
           </button>
           <button
             onClick={()=>handleDetails(blog._id)}
-            className="px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+            className="px-4 py-2 text-sm btn btn-sm bg-blue-600 hover:bg-blue-700 text-white rounded "
           >
             Go to details
           </button>
