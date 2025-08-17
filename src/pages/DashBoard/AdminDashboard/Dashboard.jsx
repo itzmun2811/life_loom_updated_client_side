@@ -32,7 +32,8 @@ const Dashboard = () => {
       
        
      
-        <aside className="w-full lg:w-60 bg-gray-100 p-4 rounded-lg shadow-md">
+        <aside className="w-full lg:w-60 bg-gray-100 p-4 rounded-lg
+         shadow-md">
      
           {role === 'admin' && <AdminMenu />}
           {role === 'agent' && <AgentMenu />}

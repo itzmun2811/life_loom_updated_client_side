@@ -17,7 +17,7 @@ const CustomerMenu = () => {
                         <NavLink to='payment/:id'>Payment Page</NavLink>
                         <NavLink to='claimPolicy'>Claim Policy</NavLink>
                         <NavLink to='rejection'>Agent Request Feedback</NavLink>
-                         <NavLink to='/profile'> My Profile</NavLink>
+                         <NavLink to='profile'> My Profile</NavLink>
 
                         
                     

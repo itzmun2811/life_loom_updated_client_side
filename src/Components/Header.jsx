@@ -79,7 +79,7 @@ const Header = ({ onToggleTheme, theme }) => {
                       </span>
                     </div>
                     <ul className="py-2">
-                      <li>
+                      {/* <li>
                         <NavLink
                           to="/profile"
                           onClick={() => setDropdownOpen(false)}
@@ -87,7 +87,7 @@ const Header = ({ onToggleTheme, theme }) => {
                         >
                           Profile
                         </NavLink>
-                      </li>
+                      </li> */}
                       <li>
                         <button
                           onClick={() => {

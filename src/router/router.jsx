@@ -77,10 +77,7 @@ export const router = createBrowserRouter([
     element:<PrivateRoute><ApplicationForm></ApplicationForm></PrivateRoute>
   },
   
- {
-    path: "/profile",
-    element: <Profile></Profile>
-  },
+
   
  {
     path: "/faq",
@@ -194,6 +191,11 @@ export const router = createBrowserRouter([
    {
     path: "dashBoardOverView",
     element: <DashBoardOverView></DashBoardOverView>
+  },
+  
+   {
+    path: "profile",
+    element: <Profile></Profile>
   },
   
 

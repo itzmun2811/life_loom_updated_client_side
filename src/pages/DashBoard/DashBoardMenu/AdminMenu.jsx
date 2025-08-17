@@ -17,7 +17,7 @@ const AdminMenu = () => {
                         <NavLink to='manageTransaction'>Manage Transaction</NavLink>
                         <NavLink to='manageAgent'>Manage Agent</NavLink>
                         <NavLink to='manageBlogs'>Manage Blogs</NavLink>
-                        <NavLink to='/profile'> My Profile</NavLink>
+                        <NavLink to='profile'> My Profile</NavLink>
                     
                         </div>
                     </div>
