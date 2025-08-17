@@ -19,7 +19,7 @@ const Header = () => {
   return (
   
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#456882]
-   text-[#F9F3EF]
+   text-[#F9F3EF] 
     shadow">
       <div className="max-w-7xl mx-auto px-4">
         <nav className="flex items-center justify-between h-16">
@@ -35,7 +35,8 @@ const Header = () => {
               <li><NavLink to="/allPolicies" className="hover:text-blue-200">All Policy</NavLink></li>
               <li><NavLink to="/blogs" className="hover:text-blue-200">Blogs</NavLink></li>
               <li><NavLink to="/faq" className="hover:text-blue-200">FAQs</NavLink></li>
-              <li><NavLink to="/dashboard" className="hover:text-blue-200">Dashboard</NavLink></li>
+             {user && <li><NavLink to="/dashboard" className="hover:text-blue-200">Dashboard</NavLink></li>
+             }
               {role === 'customer' && (
                 <li><NavLink to="/beAgent" className="hover:text-blue-200">Be A Agent</NavLink></li>
               )}

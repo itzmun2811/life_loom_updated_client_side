@@ -7,6 +7,7 @@ import OurAgents from './OurAgents';
 import LatestBlogs from './LatestBlogs';
 import CustomerReview from './CustomerReview';
 import { Helmet } from 'react-helmet-async';
+import StatsSection from './StatsSection';
 
 const Home = () => {
     return (
@@ -21,6 +22,7 @@ const Home = () => {
             <OurAgents></OurAgents>
             <Benefits></Benefits>
             <CustomerReview></CustomerReview>
+            <StatsSection></StatsSection>
             <NewsLetter></NewsLetter>
         </div>
     );

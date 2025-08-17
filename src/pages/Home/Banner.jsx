@@ -12,7 +12,7 @@ import img4 from '../../assets/happy-young-man-purchasing-vacation-package-with-
 
 const Banner = () => {
   return (
-    <div className='mx-8 md:mx-auto lg:mx-auto my-6
+    <div className='mx-8 mt-12 md:mx-auto lg:mx-auto my-6
      bg-[#F9F3EF] text-[#1B3C53]' 
      style={{ height: 'calc(100vh - 180px)' }}>
       <Swiper
