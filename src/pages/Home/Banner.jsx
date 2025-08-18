@@ -13,7 +13,7 @@ import img4 from '../../assets/happy-young-man-purchasing-vacation-package-with-
 const Banner = () => {
   return (
     <div data-aos="fade-left" className='lg:mt-12 lg:w-11/12 
-    mx-auto mt-12 md:mx-auto 
+    mx-auto mt-12 md:mx-auto w-4/5
      my-6 bg-[#dce6e8b7]
      text-[#1B3C53]' 
      style={{ height: 'calc(100vh - 180px)' }}>
