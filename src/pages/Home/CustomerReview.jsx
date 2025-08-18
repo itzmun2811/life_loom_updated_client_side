@@ -31,7 +31,8 @@ const CustomerReview = () => {
     );
 
   return (
-    <section className="mt-12 py-10 w-11/12 bg-gradient-to-br from-gray-100 to-white px-4">
+    <section className="mt-12 py-10 w-11/12 mx-auto
+    bg-gradient-to-br from-gray-100 to-white px-4">
       <h2 className="text-4xl font-bold text-center mb-12 text-sky-700">
         💬 Customer Reviews
       </h2>
@@ -48,12 +49,12 @@ const CustomerReview = () => {
           768: { slidesPerView: 2 },
           1024: { slidesPerView: 3 },
         }}
-        className="max-w-6xl mx-auto"
+        className=""
       >
         {reviews.map((review) => (
        <SwiperSlide key={review._id}>
   <div className="bg-white  flex flex-col
-   justify-between rounded-xl shadow-md hover:shadow-xl p-6 h-full
+   justify-center mx-auto rounded-xl shadow-md hover:shadow-xl p-6 h-full
    border border-gray-200 transition duration-300">
     <div className="flex flex-col items-center justify-center text-center">
       <img

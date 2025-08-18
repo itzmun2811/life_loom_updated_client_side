@@ -35,6 +35,7 @@ import AgentRoute from "./AgentRoute/AgentRoute";
 import BlogRoute from "./AdminRoute/BlogRoute";
 import AgentApplicationRejection from "../pages/DashBoard/CustomerDashboard/AgentApplicationRejection";
 import DashBoardOverView from "../pages/DashBoard/DashBoardOverView";
+import CustomerStats from "../pages/DashBoard/CustomerDashboard/CustomerStats";
 
 
 
@@ -196,6 +197,10 @@ export const router = createBrowserRouter([
    {
     path: "profile",
     element: <Profile></Profile>
+  },
+   {
+    path: "customerStats",
+    element: <CustomerStats></CustomerStats>
   },
   
 

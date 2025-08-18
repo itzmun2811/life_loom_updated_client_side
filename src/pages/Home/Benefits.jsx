@@ -35,7 +35,7 @@ const benefits = [
 
 const Benefits = () => {
     return (
-   <section className="mt-12 py-10 w-11/12 bg-white">
+   <section className="mt-12 py-10 w-11/12 mx-auto bg-white">
   <div className=" mx-auto px-6 text-center">
     <h2 className="text-4xl font-bold text-blue-900 dark:text-white mb-4">
       Why Choose <span className="text-blue-600">Life_Loom?</span>

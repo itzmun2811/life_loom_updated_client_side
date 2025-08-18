@@ -10,7 +10,7 @@ const AdminMenu = () => {
                         <h2 className="text-sm font-semibold tracking-widest uppercase dark:text-gray-600">Dashboard</h2>
                         <div className="flex flex-col space-y-1">
                             
-                        <NavLink to='dashBoardOverView'>Home</NavLink>
+                        <NavLink to='dashBoardOverView'>Dashboard Overview</NavLink>
                         <NavLink to='manageApplication'>Manage Applications</NavLink>
                         <NavLink to='manageUsers'>Manage Users</NavLink>
                         <NavLink to='managePolicy'>Manage Policy</NavLink>
@@ -18,6 +18,7 @@ const AdminMenu = () => {
                         <NavLink to='manageAgent'>Manage Agent</NavLink>
                         <NavLink to='manageBlogs'>Manage Blogs</NavLink>
                         <NavLink to='profile'> My Profile</NavLink>
+                        <NavLink to='/'> Home</NavLink>
                     
                         </div>
                     </div>

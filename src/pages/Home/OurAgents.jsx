@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import useAxios from '../../hooks/useAxios';
+import { NavLink } from 'react-router';
 
 const OurAgents = () => {
   const axiosInstance = useAxios();
@@ -55,7 +56,8 @@ const OurAgents = () => {
     <p className="text-gray-600 text-sm mb-4">💼 Specialties: {agent.specialties}</p>
 
     <button className="mt-auto bg-gradient-to-r from-sky-600 to-cyan-500 hover:from-sky-700 hover:to-cyan-600 text-white py-2 px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg">
-      Read More
+  <NavLink to="/beAgent"> Read More
+  </NavLink>
     </button>
   </div>
 </div>

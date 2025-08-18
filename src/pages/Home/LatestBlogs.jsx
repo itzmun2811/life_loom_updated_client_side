@@ -37,7 +37,7 @@ const LatestBlogs = () => {
         />
       </Helmet>
 
-      <h2 className="text-3xl font-bold text-center mb-8">Latest Blogs & Articles</h2>
+      <h2 className="text-3xl font-bold mb-10 text-center text-sky-700" data-aos="fade-left">Latest Blogs</h2>
 
       {/* ✅ Swiper Slider */}
       <Swiper
@@ -50,58 +50,62 @@ const LatestBlogs = () => {
         className="mySwiper"
       >
         {blogs.map((blog) => (
-          <SwiperSlide key={blog._id}>
-            <div className="flex flex-col md:flex-row p-10 bg-[#dce6e8b7]
-             rounded-xl shadow-lg overflow-hidden">
-              {/* Blog Image */}
-              <img
-                src={blog.image}
-                alt={blog.title}
-                className="w-full md:w-2/3 h-64 object-cover"
-              />
+        <SwiperSlide key={blog._id}>
+  <div className="flex flex-col md:flex-row p-6 md:p-8 bg-[#dce6e8b7] rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full">
+    
+    {/* Blog Image */}
+    <div className="w-full md:w-2/3 h-64 md:h-auto">
+      <img
+        src={blog.image}
+        alt={blog.title}
+        className="w-full h-full object-cover rounded-lg"
+      />
+    </div>
 
-              {/* Blog Content */}
-              <div className="p-6 flex flex-col justify-between md:w-1/3">
-                <div>
-                  <h3 className="text-lg font-semibold">{blog.title}</h3>
-                  <p className="mt-2 text-gray-600 line-clamp-5">
-                    {blog.content.split(" ").slice(0, 50).join(" ")}...
-                  </p>
-                </div>
+    {/* Blog Content */}
+    <div className="p-4 md:p-6 flex flex-col justify-between w-full md:w-1/3 space-y-4">
+      
+      {/* Title & Description */}
+      <div>
+        <h3 className="text-xl font-semibold text-sky-800">{blog.title}</h3>
+        <p className="mt-2 text-gray-700 text-sm line-clamp-5">
+          {blog.content.split(" ").slice(0, 50).join(" ")}...
+        </p>
+      </div>
 
-                {/* Author + Stats */}
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center space-x-2">
-                    <img
-                      src={blog.authorImage}
-                      alt={blog.author}
-                      className="w-10 h-10 rounded-full border"
-                    />
-                    <div>
-                      <p className="text-sm font-medium text-blue-700">
-                        {blog.author}
-                        <span className="badge badge-info ml-1">Author</span>
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(blog.publishDate).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-600">👁️ {blog.totalVisitCount}</p>
-                </div>
+      {/* Author Info & Stats */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <img
+            src={blog.authorImage}
+            alt={blog.author}
+            className="w-10 h-10 rounded-full border border-gray-300"
+          />
+          <div>
+            <p className="text-sm font-medium text-blue-700">
+              {blog.author}
+              <span className="ml-1 bg-sky-100 text-sky-700 px-2 py-0.5 rounded text-xs">Author</span>
+            </p>
+            <p className="text-xs text-gray-500">
+              {new Date(blog.publishDate).toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+        <p className="text-sm text-gray-600">👁️ {blog.totalVisitCount}</p>
+      </div>
 
-                {/* Read More Button */}
-                <div className="text-right mt-2">
-                  <button
-                    className="btn btn-sm bg-blue-600 hover:bg-blue-700 text-white"
-                    onClick={() => setSelectedBlog(blog)}
-                  >
-                    Read More →
-                  </button>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
+      {/* Read More */}
+      <div className="text-right">
+        <button
+          className="btn btn-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          onClick={() => setSelectedBlog(blog)}
+        >
+          Read More →
+        </button>
+      </div>
+    </div>
+  </div>
+</SwiperSlide>
         ))}
       </Swiper>
 

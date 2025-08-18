@@ -47,7 +47,7 @@ const BeAgentForm = () => {
   if (role !== 'customer') return null;
 
   return (
-    <div className="max-w-xl mx-auto p-6 border rounded shadow-sm mt-8">
+    <div className="max-w-xl mx-auto p-6 border rounded shadow-sm mt-8 mb-12">
        <Helmet>
               <title>Be Agent</title>
               <meta name="description" content="This is my page description" />

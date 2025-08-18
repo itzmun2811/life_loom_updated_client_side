@@ -43,7 +43,7 @@ const Dashboard = () => {
 
         <main className="flex-1 w-full bg-white p-4 lg:p-8 rounded-lg shadow-md overflow-y-auto">
           <h2 className="text-xl lg:text-2xl font-bold mb-4 text-center capitalize">
-         Dashboard -Home
+         Welcome to Dashboard
           </h2>
        
           <div className="w-full">
